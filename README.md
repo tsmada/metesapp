@@ -17,6 +17,39 @@ Global state resides in redux store -- local state for copy/paste components not
 
 Can be found here: [JIRA](https://serouslabs.atlassian.net/secure/RapidBoard.jspa?rapidView=1)
 
+## Datastore API Routes
+
+API v1: https://serouslabs.com:8000/api
+
+### Preforeclosure (Lis Pendens)
+
+#### /preforeclosures
+
+##### HTTP GET
+
+```Shell
+        "doc_id": "14576313",
+        "defendant": "WHITNEY BANK ",
+        "plaintiff": "18TH STREET LLC",
+        "record_date": "2016-11-30T06:00:00.000Z",
+        "orbook": "17792",
+        "comments": "LOTS 1 AND 2 B11 LINDSLEYS SD PT OF PT L3 SEC 1 2 26",
+        "orpage": "641",
+        "doclink": "http://oncore.duvalclerk.com/showdetails.aspx?id=14576313&rn=0&pi=0&ref=search",
+        "clerkfilenumber": "0",
+        "transactionnumber": "0",
+        "releasedate": null,
+        "casenumber": "3150652",
+        "imagecount": null,
+        "imagelinks": null,
+        "imagelink1": null,
+        "lp_id": 37617,
+        "state": "Florida",
+        "county": "Duval"
+
+Returns last 10,000 preforeclosures
+```
+
 ## Development Stack
 
 * Chrome
