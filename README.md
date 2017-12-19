@@ -9,7 +9,7 @@ Global state resides in redux store -- local state for copy/paste components not
 
 ## JIRA
 
-Can be found here: <a href="https://serouslabs.atlassian.net/secure/RapidBoard.jspa?rapidView=1" target="_blank">JIRA</a>
+Can be found here: [JIRA](https://serouslabs.atlassian.net/secure/RapidBoard.jspa?rapidView=1)
 
 ## Installation
 Open shell/command prompt
