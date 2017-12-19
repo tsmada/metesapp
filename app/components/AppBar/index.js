@@ -6,6 +6,7 @@
 
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { grey800, brown500} from 'material-ui/styles/colors';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
@@ -38,8 +39,12 @@ class AppBarMUI extends React.Component { // eslint-disable-line react/prefer-st
     </MuiThemeProvider>
     <MuiThemeProvider muiTheme={muiTheme}>
     <Drawer open={this.state.open}>
-          <MenuItem onClick={this.handleToggle}>Menu Item</MenuItem>
-          <MenuItem onClick={this.handleToggle}>Menu Item 2</MenuItem>
+          <Link to="/dash">
+          <MenuItem onClick={this.handleToggle}>Foreclosures Dashboard</MenuItem>
+          </Link>
+          <Link to="/">
+          <MenuItem onClick={this.handleToggle}>Admin Dashboard</MenuItem>
+          </Link>
     </Drawer>
     </MuiThemeProvider>
     </div>

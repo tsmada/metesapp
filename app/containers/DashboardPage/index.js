@@ -8,6 +8,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import AppBarMUI from 'components/AppBar';
+import DataTable from 'components/DataTable';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -27,7 +29,8 @@ export class DashboardPage extends React.Component { // eslint-disable-line reac
           <title>DashboardPage</title>
           <meta name="description" content="Description of DashboardPage" />
         </Helmet>
-        <FormattedMessage {...messages.header} />
+        <AppBarMUI title="Dash"/>
+        <DataTable/>
       </div>
     );
   }
