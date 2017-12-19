@@ -382,7 +382,7 @@ Returns the following:
         "num_past_sales": "10883",
         "sales_tomorrow": "7",
         "sales_this_week": "11"
-   ```
+```
 
 ## Development Stack
 
