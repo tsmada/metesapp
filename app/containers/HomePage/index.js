@@ -51,7 +51,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       <article>
         <Helmet>
           <title>Home Page</title>
-          <meta name="description" content="A React.js Boilerplate application homepage" />
+          <meta name="description" content="A property listing application" />
         </Helmet>
         <div>
           <CenteredSection>
@@ -75,7 +75,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                 <Input
                   id="username"
                   type="text"
-                  placeholder="mxstbr"
+                  placeholder="rtsmada"
                   value={this.props.username}
                   onChange={this.props.onChangeUsername}
                 />
