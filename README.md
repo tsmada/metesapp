@@ -27,6 +27,7 @@ Can be found here: [JIRA](https://serouslabs.atlassian.net/secure/RapidBoard.jsp
 * React DevTools (React)
 * Redux DevTools (Redux)
 * npm
+* Postman (API Testing)
 
 ## Installation
 
