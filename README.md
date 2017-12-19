@@ -12,7 +12,7 @@ Global state resides in redux store -- local state for copy/paste components not
 |Source Systems | Data Store (PostgreSQL) | REST API (Express) |   metes.io  | mongodb |
 |---------------|-------------------------|--------------------|-------------|---------|
 |    Listings   | Source Data (Enriched)  | /api/foreclosures  | Redux store | appdata |
-```-------------------> <------------------------> <---------------> <------------->```
+```----------------------------------------> <------------------------> <---------------> <------------->```
 
 ## JIRA
 
