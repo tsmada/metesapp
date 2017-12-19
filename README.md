@@ -244,6 +244,8 @@ Example: /preforeclosures/id/37615
         "county": "Duval"
 ```
 
+### Foreclosures
+
 #### /foreclosures
 
 ##### HTTP GET
@@ -383,6 +385,8 @@ Example /foreclosures/id/2477079
         "marketlink": "Zillow link",
         "localimgpath": "2477079.jpeg"
 ```
+
+### Utility Routes
 
 #### /top/:route
 
