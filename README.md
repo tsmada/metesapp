@@ -9,9 +9,9 @@ Global state resides in redux store -- local state for copy/paste components not
 
 ### Data Flow
 
-`SOURCE SYSTEMS		  PostgreSQL			REST API (Express)			metes.io app 			mongo
+```SOURCE SYSTEMS		  PostgreSQL			REST API (Express)			metes.io app 			mongo
 ==============		==============			==================			============			=====
-Acquire data -----> Source Storage <------ /api/foreclosures <--------> Redux store <---------> appdata(login,etc)`
+Acquire data -----> Source Storage <------ /api/foreclosures <--------> Redux store <---------> appdata(login,etc)```
 
 ## JIRA
 
