@@ -9,7 +9,7 @@ Global state resides in redux store -- local state for copy/paste components not
 
 ## JIRA
 
-Can be found at: [JIRA](https://serouslabs.atlassian.net/secure/RapidBoard.jspa?rapidView=1)
+Can be found here: <a href="https://serouslabs.atlassian.net/secure/RapidBoard.jspa?rapidView=1" target="_blank">JIRA</a>
 
 ## Installation
 1. git clone https://username@bitbucket.org/smada/metes.git
