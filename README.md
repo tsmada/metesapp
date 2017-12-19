@@ -392,9 +392,14 @@ Example /foreclosures/id/2477079
 
 ##### HTTP GET
 
+@Parameter :route
+@Value foreclosure model column
+
 Returns distinct group counts of route parameter where saledate is in the future. Input is column name from foreclosure model.
 
-Example /top/saledate
+Example: saledate column
+
+/top/saledate
 
 ```Shell
         [
