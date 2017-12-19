@@ -7,6 +7,10 @@ Front end react-redux application to display listings.
 
 Global state resides in redux store -- local state for copy/paste components not wired for redux. Microservice architecture designed for REST
 
+![alt text](workflow.png "Project Architecture")
+
+Full explanation can be found here: [Guide](https://github.com/react-boilerplate/react-boilerplate/blob/master/docs/general/introduction.md)
+
 ### Data Flow
 
 | Source Systems | Data Store (PostgreSQL) | REST API (Express) |   metes.io  | mongodb |
