@@ -17,6 +17,8 @@ import injectSaga from 'utils/injectSaga';
 import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import H2 from 'components/H2';
 import ReposList from 'components/ReposList';
+import AppBarMUI from 'components/AppBar';
+import P from 'components/P';
 import AtPrefix from './AtPrefix';
 import CenteredSection from './CenteredSection';
 import Form from './Form';
@@ -53,11 +55,12 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           <title>Home Page</title>
           <meta name="description" content="A property listing application" />
         </Helmet>
+        <AppBarMUI title="metes.io"/>
+        <P/>
         <div>
           <Section>
             <Form onSubmit={this.props.onSubmitForm}>
               <label htmlFor="username">
-                <FormattedMessage {...messages.trymeMessage} />
                 <AtPrefix>
                   <FormattedMessage {...messages.trymeAtPrefix} />
                 </AtPrefix>
