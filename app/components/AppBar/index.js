@@ -37,7 +37,7 @@ class AppBarMUI extends React.Component { // eslint-disable-line react/prefer-st
     iconClassNameRight="muidocs-icon-navigation-expand-more"
     onLeftIconButtonClick={this.handleToggle}/>
     </MuiThemeProvider>
-    <MuiThemeProvider muiTheme={muiTheme}>
+    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
     <Drawer open={this.state.open}>
           <Link to="/dash">
           <MenuItem onClick={this.handleToggle}>Foreclosures Dashboard</MenuItem>
@@ -51,15 +51,6 @@ class AppBarMUI extends React.Component { // eslint-disable-line react/prefer-st
     );
   }
 }
-
-const muiTheme = getMuiTheme({
-  palette: {
-    textColor: brown500,
-  },
-  appBar: {
-    height: 50,
-  },
-});
 
 AppBarMUI.propTypes = {
     title: PropTypes.any,

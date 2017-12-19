@@ -13,6 +13,9 @@
 import { fromJS } from 'immutable';
 
 import {
+  LOAD_LISTINGS,
+  LOAD_LISTINGS_SUCCESS,
+  LOAD_LISTINGS_ERROR,
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS,
   LOAD_REPOS_ERROR,
@@ -20,6 +23,7 @@ import {
 
 // The initial state of the App
 const initialState = fromJS({
+  listings: [],
   loading: false,
   error: false,
   currentUser: false,
@@ -30,6 +34,16 @@ const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case LOAD_LISTINGS:
+      return state
+        .setIn(['listings'], false);
+    case LOAD_LISTINGS_SUCCESS:
+      return state
+        .setIn(['listings'], action.listings)
+    case LOAD_LISTINGS_ERROR:
+      return state
+        .set('error', action.error)
+        .set('loading', false);
     case LOAD_REPOS:
       return state
         .set('loading', true)

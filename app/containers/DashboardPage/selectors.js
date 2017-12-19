@@ -1,25 +1,17 @@
+/**
+ * DashboardPage selectors
+ */
+
 import { createSelector } from 'reselect';
 
-/**
- * Direct selector to the dashboardPage state domain
- */
-const selectDashboardPageDomain = (state) => state.get('dashboardPage');
+const selectDashboard = (state) => state.get('dashboardPage');
 
-/**
- * Other specific selectors
- */
-
-
-/**
- * Default selector used by DashboardPage
- */
-
-const makeSelectDashboardPage = () => createSelector(
-  selectDashboardPageDomain,
-  (substate) => substate.toJS()
+const makeSelectListings = () => createSelector(
+  selectDashboard,
+  (dashboardState) => dashboardState.get('listings')
 );
 
-export default makeSelectDashboardPage;
 export {
-  selectDashboardPageDomain,
+  selectDashboard,
+  makeSelectListings,
 };

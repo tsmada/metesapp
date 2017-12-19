@@ -13,16 +13,22 @@ import DataTable from 'components/DataTable';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-
+import { makeSelectListings, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectDashboardPage from './selectors';
+import { loadListings } from '../App/actions';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
 export class DashboardPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+
+componentDidMount() {
+    this.props.onLoad();
+  }
+
   render() {
+    
     return (
       <div>
         <Helmet>
@@ -30,23 +36,23 @@ export class DashboardPage extends React.Component { // eslint-disable-line reac
           <meta name="description" content="Description of DashboardPage" />
         </Helmet>
         <AppBarMUI title="Dash"/>
-        <DataTable/>
+        <DataTable tableData={this.props.listings}/>
       </div>
     );
   }
 }
 
-DashboardPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
+
 
 const mapStateToProps = createStructuredSelector({
-  dashboardpage: makeSelectDashboardPage(),
+  listings: makeSelectListings(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    onLoad: () => {
+      dispatch(loadListings());
+    },
   };
 }
 

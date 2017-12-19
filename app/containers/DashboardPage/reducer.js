@@ -6,15 +6,19 @@
 
 import { fromJS } from 'immutable';
 import {
-  DEFAULT_ACTION,
-} from './constants';
+  LOAD_LISTINGS,
+} from 'containers/App/constants';
 
-const initialState = fromJS({});
+// The initial state of the App
+const initialState = fromJS({
+  listings: [],
+});
 
 function dashboardPageReducer(state = initialState, action) {
   switch (action.type) {
-    case DEFAULT_ACTION:
-      return state;
+    case LOAD_LISTINGS:
+      return state
+        .set('listings', action.listings);
     default:
       return state;
   }

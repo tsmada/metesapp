@@ -53,32 +53,33 @@ class DataTable extends React.Component { // eslint-disable-line react/prefer-st
       <Table onRowSelection={this.handleRowSelection}>
         <TableHeader>
           <TableRow>
-            <TableHeaderColumn>ID</TableHeaderColumn>
-            <TableHeaderColumn>Name</TableHeaderColumn>
-            <TableHeaderColumn>Status</TableHeaderColumn>
+            <TableHeaderColumn>State</TableHeaderColumn>
+            <TableHeaderColumn>County</TableHeaderColumn>
+            <TableHeaderColumn>Sale Date</TableHeaderColumn>
+            <TableHeaderColumn>Zip Code</TableHeaderColumn>
+            <TableHeaderColumn>Property Address</TableHeaderColumn>
+            <TableHeaderColumn>Property Use</TableHeaderColumn>
+            <TableHeaderColumn>Final Judgement</TableHeaderColumn>
+            <TableHeaderColumn>Assessed Value</TableHeaderColumn>
+            <TableHeaderColumn>Plaintiff Max Bid</TableHeaderColumn>
+            <TableHeaderColumn>Parcel ID</TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow selected={this.isSelected(0)}>
-            <TableRowColumn>1</TableRowColumn>
-            <TableRowColumn>John Smith</TableRowColumn>
-            <TableRowColumn>Employed</TableRowColumn>
-          </TableRow>
-          <TableRow selected={this.isSelected(1)}>
-            <TableRowColumn>2</TableRowColumn>
-            <TableRowColumn>Randal White</TableRowColumn>
-            <TableRowColumn>Unemployed</TableRowColumn>
-          </TableRow>
-          <TableRow selected={this.isSelected(2)}>
-            <TableRowColumn>3</TableRowColumn>
-            <TableRowColumn>Stephanie Sanders</TableRowColumn>
-            <TableRowColumn>Employed</TableRowColumn>
-          </TableRow>
-          <TableRow selected={this.isSelected(3)}>
-            <TableRowColumn>4</TableRowColumn>
-            <TableRowColumn>Steve Brown</TableRowColumn>
-            <TableRowColumn>Employed</TableRowColumn>
-          </TableRow>
+          {this.props.tableData.slice(0,10).map((row, i) =>
+                                <TableRow key={i}
+                                    onRowSelection={this.handleRowSelection}>
+                                    <TableRowColumn>{row.state}</TableRowColumn>
+                                    <TableRowColumn>{row.county}</TableRowColumn>
+                                    <TableRowColumn>{row.saledate}</TableRowColumn>
+                                    <TableRowColumn>{row.propertyzip}</TableRowColumn>
+                                    <TableRowColumn>{row.propertyuse}</TableRowColumn>
+                                    <TableRowColumn>{row.finaljudgement}</TableRowColumn>
+                                    <TableRowColumn>{row.assessedvalue}</TableRowColumn>
+                                    <TableRowColumn>{row.maxbid}</TableRowColumn>
+                                    <TableRowColumn>{row.parcelid}</TableRowColumn>
+                                </TableRow>
+                            )}
         </TableBody>
       </Table>
       </MuiThemeProvider>

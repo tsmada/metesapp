@@ -4,4 +4,4 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/DashboardPage/DEFAULT_ACTION';
+export const LOAD_LISTINGS = 'app/DashboardPage/LOAD_LISTINGS';
