@@ -12,7 +12,8 @@ Global state resides in redux store -- local state for copy/paste components not
 Can be found here: <a href="https://serouslabs.atlassian.net/secure/RapidBoard.jspa?rapidView=1" target="_blank">JIRA</a>
 
 ## Installation
-1. git clone https://username@bitbucket.org/smada/metes.git
+Open shell/command prompt
+1. git clone https://username@bitbucket.org/smada/metes.git (be sure to replace username with your bitbucket username)
 2. cd metes
 3. npm install
 4. npm start
