@@ -7,9 +7,22 @@ Front end react-redux application to display listings.
 
 Global state resides in redux store -- local state for copy/paste components not wired for redux. Microservice architecture designed for REST
 
+### Data Flow
+
+SOURCE SYSTEMS		  PostgreSQL			REST API (Express)			metes.io app 			mongo
+==============		==============			==================			============			=====
+Acquire data -----> Source Storage <------ /api/foreclosures <--------> Redux store <---------> appdata(login,etc)
+
 ## JIRA
 
 Can be found here: [JIRA](https://serouslabs.atlassian.net/secure/RapidBoard.jspa?rapidView=1)
+
+## Development Stack
+
+* Chrome
+* React DevTools (React)
+* Redux DevTools (Redux)
+* npm
 
 ## Installation
 
@@ -18,23 +31,10 @@ Open shell/command prompt
 1. git clone https://username@bitbucket.org/smada/metes.git (be sure to replace username with your bitbucket username)
 2. cd metes
 3. npm install
-4. npm start
-5. navigate to localhost:3000 in Chrome
+4. npm start (npm run start)
+5. navigate to http://localhost:3000 in Chrome
 
 ## CLI Commands
-
-### Initialization
-
-```Shell
-npm run setup
-```
-
-Initializes a new project with this boilerplate. Deletes the `react-boilerplate`
-git history, installs the dependencies and initializes a new repository.
-
-> Note: This command is self-destructive, once you've run it the init script is
-gone forever. This is for your own safety, so you can't delete your project's
-history irreversibly by accident.
 
 ### Development
 
