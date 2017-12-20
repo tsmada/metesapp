@@ -9,6 +9,10 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
+export const SET_SELECTED_ITEM = 'boilerplate/App/SET_SELECTED_ITEM';
+export const LOAD_DETAIL = 'boilerplate/App/LOAD_DETAIL';
+export const LOAD_DETAIL_SUCCESS = 'boilerplate/App/LOAD_DETAIL_SUCCESS';
+export const LOAD_DETAIL_ERROR = 'boilerplate/App/LOAD_DETAIL_ERROR';
 export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
 export const LOAD_LISTINGS = 'boilerplate/App/LOAD_LISTINGS';
 export const LOAD_LISTINGS_SUCCESS = 'boilerplate/App/LOAD_LISTINGS_SUCCESS';

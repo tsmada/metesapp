@@ -3,11 +3,11 @@
  */
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_LISTINGS } from 'containers/App/constants';
+import { LOAD_LISTINGS, SET_SELECTED_ITEM } from 'containers/App/constants';
 import { listingsLoaded, listingsLoadedError } from 'containers/App/actions';
+import { detailLoaded, detailLoadedError } from 'containers/App/actions';
 
 import request from 'utils/request';
-import { makeSelectListings } from 'containers/DashboardPage/selectors';
 
 /**
  * Github repos request/response handler
@@ -24,6 +24,20 @@ export function* getListings() {
   }
 }
 
+export function* getDetail(id) {
+  const itemid = id;
+  console.log(itemid);
+  const requestURL = `http://serouslabs.com:8000/api/foreclosures/id/2477079`;
+
+  try {
+    // Call our request helper (see 'utils/request')
+    const item = yield call(request, requestURL);
+    yield put(detailLoaded(item));
+  } catch (err) {
+    yield put(detailLoadedError(err));
+  }
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -32,5 +46,6 @@ export default function* listingData() {
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
+  yield takeLatest(SET_SELECTED_ITEM, getDetail);
   yield takeLatest(LOAD_LISTINGS, getListings);
 }

@@ -16,6 +16,10 @@
  */
 
 import {
+  SET_SELECTED_ITEM,
+  LOAD_DETAIL,
+  LOAD_DETAIL_SUCCESS,
+  LOAD_DETAIL_ERROR,
   LOAD_REPOS,
   LOAD_REPOS_SUCCESS,
   LOAD_REPOS_ERROR,
@@ -23,6 +27,7 @@ import {
   LOAD_LISTINGS_SUCCESS,
   LOAD_LISTINGS_ERROR,
 } from './constants';
+
 
 /**
  * Load the repositories, this action starts the request saga
@@ -34,6 +39,35 @@ export function loadRepos() {
     type: LOAD_REPOS,
   };
 }
+
+export function setSelectedItem(itemid) {
+  return {
+    type: SET_SELECTED_ITEM,
+    itemid,
+  };
+}
+
+export function loadDetail(itemid) {
+  return {
+    type: LOAD_DETAIL,
+    item,
+  };
+}
+
+export function detailLoaded(item) {
+  return {
+    type: LOAD_DETAIL_SUCCESS,
+    item,
+  };
+}
+
+export function detailLoadedError(error) {
+  return {
+    type: LOAD_DETAIL_ERROR,
+    error,
+  };
+}
+
 
 /**
  * Dispatched when the repositories are loaded by the request saga
