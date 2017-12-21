@@ -13,11 +13,16 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Drawer from 'material-ui/Drawer';
+import Paper from 'material-ui/Paper';
 import MenuItem from 'material-ui/MenuItem';
 // import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+
+const style = {
+  display: 'flex',
+};
 
 class AppBarMUI extends React.Component { // eslint-disable-line react/prefer-stateless-function
     
@@ -32,10 +37,12 @@ class AppBarMUI extends React.Component { // eslint-disable-line react/prefer-st
     return (
         <div>
         <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+        <Paper style={style} zDepth={3}>
         <AppBar
     title={this.props.title}
     iconClassNameRight="muidocs-icon-navigation-expand-more"
     onLeftIconButtonClick={this.handleToggle}/>
+        </Paper>
     </MuiThemeProvider>
     <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
     <Drawer open={this.state.open}>

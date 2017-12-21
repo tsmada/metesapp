@@ -69,7 +69,9 @@ class DataTable extends React.Component { // eslint-disable-line react/prefer-st
         <TableBody>
           {this.props.tableData.slice(0,10).map((row, i) =>
                                 <TableRow key={i}>
+                                    <Link to={`/dash/detail/${row.fcl_id}`}>
                                     <TableRowColumn>{row.state}</TableRowColumn>
+                                    </Link>
                                     <TableRowColumn>{row.county}</TableRowColumn>
                                     <TableRowColumn>{row.saledate}</TableRowColumn>
                                     <TableRowColumn>{row.propertyzip}</TableRowColumn>
