@@ -67,7 +67,7 @@ class DataTable extends React.Component { // eslint-disable-line react/prefer-st
           </TableRow>
         </TableHeader>
         <TableBody>
-          {this.props.tableData.slice(0,10).map((row, i) =>
+          {this.props.tableData.slice(0,50).map((row, i) =>
                                 <TableRow key={i}>
                                     <Link to={`/dash/detail/${row.fcl_id}`}>
                                     <TableRowColumn>{row.state}</TableRowColumn>

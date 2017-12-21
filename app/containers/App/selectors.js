@@ -18,6 +18,11 @@ const makeSelectItemID = () => createSelector(
   (globalState) => globalState.get('itemid')
 );
 
+const makeSelectItemDetail = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.get('item')
+);
+
 const makeSelectLoading = () => createSelector(
   selectGlobal,
   (globalState) => globalState.get('loading')
@@ -47,6 +52,7 @@ export {
   selectGlobal,
   makeSelectCurrentUser,
   makeSelectItemID,
+  makeSelectItemDetail,
   makeSelectLoading,
   makeSelectError,
   makeSelectListings,

@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import AppBarMUI from 'components/AppBar';
 import DataTable from 'components/DataTable';
-import ItemDetail from 'components/ItemDetail';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -26,9 +25,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { createMuiTheme } from 'material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Paper from 'material-ui/Paper';
+import { Switch, Route } from 'react-router-dom';
+
 
 const style = {
-
   display: 'flex',
 };
 
@@ -49,7 +49,6 @@ componentDidMount() {
   }
 
   render() {
-const item = (!!this.props.item) > 0 ? this.props.item[0].fcl_id : "test";
     return (
       <div>
         <Helmet>
@@ -60,7 +59,6 @@ const item = (!!this.props.item) > 0 ? this.props.item[0].fcl_id : "test";
         <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
         <Paper style={style} zDepth={3}>
         <DataTable tableData={this.props.listings} onClick={this.props.onClick}/>
-        <ItemDetail {...this.props}/>
         </Paper>
         </MuiThemeProvider>
       </div>

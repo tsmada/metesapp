@@ -50,7 +50,7 @@ export function setSelectedItem(itemid) {
 export function loadDetail(itemid) {
   return {
     type: LOAD_DETAIL,
-    item,
+    itemid,
   };
 }
 
