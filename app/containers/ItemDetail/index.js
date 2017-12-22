@@ -55,6 +55,17 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
     this.props.onLoad(this.props.match.params.id);
   }
 
+  loading = (props) => {
+    if (this.props.item[0]) {
+      return null;
+    }
+  return (
+    <div className="warning">
+      Warning!
+    </div>
+  );
+}
+
 
   render() {
     const header = (!!this.props.item[0]) ? <H1>{this.props.item[0].propertyaddress}

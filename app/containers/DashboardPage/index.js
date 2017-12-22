@@ -48,6 +48,11 @@ componentDidMount() {
     this.props.onLoad();
   }
 
+cellClick = (row, col) => {
+    const itemid = this.props.listings[row].fcl_id;
+    this.props.history.push('/dash/detail/'+itemid);
+  };
+
   render() {
     return (
       <div>
@@ -58,7 +63,7 @@ componentDidMount() {
         <AppBarMUI title="Dash"/>
         <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
         <Paper style={style} zDepth={3}>
-        <DataTable tableData={this.props.listings} onClick={this.props.onClick}/>
+        <DataTable tableData={this.props.listings} onClick={this.props.onClick} onCellClick={this.cellClick}/>
         </Paper>
         </MuiThemeProvider>
       </div>

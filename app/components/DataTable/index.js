@@ -20,6 +20,7 @@ import { createMuiTheme } from 'material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom'
 
 // import styled from 'styled-components';
 
@@ -51,7 +52,7 @@ class DataTable extends React.Component { // eslint-disable-line react/prefer-st
   render() {
     return (
     <MuiThemeProvider muiTheme={muiTheme}>
-      <Table onRowSelection={this.props.onClick}>
+      <Table onRowSelection={this.props.onClick} onCellClick={this.props.onCellClick}>
         <TableHeader>
           <TableRow>
             <TableHeaderColumn>State</TableHeaderColumn>
@@ -69,9 +70,7 @@ class DataTable extends React.Component { // eslint-disable-line react/prefer-st
         <TableBody>
           {this.props.tableData.slice(0,50).map((row, i) =>
                                 <TableRow key={i}>
-                                    <Link to={`/dash/detail/${row.fcl_id}`}>
                                     <TableRowColumn>{row.state}</TableRowColumn>
-                                    </Link>
                                     <TableRowColumn>{row.county}</TableRowColumn>
                                     <TableRowColumn>{row.saledate}</TableRowColumn>
                                     <TableRowColumn>{row.propertyzip}</TableRowColumn>
