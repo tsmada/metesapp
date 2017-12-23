@@ -52,7 +52,7 @@ class DataTable extends React.Component { // eslint-disable-line react/prefer-st
   render() {
     return (
     <MuiThemeProvider muiTheme={muiTheme}>
-      <Table onRowSelection={this.props.onClick} onCellClick={this.props.onCellClick}>
+      <Table onRowSelection={this.props.onClick} onCellClick={this.props.onCellClick} multiSelectable={true}>
         <TableHeader>
           <TableRow>
             <TableHeaderColumn>State</TableHeaderColumn>

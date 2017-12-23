@@ -48,9 +48,11 @@ componentDidMount() {
     this.props.onLoad();
   }
 
-cellClick = (row, col) => {
+cellClick = (row, col, evt) => {
     const itemid = this.props.listings[row].fcl_id;
+    if (col === -1) {evt.stopPropagation(); evt.preventDefault()} else {
     this.props.history.push('/dash/detail/'+itemid);
+  }
   };
 
   render() {

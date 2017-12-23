@@ -18,6 +18,7 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { createMuiTheme } from 'material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import ItemDetailCard from 'components/ItemDetailCard';
 import H1 from 'components/H1';
 import H2 from 'components/H2';
 import P from 'components/P';
@@ -55,18 +56,6 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
     this.props.onLoad(this.props.match.params.id);
   }
 
-  loading = (props) => {
-    if (this.props.item[0]) {
-      return null;
-    }
-  return (
-    <div className="warning">
-      Warning!
-    </div>
-  );
-}
-
-
   render() {
     const header = (!!this.props.item[0]) ? <H1>{this.props.item[0].propertyaddress}
     , {this.props.item[0].propertycity}, {this.props.item[0].state}, {this.props.item[0].county} County
@@ -80,7 +69,7 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
     return (
       <div>
         <div>
-          <AppBarMUI title="Item Detail"/>
+          <AppBarMUI title="Foreclosure Detail"/>
         </div>
         <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
           <div>
