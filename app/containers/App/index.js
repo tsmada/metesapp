@@ -13,6 +13,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import DashboardPage from 'containers/DashboardPage/Loadable';
+import LoginPage from 'containers/LoginPage/Loadable';
 import ItemDetail from 'containers/ItemDetail/Loadable';
 import DashboardContainer from 'containers/DashboardPage';
 import FeaturePage from 'containers/FeaturePage/Loadable';
@@ -42,6 +43,7 @@ export default function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/dash" component={DashboardPage} />
+        <Route exact path="/login" component={LoginPage} />
         <Route exact path="/dash/detail/:id" component={ItemDetail}/>
         <Route path="/features" component={FeaturePage} />
         <Route path="" component={NotFoundPage} />
