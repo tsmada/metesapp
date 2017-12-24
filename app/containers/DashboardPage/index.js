@@ -20,12 +20,14 @@ import { loadListings, setSelectedItem } from '../App/actions';
 import saga from './saga';
 import messages from './messages';
 import { grey800, brown500} from 'material-ui/styles/colors';
+import P from 'components/P';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { createMuiTheme } from 'material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Paper from 'material-ui/Paper';
 import { Switch, Route } from 'react-router-dom';
+import ListingsToolbar from 'components/ListingsToolbar';
 
 
 const style = {
@@ -67,6 +69,12 @@ cellClick = (row, col, evt) => {
         <Paper style={style} zDepth={3}>
         <DataTable tableData={this.props.listings} onClick={this.props.onClick} onCellClick={this.cellClick}/>
         </Paper>
+        </MuiThemeProvider>
+        <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
+        <div>
+        <P/>
+        <ListingsToolbar/>
+        </div>
         </MuiThemeProvider>
       </div>
     );

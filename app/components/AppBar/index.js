@@ -19,6 +19,8 @@ import MenuItem from 'material-ui/MenuItem';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+var injectTapEventPlugin = require("react-tap-event-plugin");
+injectTapEventPlugin();
 
 const style = {
   display: 'flex',
@@ -45,7 +47,7 @@ class AppBarMUI extends React.Component { // eslint-disable-line react/prefer-st
         </Paper>
     </MuiThemeProvider>
     <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-    <Drawer open={this.state.open}>
+    <Drawer open={this.state.open} onRequestChange={this.handleToggle} docked={false}>
           <Link to="/dash">
           <MenuItem onClick={this.handleToggle}>Foreclosures Dashboard</MenuItem>
           </Link>
