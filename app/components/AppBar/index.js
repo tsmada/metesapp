@@ -54,6 +54,9 @@ class AppBarMUI extends React.Component { // eslint-disable-line react/prefer-st
           <Link to="/">
           <MenuItem onClick={this.handleToggle}>Admin Dashboard</MenuItem>
           </Link>
+          <Link to="/login">
+          <MenuItem onClick={this.handleToggle}>Account Login</MenuItem>
+          </Link>
     </Drawer>
     </MuiThemeProvider>
     </div>
