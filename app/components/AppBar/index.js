@@ -19,8 +19,6 @@ import MenuItem from 'material-ui/MenuItem';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-var injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
 
 const style = {
   display: 'flex',

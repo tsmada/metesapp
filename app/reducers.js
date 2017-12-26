@@ -31,6 +31,7 @@ function routeReducer(state = routeInitialState, action) {
     case LOCATION_CHANGE:
       return state.merge({
         location: action.payload,
+        hitType: 'pageView',
       });
     default:
       return state;

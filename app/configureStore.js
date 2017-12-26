@@ -7,6 +7,8 @@ import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
+import { createMiddleware } from 'redux-beacon';
+import { GoogleAnalytics } from 'redux-beacon/targets/google-analytics';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -14,8 +16,12 @@ export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
+  const analyticsMiddleware = createMiddleware(
+  GoogleAnalytics,
+);
   const middlewares = [
     sagaMiddleware,
+    analyticsMiddleware,
     routerMiddleware(history),
   ];
 
