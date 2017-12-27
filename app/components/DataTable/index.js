@@ -11,16 +11,14 @@ import {
   TableHeader,
   TableHeaderColumn,
   TableRow,
+  TableFooter,
   TableRowColumn,
 } from 'material-ui/Table';
-import { grey800, brown500} from 'material-ui/styles/colors';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import Toolbar from 'material-ui/Toolbar';
+import { grey800 } from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { createMuiTheme } from 'material-ui/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom'
 
 // import styled from 'styled-components';
 
@@ -52,6 +50,8 @@ class DataTable extends React.Component { // eslint-disable-line react/prefer-st
   render() {
     return (
     <MuiThemeProvider muiTheme={muiTheme}>
+    <div>
+    <Toolbar/>
       <Table onRowSelection={this.props.onClick} onCellClick={this.props.onCellClick} multiSelectable={true}>
         <TableHeader>
           <TableRow>
@@ -82,14 +82,17 @@ class DataTable extends React.Component { // eslint-disable-line react/prefer-st
                                 </TableRow>
                             )}
         </TableBody>
+        <TableFooter>
+              <TableRow>
+                {this.props.tableData.length}
+              </TableRow>
+            </TableFooter>
       </Table>
+      </div>
       </MuiThemeProvider>
     );
   }
 }
 
-DataTable.propTypes = {
-
-};
 
 export default DataTable;
