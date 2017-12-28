@@ -5,13 +5,13 @@
 */
 
 import React from 'react';
-import IconMenu from 'material-ui/IconMenu';
+import IconMenu from 'material-ui-icons/Menu';
 import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import RaisedButton from 'material-ui/RaisedButton';
+import FontDownload from 'material-ui-icons/FontDownload';
+import NavigationExpandMoreIcon from 'material-ui-icons/ExpandMore';
+import MenuItem from 'material-ui/Menu';
+import Menu from 'material-ui/Menu';
+import Button from 'material-ui/Button';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
 // import styled from 'styled-components';
@@ -39,17 +39,17 @@ class ListingsToolbar extends React.Component { // eslint-disable-line react/pre
     return (
       <Toolbar style={style}>
         <ToolbarGroup firstChild={true}>
-          <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+          <Menu value={this.state.value} onChange={this.handleChange}>
             <MenuItem value={1} primaryText="All Cancelled Foreclosures" />
             <MenuItem value={2} primaryText="All Active Foreclosures" />
             <MenuItem value={3} primaryText="All Foreclosures" />
             <MenuItem value={4} primaryText="All Sold Foreclosures" />
-          </DropDownMenu>
+          </Menu>
         </ToolbarGroup>
         <ToolbarGroup>
-          <FontIcon className="muidocs-icon-custom-sort" />
+          <FontDownload className="muidocs-icon-custom-sort" />
           <ToolbarSeparator />
-          <RaisedButton label="Make Offer" primary={true} />
+          <Button label="Make Offer" primary={true} />
           <IconMenu
             iconButtonElement={
               <IconButton touch={true}>

@@ -17,32 +17,22 @@ import { makeSelectListings, makeSelectLoading, makeSelectError } from 'containe
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { loadListings, setSelectedItem } from '../App/actions';
+import ListingsToolbar from 'components/ListingsToolbar';
 import saga from './saga';
 import messages from './messages';
-import { grey800, brown500} from 'material-ui/styles/colors';
+import grey from 'material-ui/colors/grey';
+import brown from 'material-ui/colors/brown';
+const grey800 = grey['800'];
+const brown500 = brown['500'];
 import P from 'components/P';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { createMuiTheme } from 'material-ui/styles';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Paper from 'material-ui/Paper';
 import { Switch, Route } from 'react-router-dom';
-import ListingsToolbar from 'components/ListingsToolbar';
 
 
 const style = {
   display: 'flex',
 };
 
-const muiTheme = getMuiTheme({
-  palette: {
-    textColor: grey800,
-    backgroundColor: grey800,
-  },
-  appBar: {
-    height: 50,
-  },
-});
 
 export class DashboardPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -65,17 +55,14 @@ cellClick = (row, col, evt) => {
           <meta name="description" content="Description of DashboardPage" />
         </Helmet>
         <AppBarMUI title="Dash"/>
-        <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
+        
         <Paper style={style} zDepth={3}>
         <DataTable tableData={this.props.listings} onClick={this.props.onClick} onCellClick={this.cellClick}/>
         </Paper>
-        </MuiThemeProvider>
-        <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
         <div>
         <P/>
-        <ListingsToolbar/>
+        
         </div>
-        </MuiThemeProvider>
       </div>
     );
   }

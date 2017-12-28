@@ -14,15 +14,9 @@ import { Helmet } from 'react-helmet';
 import { compose } from 'redux';
 import { makeSelectItemDetail } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { createMuiTheme } from 'material-ui/styles';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import ItemDetailCard from 'components/ItemDetailCard';
 import H1 from 'components/H1';
 import H2 from 'components/H2';
 import P from 'components/P';
-import CardView from 'components/Card';
 import reducer from 'containers/App/reducer';
 import { loadDetail } from '../App/actions';
 import {
@@ -71,30 +65,29 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
         <div>
           <AppBarMUI title="Foreclosure Detail"/>
         </div>
-        <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
+        
           <div>
             <Paper style={style} zDepth={3}>
               {header}
             </Paper>
           </div>
-        </MuiThemeProvider>
+
         <P/>
-        <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
+        
           <div>
             <Paper style={styleHalf} zDepth={3}>
               {propertyImage}
             </Paper>
           </div>
-        </MuiThemeProvider>
+
         <P/>
-        <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
+
           <div>
             <Paper style={style} zDepth={3}>
               <H2>Property Information</H2>
             </Paper>
           </div>
-        </MuiThemeProvider>
-        <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
+
           <div>
             <Paper style={style} zDepth={3}>
              <Table selectable={false}>
@@ -119,7 +112,7 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
               </Table>
             </Paper>
           </div>
-        </MuiThemeProvider>
+
         <P/>
       </div>
     );

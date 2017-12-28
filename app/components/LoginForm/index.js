@@ -8,10 +8,6 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import H2 from 'components/H1';
 
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { createMuiTheme } from 'material-ui/styles';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 // import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';

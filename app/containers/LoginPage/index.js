@@ -23,26 +23,15 @@ import { Helmet } from 'react-helmet';
 import AppBarMUI from 'components/AppBar';
 
 
-import { grey800, brown500} from 'material-ui/styles/colors';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { createMuiTheme } from 'material-ui/styles';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import grey from 'material-ui/colors/grey';
+import brown from 'material-ui/colors/brown';
+const grey800 = grey['800'];
+const brown500 = brown['500'];
 import Paper from 'material-ui/Paper';
 
 const style = {
   display: 'flex',
 };
-
-const muiTheme = getMuiTheme({
-  palette: {
-    textColor: grey800,
-    backgroundColor: grey800,
-  },
-  appBar: {
-    height: 50,
-  },
-});
 
 export class LoginPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   
@@ -55,11 +44,9 @@ export class LoginPage extends React.Component { // eslint-disable-line react/pr
           <meta name="description" content="Description of LoginPage" />
         </Helmet>
         <AppBarMUI title="Login"/>
-        <MuiThemeProvider muiTheme={getMuiTheme(muiTheme)}>
         <Paper style={style} zDepth={3}>
         <LoginForm />
         </Paper>
-        </MuiThemeProvider>
       </div>
     );
   }
