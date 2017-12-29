@@ -9,7 +9,7 @@ import request from 'utils/request';
  * Github repos request/response handler
  */
 export function* getDetail(item) {
-  const requestURL = `http://serouslabs.com:8000/api/foreclosures/id/${item.itemid}`;
+  const requestURL = `http://localhost:8000/api/foreclosures/id/${item.itemid}`;
 
   try {
     // Call our request helper (see 'utils/request')
