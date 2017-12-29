@@ -14,22 +14,53 @@ import { createStructuredSelector } from 'reselect';
 
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import { makeSelectRepos, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
+import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
 import H2 from 'components/H2';
-import ReposList from 'components/ReposList';
+import TextField from 'material-ui/TextField';
+import H1 from 'components/H1';
+import Img from 'components/Img';
 import AppBarMUI from 'components/AppBar';
-import P from 'components/P';
-import AtPrefix from './AtPrefix';
-import CenteredSection from './CenteredSection';
-import Form from './Form';
-import Input from './Input';
-import Section from './Section';
-import messages from './messages';
-import { loadRepos } from '../App/actions';
-import { changeUsername } from './actions';
-import { makeSelectUsername } from './selectors';
-import reducer from './reducer';
-import saga from './saga';
+import Hero from './metes.png';
+import styled from 'styled-components';
+
+
+const centered = {
+position: 'absolute',
+top: '50%',
+left: '50%',
+transform: 'translate(-50%, -50%)'
+}
+
+const searchInput = {
+  backgroundColor: 'rgba(255,255,255,0.9)',
+  width: '700px',
+  position: 'absolute',
+}
+
+const heroImgDivStyle = {
+  overflow: 'hidden',
+  width: '100%',
+  height: '800px',
+  position: 'relative',
+  textAlign: 'center',
+  color: 'white'
+}
+
+const textInput = {
+  position: 'fixed',
+  width: '75%',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  backgroundColor: 'rgba(255,255,255,0.9)'
+}
+
+const searchBacking = {
+    width: '900px',
+    height: '100px',
+    backgroundColor: '#000000',
+    opacity: 0.7,
+}
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
@@ -42,41 +73,27 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   }
 
   render() {
-    const { loading, error, repos } = this.props;
-    const reposListProps = {
-      loading,
-      error,
-      repos,
-    };
+    const { loading, error } = this.props;
 
     return (
-      <article>
-        <Helmet>
-          <title>Home Page</title>
-          <meta name="description" content="A property listing application" />
-        </Helmet>
-        <AppBarMUI title="metes.io"/>
-        <P/>
-        <div>
-          <Section>
-            <Form onSubmit={this.props.onSubmitForm}>
-              <label htmlFor="username">
-                <AtPrefix>
-                  <FormattedMessage {...messages.trymeAtPrefix} />
-                </AtPrefix>
-                <Input
-                  id="username"
-                  type="text"
-                  placeholder="tsmada"
-                  value={this.props.username}
-                  onChange={this.props.onChangeUsername}
-                />
-              </label>
-            </Form>
-            <ReposList {...reposListProps} />
-          </Section>
+        <div style={heroImgDivStyle}>
+          <AppBarMUI title="metes.io"/>
+          <Img src={Hero} alt={'test'}/>
+          <div style={centered}>
+            <div style={searchBacking}>
+              <TextField
+              id="search"
+              type="search"
+              className='search'
+              margin="normal"
+              style={textInput}
+              placeholder='Address, City, Zip, Neighborhood, School'
+              autoFocus
+              />
+            </div>
+          </div>
         </div>
-      </article>
+
     );
   }
 }
@@ -87,10 +104,6 @@ HomePage.propTypes = {
     PropTypes.object,
     PropTypes.bool,
   ]),
-  repos: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.bool,
-  ]),
   onSubmitForm: PropTypes.func,
   username: PropTypes.string,
   onChangeUsername: PropTypes.func,
@@ -98,28 +111,19 @@ HomePage.propTypes = {
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onChangeUsername: (evt) => dispatch(changeUsername(evt.target.value)),
     onSubmitForm: (evt) => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(loadRepos());
     },
   };
 }
 
 const mapStateToProps = createStructuredSelector({
-  repos: makeSelectRepos(),
-  username: makeSelectUsername(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'home', reducer });
-const withSaga = injectSaga({ key: 'home', saga });
-
 export default compose(
-  withReducer,
-  withSaga,
   withConnect,
 )(HomePage);

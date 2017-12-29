@@ -3,7 +3,7 @@
  */
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_LISTINGS, SET_SELECTED_ITEM } from 'containers/App/constants';
+import { LOAD_LISTINGS } from 'containers/App/constants';
 import { listingsLoaded, listingsLoadedError } from 'containers/App/actions';
 import { detailLoaded, detailLoadedError } from 'containers/App/actions';
 

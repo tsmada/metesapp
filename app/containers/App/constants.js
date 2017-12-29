@@ -9,7 +9,12 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const SET_SELECTED_ITEM = 'boilerplate/App/SET_SELECTED_ITEM';
+export const SELECT_ALL_ITEMS = 'boilerplate/App/SELECT_ALL_ITEMS';
+export const UNSELECT_ALL_ITEMS = 'boilerplate/App/UNSELECT_ALL_ITEMS';
+export const CHANGE_SORT_ORDER = 'boilerplate/App/CHANGE_SORT_ORDER';
+export const CHANGE_SORT_BY = 'boilerplate/App/CHANGE_SORT_BY';
+export const CHANGE_PAGE = 'boilerplate/App/CHANGE_PAGE';
+export const CHANGE_ROWS_PER_PAGE = 'boilerplate/App/CHANGE_ROWS_PER_PAGE';
 export const LOAD_DETAIL = 'boilerplate/App/LOAD_DETAIL';
 export const LOAD_DETAIL_SUCCESS = 'boilerplate/App/LOAD_DETAIL_SUCCESS';
 export const LOAD_DETAIL_ERROR = 'boilerplate/App/LOAD_DETAIL_ERROR';

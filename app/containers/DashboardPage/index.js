@@ -13,10 +13,12 @@ import DataTable from 'components/DataTable';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { makeSelectListings, makeSelectLoading, makeSelectError } from 'containers/App/selectors';
+import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
+makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { loadListings, setSelectedItem } from '../App/actions';
+import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
+handleRequestSort } from '../App/actions';
 import ListingsToolbar from 'components/ListingsToolbar';
 import saga from './saga';
 import messages from './messages';
@@ -40,11 +42,9 @@ componentDidMount() {
     this.props.onLoad();
   }
 
-cellClick = (row, col, evt) => {
-    const itemid = this.props.listings[row].fcl_id;
-    if (col === -1) {evt.stopPropagation(); evt.preventDefault()} else {
-    this.props.history.push('/dash/detail/'+itemid);
-  }
+onCellClick = (fcl_id, evt) => {
+    console.log(evt);
+    this.props.history.push('/dash/detail/'+fcl_id);
   };
 
   render() {
@@ -55,13 +55,15 @@ cellClick = (row, col, evt) => {
           <meta name="description" content="Description of DashboardPage" />
         </Helmet>
         <AppBarMUI title="Dash"/>
-        
-        <Paper style={style} zDepth={3}>
-        <DataTable tableData={this.props.listings} onClick={this.props.onClick} onCellClick={this.cellClick}/>
+        <Paper style={style}>
+        <DataTable data={this.props.data} rowsPerPage={this.props.rowsPerPage} 
+        handleChangeRowsPerPage={this.props.handleChangeRowsPerPage} page={this.props.page}
+        handleChangePage={this.props.handleChangePage} orderBy={this.props.orderBy}
+        handleRequestSort={this.props.handleRequestSort}
+        />
         </Paper>
         <div>
         <P/>
-        
         </div>
       </div>
     );
@@ -69,19 +71,30 @@ cellClick = (row, col, evt) => {
 }
 
 const mapStateToProps = createStructuredSelector({
-  listings: makeSelectListings(),
+  data: makeSelectListings(),
+  rowsPerPage: makeSelectRowsPerPage(),
+  page: makeSelectPageNumber(),
+  orderBy: makeSelectChangeSortOrder(),
+  order: makeSelectChangeSortDirection(),
 });
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
+
   return {
     onLoad: () => {
       dispatch(loadListings());
     },
-    onClick: (evt) => {
-      dispatch(setSelectedItem(evt[0]));
+    handleChangeRowsPerPage: (event) => {
+    dispatch(changeRowsPerPage(event.target.value))
     },
-  };
-}
+    handleChangePage: (event, page) => {
+    dispatch(changePage(page));
+    },
+    handleRequestSort: (orderBy, order, data) => {
+      dispatch(handleRequestSort(orderBy, order, data))
+    }
+  }
+};
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'dashboardPage', saga });

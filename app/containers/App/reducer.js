@@ -10,38 +10,53 @@
  *   return state.set('yourStateVariable', true);
  */
 
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import {
   SET_SELECTED_ITEM,
+  CHANGE_ROWS_PER_PAGE,
+  CHANGE_SORT_ORDER,
+  CHANGE_PAGE,
+  SELECT_ALL_ITEMS,
   LOAD_DETAIL,
   LOAD_DETAIL_SUCCESS,
   LOAD_DETAIL_ERROR,
   LOAD_LISTINGS_SUCCESS,
   LOAD_LISTINGS_ERROR,
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS,
-  LOAD_REPOS_ERROR,
 } from './constants';
 
 // The initial state of the App
 const initialState = fromJS({
   itemid: [],
   item: [],
-  listings: [],
   loading: false,
   error: false,
-  currentUser: false,
-  userData: {
-    repositories: false,
+  listingTableData: {
+    order: 'asc',
+    orderBy: 'fcl_id',
+    selected: [],
+    data: [],
+    page: 0,
+    rowsPerPage: 5
   },
 });
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_SELECTED_ITEM:
-      return state
-        .setIn(['itemid'], action.itemid);
+    case CHANGE_SORT_ORDER:
+    return state
+        .setIn(['listingTableData','orderBy'], action.orderBy)
+        .setIn(['listingTableData', 'order'], action.order)
+        .setIn(['listingTableData', 'data'], action.data)
+    case CHANGE_PAGE:
+    return state
+        .setIn(['listingTableData','page'], action.page)
+    case CHANGE_ROWS_PER_PAGE:
+    return state
+        .setIn(['listingTableData','rowsPerPage'], action.newval)
+    case SELECT_ALL_ITEMS:
+    return state
+        .setIn(['listingTableData','selected'], action.selected)
     case LOAD_DETAIL:
       return state
         .setIn(['itemid'], action.itemid);
@@ -54,22 +69,8 @@ function appReducer(state = initialState, action) {
         .set('loading', false);
     case LOAD_LISTINGS_SUCCESS:
       return state
-        .setIn(['listings'], action.listings)
+        .setIn(['listingTableData', 'data'], action.listings)
     case LOAD_LISTINGS_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
-    case LOAD_REPOS:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .setIn(['userData', 'repositories'], false);
-    case LOAD_REPOS_SUCCESS:
-      return state
-        .setIn(['userData', 'repositories'], action.repos)
-        .set('loading', false)
-        .set('currentUser', action.username);
-    case LOAD_REPOS_ERROR:
       return state
         .set('error', action.error)
         .set('loading', false);

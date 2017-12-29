@@ -21,17 +21,9 @@ import Tooltip from 'material-ui/Tooltip';
 import DeleteIcon from 'material-ui-icons/Delete';
 import FilterListIcon from 'material-ui-icons/FilterList';
 
-let counter = 0;
-function createData(name, calories, fat, carbs, protein) {
-  counter += 1;
-  return { id: counter, name, calories, fat, carbs, protein };
-}
-
 const columnData = [
 
   { id: 'casestatus', numeric: false, disablePadding: false, label: 'Case Status' },
-  { id: 'state', numeric: false, disablePadding: true, label: 'State' },
-  { id: 'county', numeric: false, disablePadding: true, label: 'County' },
   { id: 'saledate', numeric: false, disablePadding: true, label: 'Sale Date' },
   { id: 'propertyaddress', numeric: false, disablePadding: true, label: 'Property Address' },
   { id: 'propertyzip', numeric: false, disablePadding: true, label: 'Zip Code' },
@@ -137,7 +129,7 @@ let EnhancedTableToolbar = props => {
         {numSelected > 0 ? (
           <Typography type="subheading">{numSelected} selected</Typography>
         ) : (
-          <Typography type="title">Nutrition</Typography>
+          <Typography type="title">Property Information</Typography>
         )}
       </div>
       <div className={classes.spacer} />
@@ -185,12 +177,7 @@ class EnhancedTable extends React.Component {
     super(props, context);
 
     this.state = {
-      order: 'asc',
-      orderBy: 'fcl_id',
       selected: [],
-      data: this.props.tableData.sort((a, b) => (a.fcl_id < b.fcl_id ? -1 : 1)),
-      page: 0,
-      rowsPerPage: 5,
     };
   }
 
@@ -198,16 +185,16 @@ class EnhancedTable extends React.Component {
     const orderBy = property;
     let order = 'desc';
 
-    if (this.state.orderBy === property && this.state.order === 'desc') {
+    if (this.props.orderBy === property && this.props.order === 'desc') {
       order = 'asc';
     }
 
     const data =
       order === 'desc'
-        ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
-        : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
+        ? this.props.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
+        : this.props.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
 
-    this.setState({ data, order, orderBy });
+    this.props.handleRequestSort(orderBy, order, data);
   };
 
   handleSelectAllClick = (event, checked) => {
@@ -227,6 +214,7 @@ class EnhancedTable extends React.Component {
   handleClick = (event, id) => {
     const { selected } = this.state;
     const selectedIndex = selected.indexOf(id);
+    console.log(selectedIndex);
     let newSelected = [];
 
     if (selectedIndex === -1) {
@@ -256,8 +244,8 @@ class EnhancedTable extends React.Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes } = this.props;
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
+    const { classes, rowsPerPage, data, page, orderBy, order} = this.props;
+    const { selected } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
@@ -279,7 +267,7 @@ class EnhancedTable extends React.Component {
                 return (
                   <TableRow
                     hover
-                    onClick={event => this.handleClick(event, n.id)}
+                    onClick={event, n => this.handleClick(event, n.id)}
                     onKeyDown={event => this.handleKeyDown(event, n.id)}
                     role="checkbox"
                     aria-checked={isSelected}
@@ -290,17 +278,15 @@ class EnhancedTable extends React.Component {
                     <TableCell padding="checkbox">
                       <Checkbox checked={isSelected} />
                     </TableCell>
-                    <TableCell padding="none">{n.casestatus}</TableCell>
-                    <TableCell numeric>{n.state}</TableCell>
-                    <TableCell numeric>{n.county}</TableCell>
-                    <TableCell numeric>{n.saledate}</TableCell>
-                    <TableCell numeric>{n.propertyaddress}</TableCell>
-                    <TableCell numeric>{n.propertyzip}</TableCell>
-                    <TableCell numeric>{n.propertyuse}</TableCell>
-                    <TableCell numeric>{n.assessedvalue}</TableCell>
-                    <TableCell numeric>{n.finaljudgement}</TableCell>
-                    <TableCell numeric>{n.maxbid}</TableCell>
-                    <TableCell numeric>{n.parcelid}</TableCell>
+                    <TableCell>{n.casestatus}</TableCell>
+                    <TableCell>{n.saledate}</TableCell>
+                    <TableCell>{n.propertyaddress}</TableCell>
+                    <TableCell>{n.propertyzip}</TableCell>
+                    <TableCell>{n.propertyuse}</TableCell>
+                    <TableCell>{n.assessedvalue}</TableCell>
+                    <TableCell>{n.finaljudgement}</TableCell>
+                    <TableCell>{n.maxbid}</TableCell>
+                    <TableCell>{n.parcelid}</TableCell>
                   </TableRow>
                 );
               })}
@@ -316,8 +302,8 @@ class EnhancedTable extends React.Component {
                   count={data.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  onChangePage={this.props.handleChangePage}
+                  onChangeRowsPerPage={this.props.handleChangeRowsPerPage}
                 />
               </TableRow>
             </TableFooter>

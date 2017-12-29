@@ -73,7 +73,7 @@ class AppBarMUI extends React.Component {
           <MenuItem onClick={this.handleToggle}>Foreclosures Dashboard</MenuItem>
           </Link>
           <Link to="/">
-          <MenuItem onClick={this.handleToggle}>Admin Dashboard</MenuItem>
+          <MenuItem onClick={this.handleToggle}>Hero Search</MenuItem>
           </Link>
           <Link to="/login">
           <MenuItem onClick={this.handleToggle}>Account Login</MenuItem>

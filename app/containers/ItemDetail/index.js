@@ -19,13 +19,14 @@ import H2 from 'components/H2';
 import P from 'components/P';
 import reducer from 'containers/App/reducer';
 import { loadDetail } from '../App/actions';
-import {
-  Table,
+import Table, {
   TableBody,
-  TableHeader,
-  TableHeaderColumn,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TablePagination,
   TableRow,
-  TableRowColumn,
+  TableSortLabel,
 } from 'material-ui/Table';
 
 import injectSaga from 'utils/injectSaga';
@@ -55,11 +56,11 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
     , {this.props.item[0].propertycity}, {this.props.item[0].state}, {this.props.item[0].county} County
     </H1> : 'loading';
     const propertyImage = (!!this.props.item[0]) ? <img src={'https://www.serouslabs.com/images/' + this.props.item[0].localimgpath}></img> : 'loading';
-    const propertyInfo = (!!this.props.item[0]) ? <TableRowColumn>{this.props.item[0].parcelid}</TableRowColumn> : 'loading';
-    const casenumber = (!!this.props.item[0]) ? <TableRowColumn>{this.props.item[0].casenumber}</TableRowColumn> : 'loading';
-    const propertyOwner = (!!this.props.item[0]) ? <TableRowColumn>{this.props.item[0].propertyowner}</TableRowColumn> : 'loading';
-    const assessedValue = (!!this.props.item[0]) ? <TableRowColumn>{this.props.item[0].assessedvalue}</TableRowColumn> : 'loading';
-    const finalJudgementAmount = (!!this.props.item[0]) ? <TableRowColumn>{this.props.item[0].finaljudgement}</TableRowColumn> : 'loading';
+    const propertyInfo = (!!this.props.item[0]) ? <TableCell>{this.props.item[0].parcelid}</TableCell> : 'loading';
+    const casenumber = (!!this.props.item[0]) ? <TableCell>{this.props.item[0].casenumber}</TableCell> : 'loading';
+    const propertyOwner = (!!this.props.item[0]) ? <TableCell>{this.props.item[0].propertyowner}</TableCell> : 'loading';
+    const assessedValue = (!!this.props.item[0]) ? <TableCell>{this.props.item[0].assessedvalue}</TableCell> : 'loading';
+    const finalJudgementAmount = (!!this.props.item[0]) ? <TableCell>{this.props.item[0].finaljudgement}</TableCell> : 'loading';
     return (
       <div>
         <div>
@@ -91,15 +92,15 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
           <div>
             <Paper style={style} zDepth={3}>
              <Table selectable={false}>
-              <TableHeader displaySelectAll={false}>
+              <TableHead displaySelectAll={false}>
                 <TableRow>
-                  <TableHeaderColumn>Parcel ID</TableHeaderColumn>
-                  <TableHeaderColumn>Case Number</TableHeaderColumn>
-                  <TableHeaderColumn>Property Owner</TableHeaderColumn>
-                  <TableHeaderColumn>Assessed Value</TableHeaderColumn>
-                  <TableHeaderColumn>Final Judgement Amount</TableHeaderColumn>
+                  <TableCell>Parcel ID</TableCell>
+                  <TableCell>Case Number</TableCell>
+                  <TableCell>Property Owner</TableCell>
+                  <TableCell>Assessed Value</TableCell>
+                  <TableCell>Final Judgement Amount</TableCell>
                 </TableRow>
-              </TableHeader>
+              </TableHead>
               <TableBody>
                 <TableRow>
                 {propertyInfo}

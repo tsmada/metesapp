@@ -16,34 +16,46 @@
  */
 
 import {
-  SET_SELECTED_ITEM,
+  SELECT_ALL_ITEMS,
+  UNSELECT_ALL_ITEMS,
+  CHANGE_SORT_ORDER,
+  CHANGE_SORT_BY,
+  CHANGE_PAGE,
+  CHANGE_ROWS_PER_PAGE,
   LOAD_DETAIL,
   LOAD_DETAIL_SUCCESS,
   LOAD_DETAIL_ERROR,
-  LOAD_REPOS,
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS_ERROR,
   LOAD_LISTINGS,
   LOAD_LISTINGS_SUCCESS,
   LOAD_LISTINGS_ERROR,
 } from './constants';
 
-
-/**
- * Load the repositories, this action starts the request saga
- *
- * @return {object} An action object with a type of LOAD_REPOS
- */
-export function loadRepos() {
+export function handleRequestSort(orderBy, order, data){
   return {
-    type: LOAD_REPOS,
+    type: CHANGE_SORT_ORDER,
+    orderBy,
+    order,
+    data,
+  }
+}
+export function changePage(page) {
+  return {
+    type: CHANGE_PAGE,
+    page,
+  }
+}
+
+export function changeRowsPerPage(newval) {
+  return {
+    type: CHANGE_ROWS_PER_PAGE,
+    newval,
   };
 }
 
-export function setSelectedItem(itemid) {
+export function selectAllItems(selected) {
   return {
-    type: SET_SELECTED_ITEM,
-    itemid,
+    type: SELECT_ALL_ITEMS,
+    selected,
   };
 }
 
@@ -64,37 +76,6 @@ export function detailLoaded(item) {
 export function detailLoadedError(error) {
   return {
     type: LOAD_DETAIL_ERROR,
-    error,
-  };
-}
-
-
-/**
- * Dispatched when the repositories are loaded by the request saga
- *
- * @param  {array} repos The repository data
- * @param  {string} username The current username
- *
- * @return {object}      An action object with a type of LOAD_REPOS_SUCCESS passing the repos
- */
-export function reposLoaded(repos, username) {
-  return {
-    type: LOAD_REPOS_SUCCESS,
-    repos,
-    username,
-  };
-}
-
-/**
- * Dispatched when loading the repositories fails
- *
- * @param  {object} error The error
- *
- * @return {object}       An action object with a type of LOAD_REPOS_ERROR passing the error
- */
-export function repoLoadingError(error) {
-  return {
-    type: LOAD_REPOS_ERROR,
     error,
   };
 }

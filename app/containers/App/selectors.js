@@ -8,14 +8,34 @@ const selectGlobal = (state) => state.get('global');
 
 const selectRoute = (state) => state.get('route');
 
-const makeSelectCurrentUser = () => createSelector(
-  selectGlobal,
-  (globalState) => globalState.get('currentUser')
-);
-
 const makeSelectItemID = () => createSelector(
   selectGlobal,
   (globalState) => globalState.get('itemid')
+);
+
+const makeSelectRowsPerPage = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['listingTableData','rowsPerPage'])
+);
+
+const makeSelectPageNumber = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['listingTableData','page'])
+);
+
+const makeSelectChangeSortOrder = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['listingTableData','orderBy'])
+  );
+
+const makeSelectChangeSortDirection = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['listingTableData','order'])
+  );
+
+const makeSelectSelected = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['listingTableData','selected'])
 );
 
 const makeSelectItemDetail = () => createSelector(
@@ -33,14 +53,14 @@ const makeSelectError = () => createSelector(
   (globalState) => globalState.get('error')
 );
 
-const makeSelectRepos = () => createSelector(
+const makeSelectTableState = () => createSelector(
   selectGlobal,
-  (globalState) => globalState.getIn(['userData', 'repositories'])
+  (globalState) => globalState.get('listingTableData')
 );
 
 const makeSelectListings = () => createSelector(
   selectGlobal,
-  (globalState) => globalState.getIn(['listings'])
+  (globalState) => globalState.getIn(['listingTableData', 'data'])
 );
 
 const makeSelectLocation = () => createSelector(
@@ -50,12 +70,16 @@ const makeSelectLocation = () => createSelector(
 
 export {
   selectGlobal,
-  makeSelectCurrentUser,
   makeSelectItemID,
+  makeSelectSelected,
   makeSelectItemDetail,
+  makeSelectChangeSortOrder,
+  makeSelectChangeSortDirection,
+  makeSelectRowsPerPage,
+  makeSelectPageNumber,
+  makeSelectTableState,
   makeSelectLoading,
   makeSelectError,
   makeSelectListings,
-  makeSelectRepos,
   makeSelectLocation,
 };
