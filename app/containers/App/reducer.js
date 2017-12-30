@@ -14,6 +14,7 @@ import { fromJS, Map } from 'immutable';
 
 import {
   SET_SELECTED_ITEM,
+  SELECT_ITEM,
   CHANGE_ROWS_PER_PAGE,
   CHANGE_SORT_ORDER,
   CHANGE_PAGE,
@@ -43,6 +44,9 @@ const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case SELECT_ITEM:
+    return state
+        .setIn(['listingTableData','selected'], action.selected)
     case CHANGE_SORT_ORDER:
     return state
         .setIn(['listingTableData','orderBy'], action.orderBy)

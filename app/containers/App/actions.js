@@ -17,6 +17,7 @@
 
 import {
   SELECT_ALL_ITEMS,
+  SELECT_ITEM,
   UNSELECT_ALL_ITEMS,
   CHANGE_SORT_ORDER,
   CHANGE_SORT_BY,
@@ -30,6 +31,20 @@ import {
   LOAD_LISTINGS_ERROR,
 } from './constants';
 
+export function handleSelectItem(selected){
+  return {
+    type: SELECT_ITEM,
+    selected,
+  }
+}
+
+export function handleSelectAllClick(event, selected){
+  return {
+    type: SELECT_ALL_ITEMS,
+    selected,
+  }
+}
+
 export function handleRequestSort(orderBy, order, data){
   return {
     type: CHANGE_SORT_ORDER,
@@ -38,6 +53,7 @@ export function handleRequestSort(orderBy, order, data){
     data,
   }
 }
+
 export function changePage(page) {
   return {
     type: CHANGE_PAGE,

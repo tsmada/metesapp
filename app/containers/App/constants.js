@@ -10,6 +10,7 @@
  */
 
 export const SELECT_ALL_ITEMS = 'boilerplate/App/SELECT_ALL_ITEMS';
+export const SELECT_ITEM = 'boilerplate/App/SELECT_ITEM';
 export const UNSELECT_ALL_ITEMS = 'boilerplate/App/UNSELECT_ALL_ITEMS';
 export const CHANGE_SORT_ORDER = 'boilerplate/App/CHANGE_SORT_ORDER';
 export const CHANGE_SORT_BY = 'boilerplate/App/CHANGE_SORT_BY';
@@ -22,6 +23,4 @@ export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
 export const LOAD_LISTINGS = 'boilerplate/App/LOAD_LISTINGS';
 export const LOAD_LISTINGS_SUCCESS = 'boilerplate/App/LOAD_LISTINGS_SUCCESS';
 export const LOAD_LISTINGS_ERROR = 'boilerplate/App/LOAD_LISTINGS_ERROR';
-export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
-export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
 export const DEFAULT_LOCALE = 'en';

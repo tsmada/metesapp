@@ -14,11 +14,12 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
-makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection } from 'containers/App/selectors';
+makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
+makeSelectSelected } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
-handleRequestSort } from '../App/actions';
+handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail } from '../App/actions';
 import ListingsToolbar from 'components/ListingsToolbar';
 import saga from './saga';
 import messages from './messages';
@@ -38,15 +39,6 @@ const style = {
 
 export class DashboardPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-componentDidMount() {
-    this.props.onLoad();
-  }
-
-onCellClick = (fcl_id, evt) => {
-    console.log(evt);
-    this.props.history.push('/dash/detail/'+fcl_id);
-  };
-
   render() {
     return (
       <div>
@@ -56,11 +48,7 @@ onCellClick = (fcl_id, evt) => {
         </Helmet>
         <AppBarMUI title="Dash"/>
         <Paper style={style}>
-        <DataTable data={this.props.data} rowsPerPage={this.props.rowsPerPage} 
-        handleChangeRowsPerPage={this.props.handleChangeRowsPerPage} page={this.props.page}
-        handleChangePage={this.props.handleChangePage} orderBy={this.props.orderBy}
-        handleRequestSort={this.props.handleRequestSort}
-        />
+        <DataTable/>
         </Paper>
         <div>
         <P/>
@@ -70,36 +58,6 @@ onCellClick = (fcl_id, evt) => {
   }
 }
 
-const mapStateToProps = createStructuredSelector({
-  data: makeSelectListings(),
-  rowsPerPage: makeSelectRowsPerPage(),
-  page: makeSelectPageNumber(),
-  orderBy: makeSelectChangeSortOrder(),
-  order: makeSelectChangeSortDirection(),
-});
 
-function mapDispatchToProps(dispatch, ownProps) {
 
-  return {
-    onLoad: () => {
-      dispatch(loadListings());
-    },
-    handleChangeRowsPerPage: (event) => {
-    dispatch(changeRowsPerPage(event.target.value))
-    },
-    handleChangePage: (event, page) => {
-    dispatch(changePage(page));
-    },
-    handleRequestSort: (orderBy, order, data) => {
-      dispatch(handleRequestSort(orderBy, order, data))
-    }
-  }
-};
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
-const withSaga = injectSaga({ key: 'dashboardPage', saga });
-
-export default compose(
-  withSaga,
-  withConnect,
-)(DashboardPage);
+export default DashboardPage;

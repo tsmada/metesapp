@@ -2,6 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import saga from './saga';
+import { createStructuredSelector } from 'reselect';
+import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
+makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
+makeSelectSelected } from 'containers/App/selectors';
+import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
+handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail } from 'containers/App/actions';
 import keycode from 'keycode';
 import Table, {
   TableBody,
@@ -19,11 +26,12 @@ import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import Tooltip from 'material-ui/Tooltip';
 import DeleteIcon from 'material-ui-icons/Delete';
+import injectSaga from 'utils/injectSaga';
 import FilterListIcon from 'material-ui-icons/FilterList';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 
 const columnData = [
-
-  { id: 'casestatus', numeric: false, disablePadding: false, label: 'Case Status' },
   { id: 'saledate', numeric: false, disablePadding: true, label: 'Sale Date' },
   { id: 'propertyaddress', numeric: false, disablePadding: true, label: 'Property Address' },
   { id: 'propertyzip', numeric: false, disablePadding: true, label: 'Zip Code' },
@@ -129,7 +137,7 @@ let EnhancedTableToolbar = props => {
         {numSelected > 0 ? (
           <Typography type="subheading">{numSelected} selected</Typography>
         ) : (
-          <Typography type="title">Property Information</Typography>
+          <Typography type="title">Nutrition</Typography>
         )}
       </div>
       <div className={classes.spacer} />
@@ -175,26 +183,26 @@ const styles = theme => ({
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super(props, context);
+  }
 
-    this.state = {
-      selected: [],
-    };
+  componentDidMount() {
+    this.props.onLoad();
   }
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
     let order = 'desc';
 
-    if (this.props.orderBy === property && this.props.order === 'desc') {
+    if (this.state.orderBy === property && this.state.order === 'desc') {
       order = 'asc';
     }
 
     const data =
       order === 'desc'
-        ? this.props.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
-        : this.props.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
+        ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
+        : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
 
-    this.props.handleRequestSort(orderBy, order, data);
+    this.setState({ data, order, orderBy });
   };
 
   handleSelectAllClick = (event, checked) => {
@@ -212,9 +220,9 @@ class EnhancedTable extends React.Component {
   };
 
   handleClick = (event, id) => {
-    const { selected } = this.state;
+    console.log('handleCheckbox');
+    const { selected } = this.props;
     const selectedIndex = selected.indexOf(id);
-    console.log(selectedIndex);
     let newSelected = [];
 
     if (selectedIndex === -1) {
@@ -230,23 +238,21 @@ class EnhancedTable extends React.Component {
       );
     }
 
-    this.setState({ selected: newSelected });
+    this.props.handleSelectItem(newSelected);
   };
 
-  handleChangePage = (event, page) => {
-    this.setState({ page });
+  handleRowCheck = (event, page) => {
+    if (event.target.value === undefined) {
+      console.log('Navigating to item detail')
+    }
   };
 
-  handleChangeRowsPerPage = event => {
-    this.setState({ rowsPerPage: event.target.value });
-  };
-
-  isSelected = id => this.state.selected.indexOf(id) !== -1;
+  isSelected = id => this.props.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes, rowsPerPage, data, page, orderBy, order} = this.props;
-    const { selected } = this.state;
+    const { classes, rowsPerPage, data, page, orderBy, order, selected } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    const allRows = Array.apply(null, {length: data.length}).map(Number.call, Number);
 
     return (
       <Paper className={classes.root}>
@@ -263,22 +269,20 @@ class EnhancedTable extends React.Component {
             />
             <TableBody>
               {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(n => {
-                const isSelected = this.isSelected(n.id);
+                const isSelected = this.isSelected(n.fcl_id);
                 return (
                   <TableRow
                     hover
-                    onClick={event, n => this.handleClick(event, n.id)}
-                    onKeyDown={event => this.handleKeyDown(event, n.id)}
                     role="checkbox"
+                    onClick={this.handleRowCheck}
                     aria-checked={isSelected}
                     tabIndex={-1}
                     key={n.fcl_id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox checked={isSelected} />
+                      <Checkbox checked={isSelected} onClick={event => this.handleClick(event, n.fcl_id)} />
                     </TableCell>
-                    <TableCell>{n.casestatus}</TableCell>
                     <TableCell>{n.saledate}</TableCell>
                     <TableCell>{n.propertyaddress}</TableCell>
                     <TableCell>{n.propertyzip}</TableCell>
@@ -318,4 +322,44 @@ EnhancedTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EnhancedTable);
+const mapStateToProps = createStructuredSelector({
+  data: makeSelectListings(),
+  rowsPerPage: makeSelectRowsPerPage(),
+  page: makeSelectPageNumber(),
+  orderBy: makeSelectChangeSortOrder(),
+  order: makeSelectChangeSortDirection(),
+  selected: makeSelectSelected(),
+});
+
+
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    onLoad: () => {
+      dispatch(loadListings());
+    },
+    handleChangeRowsPerPage: (event) => {
+    dispatch(changeRowsPerPage(event.target.value))
+    },
+    handleChangePage: (event, page) => {
+    dispatch(changePage(page));
+    },
+    handleRequestSort: (orderBy, order, data) => {
+      dispatch(handleRequestSort(orderBy, order, data))
+    },
+    handleSelectAllClick: (checked) => {
+    dispatch(handleSelectAllClick(checked))
+    },
+    handleSelectItem: (item) => {
+      dispatch(handleSelectItem(item))
+    },
+  }
+};
+
+const withConnect = connect(mapStateToProps,mapDispatchToProps);
+const withSaga = injectSaga({ key: 'dashboardPage', saga });
+
+export default compose(
+  withStyles(styles),
+  withSaga,
+  withConnect,
+)(EnhancedTable);
