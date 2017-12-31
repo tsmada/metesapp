@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import { withRouter } from 'react-router'
 import saga from './saga';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
@@ -241,11 +242,10 @@ class EnhancedTable extends React.Component {
     this.props.handleSelectItem(newSelected);
   };
 
-  handleRowCheck = (event, page) => {
-    if (event.target.value === undefined) {
-      console.log('Navigating to item detail')
-    }
-  };
+  handleRowCheck = (event, id) => {
+    console.log(event, id);
+    this.props.history.push(`/dash/detail/${id}`);
+ };
 
   isSelected = id => this.props.selected.indexOf(id) !== -1;
 
@@ -274,7 +274,7 @@ class EnhancedTable extends React.Component {
                   <TableRow
                     hover
                     role="checkbox"
-                    onClick={this.handleRowCheck}
+                    onClick={event => this.handleRowCheck(event, n.fcl_id)}
                     aria-checked={isSelected}
                     tabIndex={-1}
                     key={n.fcl_id}
