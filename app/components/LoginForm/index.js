@@ -17,7 +17,8 @@ import messages from './messages';
 const style = {
   display: 'flex',
   flexDirection: 'column',
-  margin: '0 10px',
+  alignItems: 'center',
+  width: '100%',
 };
 
 
@@ -30,19 +31,11 @@ class LoginForm extends React.Component { // eslint-disable-line react/prefer-st
           <TextField
             id="name"
             label="Name"
-            className={classes.textField}
-            value={this.state.name}
-            onChange={this.handleChange('name')}
             margin="normal"
-          />
-          <TextField
-            hintText="Hint Text"
-            floatingLabelText="Fixed Floating Label Text"
-            floatingLabelFixed
           /><br />
           <TextField
-            hintText="Password Field"
-            floatingLabelText="Password"
+            id="password"
+            label="Password"
             type="password"
           />
           <Button
