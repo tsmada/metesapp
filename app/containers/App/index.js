@@ -13,12 +13,13 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import DashboardPage from 'containers/DashboardPage/Loadable';
+import RegistrationPage from 'containers/RegistrationPage/Loadable';
 import LoginPage from 'containers/LoginPage/Loadable';
 import { makeSelectCurrentUser } from 'containers/App/selectors';
 import ItemDetail from 'containers/ItemDetail/Loadable';
 import DashboardContainer from 'containers/DashboardPage';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import UserAuthWrapper from 'redux-auth-wrapper';
+import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -32,13 +33,6 @@ const AppWrapper = styled.div`
   flex-direction: column;
   overflow: none;
 `;
-
-const UserIsAuthenticated = UserAuthWrapper({
-  failureRedirectPath: '/login',
-  authSelector: makeSelectCurrentUser(), // how to get the user state 
-  redirectAction: LOCATION_CHANGE, // the redux action to dispatch for redirect 
-  wrapperDisplayName: 'UserIsAuthenticated', // a nice name for this auth check 
-})
 
 export default function App() {
   return (
@@ -54,7 +48,8 @@ export default function App() {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/dash" component={DashboardPage} />
         <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/dash/detail/:id" component={UserIsAuthenticated(ItemDetail)}/>
+        <Route exact path="/register" component={RegistrationPage} />
+        <Route exact path="/dash/detail/:id" component={ItemDetail}/>
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />

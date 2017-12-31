@@ -78,7 +78,7 @@ class AppBarMUI extends React.Component {
                 <Link to="/login">
                   <MenuItem onClick={this.handleToggle}>Account Login</MenuItem>
                 </Link>
-                <Link to="/registration">
+                <Link to="/register">
                   <MenuItem onClick={this.handleToggle}>Register</MenuItem>
                 </Link>
               </Drawer>
