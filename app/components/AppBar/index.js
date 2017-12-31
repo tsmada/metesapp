@@ -68,7 +68,7 @@ class AppBarMUI extends React.Component {
           <Toolbar >
             <IconButton className={classes.menuButton} color="contrast" aria-label="Menu" onClick={this.handleToggle}>
               <MenuIcon />
-              <Drawer open={this.state.draweropen} onRequestChange={this.handleToggle} docked={false}>
+              <Drawer open={this.state.draweropen} onRequestClose={this.handleToggle} docked={false}>
           <Link to="/dash">
           <MenuItem onClick={this.handleToggle}>Foreclosures Dashboard</MenuItem>
           </Link>

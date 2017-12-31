@@ -13,7 +13,7 @@ import request from 'utils/request';
  * Github repos request/response handler
  */
 export function* getListings() {
-  const requestURL = `http://serouslabs.com:8000/api/foreclosures`;
+  const requestURL = `https://serouslabs.com:8000/api/foreclosures`;
 
   try {
     // Call our request helper (see 'utils/request')
