@@ -207,11 +207,14 @@ class EnhancedTable extends React.Component {
   };
 
   handleSelectAllClick = (event, checked) => {
+    console.log(event, checked)
     if (checked) {
-      this.setState({ selected: this.state.data.map(n => n.id) });
+      let checkedRows = this.props.data.map(n => n.fcl_id);
+      console.log(checkedRows)
+      this.props.handleSelectAllClick(checkedRows)
       return;
     }
-    this.setState({ selected: [] });
+    this.props.handleSelectAllClick([])
   };
 
   handleKeyDown = (event, id) => {
@@ -227,7 +230,7 @@ class EnhancedTable extends React.Component {
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = id;
+      newSelected = newSelected.concat(selected,id)
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -238,13 +241,13 @@ class EnhancedTable extends React.Component {
         selected.slice(selectedIndex + 1),
       );
     }
-
     this.props.handleSelectItem(newSelected);
   };
 
   handleRowCheck = (event, id) => {
-    console.log(event, id);
+    if (event.target.type != 'checkbox') {
     this.props.history.push(`/dash/detail/${id}`);
+  }
  };
 
   isSelected = id => this.props.selected.indexOf(id) !== -1;

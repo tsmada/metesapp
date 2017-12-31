@@ -10,7 +10,7 @@
  *   return state.set('yourStateVariable', true);
  */
 
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 
 import {
   SET_SELECTED_ITEM,
@@ -35,7 +35,7 @@ const initialState = fromJS({
   listingTableData: {
     order: 'asc',
     orderBy: 'fcl_id',
-    selected: [],
+    selected: List([]),
     data: [],
     page: 0,
     rowsPerPage: 5

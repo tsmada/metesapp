@@ -38,7 +38,7 @@ export function handleSelectItem(selected){
   }
 }
 
-export function handleSelectAllClick(event, selected){
+export function handleSelectAllClick(selected){
   return {
     type: SELECT_ALL_ITEMS,
     selected,
