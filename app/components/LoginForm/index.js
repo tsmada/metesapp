@@ -7,6 +7,7 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import H2 from 'components/H1';
+import Button from 'components/Button';
 
 // import styled from 'styled-components';
 
@@ -26,6 +27,14 @@ class LoginForm extends React.Component { // eslint-disable-line react/prefer-st
 	      <div style={style}>
 	      	<H2>Please Log Into Your Account </H2>
 	      	<div>
+	      	<TextField
+          id="name"
+          label="Name"
+          className={classes.textField}
+          value={this.state.name}
+          onChange={this.handleChange('name')}
+          margin="normal"
+        />
 		        <TextField
 			      hintText="Hint Text"
 			      floatingLabelText="Fixed Floating Label Text"
@@ -36,6 +45,9 @@ class LoginForm extends React.Component { // eslint-disable-line react/prefer-st
 			      floatingLabelText="Password"
 			      type="password"
 			    />
+			    <Button 
+			     href="#"
+			    >Login</Button>
 			</div>
 	      </div>
     );
