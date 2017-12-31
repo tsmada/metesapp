@@ -17,39 +17,39 @@ import messages from './messages';
 const style = {
   display: 'flex',
   flexDirection: 'column',
-  margin: '0 10px'
-}
+  margin: '0 10px',
+};
 
 
 class LoginForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-	      <div style={style}>
-	      	<H2>Please Log Into Your Account </H2>
-	      	<div>
-	      	<TextField
-          id="name"
-          label="Name"
-          className={classes.textField}
-          value={this.state.name}
-          onChange={this.handleChange('name')}
-          margin="normal"
-        />
-		        <TextField
-			      hintText="Hint Text"
-			      floatingLabelText="Fixed Floating Label Text"
-			      floatingLabelFixed={true}
-			    /><br />
-			    <TextField
-			      hintText="Password Field"
-			      floatingLabelText="Password"
-			      type="password"
-			    />
-			    <Button 
-			     href="#"
-			    >Login</Button>
-			</div>
-	      </div>
+      <div style={style}>
+        <H2>Please Log Into Your Account </H2>
+        <div>
+          <TextField
+            id="name"
+            label="Name"
+            className={classes.textField}
+            value={this.state.name}
+            onChange={this.handleChange('name')}
+            margin="normal"
+          />
+          <TextField
+            hintText="Hint Text"
+            floatingLabelText="Fixed Floating Label Text"
+            floatingLabelFixed
+          /><br />
+          <TextField
+            hintText="Password Field"
+            floatingLabelText="Password"
+            type="password"
+          />
+          <Button
+            href="#"
+          >Login</Button>
+        </div>
+      </div>
     );
   }
 }
