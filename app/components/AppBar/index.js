@@ -30,18 +30,18 @@ class AppBarMUI extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {draweropen: false, auth: true, anchorEl: null};
+    this.state = { draweropen: false, auth: true, anchorEl: null };
   }
 
-  handleToggle = () => { 
-    this.setState({draweropen: !this.state.draweropen})
+  handleToggle = () => {
+    this.setState({ draweropen: !this.state.draweropen });
   };
 
   handleChange = (event, checked) => {
     this.setState({ auth: checked });
   };
 
-  handleMenu = event => {
+  handleMenu = (event) => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
@@ -69,16 +69,19 @@ class AppBarMUI extends React.Component {
             <IconButton className={classes.menuButton} color="contrast" aria-label="Menu" onClick={this.handleToggle}>
               <MenuIcon />
               <Drawer open={this.state.draweropen} onRequestClose={this.handleToggle} docked={false}>
-          <Link to="/dash">
-          <MenuItem onClick={this.handleToggle}>Foreclosures Dashboard</MenuItem>
-          </Link>
-          <Link to="/">
-          <MenuItem onClick={this.handleToggle}>Hero Search</MenuItem>
-          </Link>
-          <Link to="/login">
-          <MenuItem onClick={this.handleToggle}>Account Login</MenuItem>
-          </Link>
-          </Drawer>
+                <Link to="/dash">
+                  <MenuItem onClick={this.handleToggle}>Foreclosures Dashboard</MenuItem>
+                </Link>
+                <Link to="/">
+                  <MenuItem onClick={this.handleToggle}>Hero Search</MenuItem>
+                </Link>
+                <Link to="/login">
+                  <MenuItem onClick={this.handleToggle}>Account Login</MenuItem>
+                </Link>
+                <Link to="/registration">
+                  <MenuItem onClick={this.handleToggle}>Register</MenuItem>
+                </Link>
+              </Drawer>
             </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>
               Listings Dashboard
