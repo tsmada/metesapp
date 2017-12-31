@@ -227,7 +227,7 @@ class EnhancedTable extends React.Component {
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = id;
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -250,7 +250,7 @@ class EnhancedTable extends React.Component {
   isSelected = id => this.props.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes, rowsPerPage, data, page, orderBy, order, selected } = this.props;
+    const { classes, rowsPerPage, data, page, orderBy, order, selected, history } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     const allRows = Array.apply(null, {length: data.length}).map(Number.call, Number);
 
