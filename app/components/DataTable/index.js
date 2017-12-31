@@ -191,19 +191,20 @@ class EnhancedTable extends React.Component {
   }
 
   handleRequestSort = (event, property) => {
+    console.log(event, property);
     const orderBy = property;
     let order = 'desc';
 
-    if (this.state.orderBy === property && this.state.order === 'desc') {
+    if (this.props.orderBy === property && this.props.order === 'desc') {
       order = 'asc';
     }
 
     const data =
       order === 'desc'
-        ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
-        : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
+        ? this.props.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
+        : this.props.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
 
-    this.setState({ data, order, orderBy });
+    this.props.handleRequestSort(data, order, orderBy);
   };
 
   handleSelectAllClick = (event, checked) => {
@@ -346,8 +347,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     handleChangePage: (event, page) => {
     dispatch(changePage(page));
     },
-    handleRequestSort: (orderBy, order, data) => {
-      dispatch(handleRequestSort(orderBy, order, data))
+    handleRequestSort: (data, order, orderBy) => {
+      dispatch(handleRequestSort(data, order, orderBy))
     },
     handleSelectAllClick: (checked) => {
     dispatch(handleSelectAllClick(checked))

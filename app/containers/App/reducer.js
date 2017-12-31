@@ -49,9 +49,9 @@ function appReducer(state = initialState, action) {
         .setIn(['listingTableData','selected'], action.selected)
     case CHANGE_SORT_ORDER:
     return state
-        .setIn(['listingTableData','orderBy'], action.orderBy)
+        .setIn(['listingTableData','data'], action.data)
         .setIn(['listingTableData', 'order'], action.order)
-        .setIn(['listingTableData', 'data'], action.data)
+        .setIn(['listingTableData', 'orderBy'], action.orderBy)
     case CHANGE_PAGE:
     return state
         .setIn(['listingTableData','page'], action.page)

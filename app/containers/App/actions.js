@@ -45,12 +45,12 @@ export function handleSelectAllClick(selected){
   }
 }
 
-export function handleRequestSort(orderBy, order, data){
+export function handleRequestSort(data, order, orderBy){
   return {
     type: CHANGE_SORT_ORDER,
-    orderBy,
-    order,
     data,
+    order,
+    orderBy,
   }
 }
 
