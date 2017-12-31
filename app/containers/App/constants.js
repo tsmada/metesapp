@@ -28,4 +28,5 @@ export const USER_LOGGING_IN = 'boilerplate/App/USER_LOGGING_IN';
 export const USER_LOGGED_IN = 'boilerplate/App/USER_LOGGED_IN';
 export const USER_LOGGED_OUT = 'boilerplate/App/USER_LOGGED_OUT';
 export const USER_LOGIN_FAILURE = 'boilerplate/App/USER_LOGGED_OUT';
+export const REGISTER = 'boilerplate/App/REGISTER';
 export const DEFAULT_LOCALE = 'en';

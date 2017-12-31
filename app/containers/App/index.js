@@ -35,9 +35,9 @@ const AppWrapper = styled.div`
 
 const UserIsAuthenticated = UserAuthWrapper({
   failureRedirectPath: '/login',
-  authSelector: makeSelectCurrentUser(), // how to get the user state 
-  redirectAction: LOCATION_CHANGE, // the redux action to dispatch for redirect 
-  wrapperDisplayName: 'UserIsAuthenticated', // a nice name for this auth check 
+  authSelector: makeSelectCurrentUser(), // how to get the user state
+  redirectAction: LOCATION_CHANGE, // the redux action to dispatch for redirect
+  wrapperDisplayName: 'UserIsAuthenticated', // a nice name for this auth check
 })
 
 export default function App() {
@@ -49,12 +49,13 @@ export default function App() {
       >
         <meta name="description" content="A property listing application" />
       </Helmet>
-      
+
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/dash" component={DashboardPage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/dash/detail/:id" component={UserIsAuthenticated(ItemDetail)}/>
+        <Route exact path="/registration" component={RegistrationPage} />
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />

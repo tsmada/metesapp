@@ -30,6 +30,7 @@ import {
   LOAD_LISTINGS,
   LOAD_LISTINGS_SUCCESS,
   LOAD_LISTINGS_ERROR,
+    REGISTER
 } from './constants';
 
 
@@ -102,6 +103,13 @@ export function detailLoadedError(error) {
     type: LOAD_DETAIL_ERROR,
     error,
   };
+}
+
+export function register(newuser) {
+    return {
+        type: REGISTER,
+        error,
+    };
 }
 
 /**
