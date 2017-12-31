@@ -14,14 +14,14 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 const style = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  width: '100%',
 };
 
 const formStyle = {
-    marginBottom: '20px',
+  marginBottom: '20px',
 };
 
 class RegistrationForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -40,12 +40,12 @@ class RegistrationForm extends React.Component { // eslint-disable-line react/pr
             label="Password"
             type="password"
           /><br />
-            <TextField
-                id="email"
-                label="E-Mail"
-                margin="normal"
-            />
-            <Button href="#">Sign Up</Button>
+          <TextField
+            id="email"
+            label="E-Mail"
+            margin="normal"
+          />
+          <Button href="#">Sign Up</Button>
         </div>
       </div>
     );

@@ -15,11 +15,6 @@ import RegistrationForm from 'components/RegistrationForm';
 import { Helmet } from 'react-helmet';
 import AppBarMUI from 'components/AppBar';
 
-
-import grey from 'material-ui/colors/grey';
-import brown from 'material-ui/colors/brown';
-const grey800 = grey['800'];
-const brown500 = brown['500'];
 import Paper from 'material-ui/Paper';
 
 import injectSaga from 'utils/injectSaga';
@@ -29,23 +24,24 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
+
 const style = {
-    display: 'flex',
+  display: 'flex',
 };
 
 export class RegistrationPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-        <div>
-          <Helmet>
-            <title>RegistrationPage</title>
-            <meta name="description" content="Description of RegistrationPage" />
-          </Helmet>
-          <AppBarMUI title="Registration"/>
-          <Paper style={style} zDepth={3}>
-            <RegistrationForm />
-          </Paper>
-        </div>
+      <div>
+        <Helmet>
+          <title>RegistrationPage</title>
+          <meta name="description" content="Description of RegistrationPage" />
+        </Helmet>
+        <AppBarMUI title="Registration" />
+        <Paper style={style} zDepth={3}>
+          <RegistrationForm />
+        </Paper>
+      </div>
     );
   }
 }
