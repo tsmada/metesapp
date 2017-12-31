@@ -11,6 +11,7 @@
 
 export const SELECT_ALL_ITEMS = 'boilerplate/App/SELECT_ALL_ITEMS';
 export const SELECT_ITEM = 'boilerplate/App/SELECT_ITEM';
+export const SELECT_USER = 'boilerplate/App/SELECT_USER';
 export const UNSELECT_ALL_ITEMS = 'boilerplate/App/UNSELECT_ALL_ITEMS';
 export const CHANGE_SORT_ORDER = 'boilerplate/App/CHANGE_SORT_ORDER';
 export const CHANGE_SORT_BY = 'boilerplate/App/CHANGE_SORT_BY';
