@@ -40,6 +40,11 @@ const initialState = fromJS({
     page: 0,
     rowsPerPage: 5
   },
+  userData: {
+    username: '',
+    isLoggedIn: false,
+    isAdmin: false
+  },
 });
 
 function appReducer(state = initialState, action) {

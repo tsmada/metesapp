@@ -47,6 +47,7 @@ export default function App() {
         <Route exact path="/login" component={LoginPage} />
           <Route exact path="/registration" component={RegistrationPage} />
         <Route exact path="/dash/detail/:id" component={ItemDetail}/>
+        <Route exact path="/dash/detail/:id" component={ItemDetail}/>
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />

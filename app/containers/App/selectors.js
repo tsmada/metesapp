@@ -43,6 +43,11 @@ const makeSelectItemDetail = () => createSelector(
   (globalState) => globalState.get('item')
 );
 
+const makeSelectCurrentUser = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['userData', 'username'])
+);
+
 const makeSelectLoading = () => createSelector(
   selectGlobal,
   (globalState) => globalState.get('loading')
@@ -74,6 +79,7 @@ export {
   makeSelectSelected,
   makeSelectItemDetail,
   makeSelectChangeSortOrder,
+  makeSelectCurrentUser,
   makeSelectChangeSortDirection,
   makeSelectRowsPerPage,
   makeSelectPageNumber,

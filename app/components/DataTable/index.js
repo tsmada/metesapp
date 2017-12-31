@@ -191,7 +191,6 @@ class EnhancedTable extends React.Component {
   }
 
   handleRequestSort = (event, property) => {
-    console.log(event, property);
     const orderBy = property;
     let order = 'desc';
 
@@ -208,10 +207,8 @@ class EnhancedTable extends React.Component {
   };
 
   handleSelectAllClick = (event, checked) => {
-    console.log(event, checked)
     if (checked) {
       let checkedRows = this.props.data.map(n => n.fcl_id);
-      console.log(checkedRows)
       this.props.handleSelectAllClick(checkedRows)
       return;
     }
@@ -225,7 +222,6 @@ class EnhancedTable extends React.Component {
   };
 
   handleClick = (event, id) => {
-    console.log('handleCheckbox');
     const { selected } = this.props;
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];

@@ -18,6 +18,7 @@
 import {
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
+  SELECT_USER,
   UNSELECT_ALL_ITEMS,
   CHANGE_SORT_ORDER,
   CHANGE_SORT_BY,
@@ -30,6 +31,13 @@ import {
   LOAD_LISTINGS_SUCCESS,
   LOAD_LISTINGS_ERROR,
 } from './constants';
+
+
+export function handleSelectUser(){
+  return {
+    type: SELECT_USER,
+  }
+}
 
 export function handleSelectItem(selected){
   return {
