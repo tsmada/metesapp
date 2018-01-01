@@ -64,7 +64,7 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
     return (
       <div>
         <div>
-          <AppBarMUI title="Foreclosure Detail"/>
+          <AppBarMUI title="Foreclosure Detail" auth={this.props.auth}/>
         </div>
         
           <div>

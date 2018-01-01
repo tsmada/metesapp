@@ -77,7 +77,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
     return (
         <div style={heroImgDivStyle}>
-          <AppBarMUI title="metes.io"/>
+          <AppBarMUI title="metes.io" auth={this.props.auth}/>
           <Img src={Hero} alt={'test'}/>
           <div style={centered}>
             <div style={searchBacking}>

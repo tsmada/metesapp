@@ -24,10 +24,10 @@ export function* submitLogin(action) {
     email: action.username,
     password: action.password,
   })});
-    if (result.success === true){
+    if (result.success === true){ // should use response codes instead
     yield put(handleUserLoginSuccess(action.username));
   } else {
-    yield put(handleUserLoginFailure());
+    yield put(handleUserLoginFailure(action.username));
   }
 }
 
@@ -35,9 +35,6 @@ export function* submitLogin(action) {
  * Root saga manages watcher lifecycle
  */
 export default function* userLogin() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
+// watches for USER_LOG_IN actions and submits the details
   yield takeLatest(USER_LOG_IN, submitLogin);
 }

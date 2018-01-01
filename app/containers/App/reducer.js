@@ -57,6 +57,10 @@ function appReducer(state = initialState, action) {
     return state
         .setIn(['userData','username'], action.username)
         .setIn(['userData', 'isLoggedIn'], true)
+    case USER_LOG_IN_FAILURE:
+    return state
+        .setIn(['userData','username'], action.username)
+        .setIn(['userData', 'isLoggedIn'], false)
     case SELECT_USER:
     return state
         .setIn(['userData','username'], action.username)
