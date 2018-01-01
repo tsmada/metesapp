@@ -23,7 +23,7 @@ import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import { UserIsAuthenticated } from 'authWrapper';
+import { UserIsAuthenticated } from './authWrapper';
 
 const AppWrapper = styled.div`
   max-width: 100%;
