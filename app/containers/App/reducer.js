@@ -28,6 +28,9 @@ import {
   LOAD_DETAIL_ERROR,
   LOAD_LISTINGS_SUCCESS,
   LOAD_LISTINGS_ERROR,
+  REGISTER_ACCOUNT,
+  REGISTER_ACCOUNT_SUCCESS,
+  REGISTER_ACCOUNT_FAILURE,
 } from './constants';
 
 // The initial state of the App
@@ -42,25 +45,41 @@ const initialState = fromJS({
     selected: List([]),
     data: [],
     page: 0,
-    rowsPerPage: 5
+    rowsPerPage: 5,
   },
   userData: {
     username: '',
     isLoggedIn: false,
-    isAdmin: false
+    isAdmin: false,
+    message: false,
+    token: false,
   },
 });
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case REGISTER_ACCOUNT_FAILURE:
+    return state
+        .setIn(['userData','username'], action.username)
+        .setIn(['userData', 'isLoggedIn'], false)
+        .setIn(['userData', 'message'], action.message)
+    case REGISTER_ACCOUNT_SUCCESS:
+    return state
+        .setIn(['userData','username'], action.username)
+        .setIn(['userData', 'isLoggedIn'], true)
+        .setIn(['userData', 'token'], action.token)
+        .setIn(['userData', 'message'], 'Registration Successful')
     case USER_LOG_IN_SUCCESS:
     return state
         .setIn(['userData','username'], action.username)
         .setIn(['userData', 'isLoggedIn'], true)
+        .setIn(['userData', 'token'], action.token)
+        .setIn(['userData', 'message'], 'Login Successful')
     case USER_LOG_IN_FAILURE:
     return state
         .setIn(['userData','username'], action.username)
         .setIn(['userData', 'isLoggedIn'], false)
+        .setIn(['userData', 'message'], action.message)
     case SELECT_USER:
     return state
         .setIn(['userData','username'], action.username)

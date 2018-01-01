@@ -53,6 +53,16 @@ const makeSelectIsLoggedIn = () => createSelector(
   (globalState) => globalState.getIn(['userData', 'isLoggedIn'])
 );
 
+const makeSelectMessage = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['userData', 'message'])
+);
+
+const makeSelectToken = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['userData', 'token'])
+);
+
 const makeSelectLoading = () => createSelector(
   selectGlobal,
   (globalState) => globalState.get('loading')
@@ -88,6 +98,8 @@ export {
   makeSelectChangeSortDirection,
   makeSelectRowsPerPage,
   makeSelectPageNumber,
+  makeSelectToken,
+  makeSelectMessage,
   makeSelectTableState,
   makeSelectIsLoggedIn,
   makeSelectLoading,

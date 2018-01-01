@@ -25,9 +25,9 @@ export function* submitLogin(action) {
     password: action.password,
   })});
     if (result.success === true){ // should use response codes instead
-    yield put(handleUserLoginSuccess(action.username));
+    yield put(handleUserLoginSuccess(action.username, result.token));
   } else {
-    yield put(handleUserLoginFailure(action.username));
+    yield put(handleUserLoginFailure(action.username, result.message));
   }
 }
 

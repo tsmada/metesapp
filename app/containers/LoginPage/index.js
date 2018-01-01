@@ -12,10 +12,11 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import LoginForm from 'components/LoginForm';
 import { handleUserLogin } from '../App/actions';
+import H2 from 'components/H2';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectCurrentUser, makeSelectIsLoggedIn } from 'containers/App/selectors';
+import { makeSelectCurrentUser, makeSelectIsLoggedIn, makeSelectMessage } from 'containers/App/selectors';
 import saga from './saga';
 import messages from './messages';
 
@@ -46,6 +47,7 @@ export class LoginPage extends React.Component { // eslint-disable-line react/pr
         <AppBarMUI title="Login" auth={this.props.auth}/>
         <Paper style={style} zDepth={3}>
         <LoginForm onSubmit={this.props.onLogin}/>
+        <H2><center>{this.props.message}</center></H2>
         </Paper>
       </div>
     );
@@ -66,7 +68,8 @@ export function mapDispatchToProps(dispatch) {
 
 const mapStateToProps = createStructuredSelector({
   username: makeSelectCurrentUser(),
-  auth: makeSelectIsLoggedIn()
+  auth: makeSelectIsLoggedIn(),
+  message: makeSelectMessage(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

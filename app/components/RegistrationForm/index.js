@@ -25,6 +25,27 @@ const formStyle = {
 };
 
 class RegistrationForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      username: false,
+      password: false
+    }
+  }
+
+  onClick = (e) => {
+    e.preventDefault()
+    this.props.onSubmit(this.state.username, this.state.password)
+  };
+
+  handleChangeUsername = event => {
+    this.setState({username: event.target.value})
+  };
+
+  handleChangePassword = event => {
+    this.setState({password: event.target.value})
+  };
+
   render() {
     return (
       <div style={style}>
@@ -39,13 +60,15 @@ class RegistrationForm extends React.Component { // eslint-disable-line react/pr
             id="password"
             label="Password"
             type="password"
+            onChange={this.handleChangePassword}
           /><br />
           <TextField
             id="email"
             label="E-Mail"
             margin="normal"
+            onChange={this.handleChangeUsername}
           />
-          <Button href="#">Sign Up</Button>
+          <Button href="#" onClick={this.onClick}>Sign Up</Button>
         </div>
       </div>
     );

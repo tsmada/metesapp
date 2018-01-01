@@ -33,9 +33,36 @@ import {
   LOAD_LISTINGS,
   LOAD_LISTINGS_SUCCESS,
   LOAD_LISTINGS_ERROR,
-    REGISTER
+  REGISTER_ACCOUNT,
+  REGISTER_ACCOUNT_SUCCESS,
+  REGISTER_ACCOUNT_FAILURE,
 } from './constants';
 
+
+export function handleRegisterAccountSuccess(username, message){
+  return {
+    type: REGISTER_ACCOUNT_SUCCESS,
+    username,
+    message,
+  }
+}
+
+export function handleRegisterAccountFailure(username, message){
+  return {
+    type: REGISTER_ACCOUNT_FAILURE,
+    username,
+    message,
+  }
+}
+
+
+export function handleRegisterAccount(username, password){
+  return {
+    type: REGISTER_ACCOUNT,
+    username,
+    password,
+  }
+}
 
 export function handleUserLogin(username, password){
   return {
@@ -45,17 +72,19 @@ export function handleUserLogin(username, password){
   }
 }
 
-export function handleUserLoginSuccess(username){
+export function handleUserLoginSuccess(username, token){
   return {
     type: USER_LOG_IN_SUCCESS,
     username,
+    token,
   }
 }
 
-export function handleUserLoginFailure(username){
+export function handleUserLoginFailure(username, message){
   return {
     type: USER_LOG_IN_FAILURE,
     username,
+    message,
   }
 }
 

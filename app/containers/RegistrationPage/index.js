@@ -11,16 +11,14 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import RegistrationForm from 'components/RegistrationForm';
-
+import { handleRegisterAccount } from '../App/actions';
 import { Helmet } from 'react-helmet';
+import { makeSelectCurrentUser, makeSelectIsLoggedIn, makeSelectMessage } from 'containers/App/selectors';
 import AppBarMUI from 'components/AppBar';
-
+import H2 from 'components/H2';
 import Paper from 'material-ui/Paper';
 
 import injectSaga from 'utils/injectSaga';
-import injectReducer from 'utils/injectReducer';
-import makeSelectRegistrationPage from './selectors';
-import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
@@ -39,8 +37,9 @@ export class RegistrationPage extends React.Component { // eslint-disable-line r
         </Helmet>
         <AppBarMUI title="Registration" />
         <Paper style={style} zDepth={3}>
-          <RegistrationForm />
+          <RegistrationForm onSubmit={this.props.handleSubmitRegistration}/>
         </Paper>
+        <H2><center>{this.props.message}</center></H2>
       </div>
     );
   }
@@ -51,22 +50,24 @@ RegistrationPage.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  registrationpage: makeSelectRegistrationPage(),
+  username: makeSelectCurrentUser(),
+  auth: makeSelectIsLoggedIn(),
+  message: makeSelectMessage(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleSubmitRegistration: (username, password) => {
+      dispatch(handleRegisterAccount(username, password));
+    },
   };
 }
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'registrationPage', reducer });
 const withSaga = injectSaga({ key: 'registrationPage', saga });
 
 export default compose(
-  withReducer,
   withSaga,
   withConnect,
 )(RegistrationPage);
