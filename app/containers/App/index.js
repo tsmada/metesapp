@@ -23,6 +23,7 @@ import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
+import { UserIsAuthenticated } from 'authWrapper';
 
 const AppWrapper = styled.div`
   max-width: 100%;
@@ -47,7 +48,7 @@ export default function App() {
 
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/dash" component={DashboardPage} />
+        <Route exact path="/dash" component={UserIsAuthenticated(DashboardPage)} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/dash/detail/:id" component={ItemDetail}/>
         <Route exact path="/register" component={RegistrationPage} />
