@@ -19,6 +19,9 @@ import {
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
   SELECT_USER,
+  USER_LOG_IN,
+  USER_LOG_IN_SUCCESS,
+  USER_LOG_IN_FAILURE,
   UNSELECT_ALL_ITEMS,
   CHANGE_SORT_ORDER,
   CHANGE_SORT_BY,
@@ -32,6 +35,29 @@ import {
   LOAD_LISTINGS_ERROR,
     REGISTER
 } from './constants';
+
+
+export function handleUserLogin(username, password){
+  return {
+    type: USER_LOG_IN,
+    username,
+    password,
+  }
+}
+
+export function handleUserLoginSuccess(username){
+  return {
+    type: USER_LOG_IN_SUCCESS,
+    username,
+  }
+}
+
+export function handleUserLoginFailure(username){
+  return {
+    type: USER_LOG_IN_FAILURE,
+    username,
+  }
+}
 
 
 export function handleSelectUser(){

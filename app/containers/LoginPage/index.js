@@ -11,11 +11,11 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import LoginForm from 'components/LoginForm';
+import { handleUserLogin } from '../App/actions';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectLoginPage from './selectors';
-import reducer from './reducer';
+import { makeSelectCurrentUser, makeSelectIsLoggedIn } from 'containers/App/selectors';
 import saga from './saga';
 import messages from './messages';
 
@@ -43,9 +43,9 @@ export class LoginPage extends React.Component { // eslint-disable-line react/pr
           <title>LoginPage</title>
           <meta name="description" content="Description of LoginPage" />
         </Helmet>
-        <AppBarMUI title="Login"/>
+        <AppBarMUI title="Login" auth={this.props.auth}/>
         <Paper style={style} zDepth={3}>
-        <LoginForm />
+        <LoginForm onSubmit={this.props.onLogin}/>
         </Paper>
       </div>
     );
@@ -56,23 +56,24 @@ LoginPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = createStructuredSelector({
-  loginpage: makeSelectLoginPage(),
-});
-
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    onLogin: (username, password) => {
+      dispatch(handleUserLogin(username, password));
+    },
   };
 }
 
+const mapStateToProps = createStructuredSelector({
+  username: makeSelectCurrentUser(),
+  auth: makeSelectIsLoggedIn()
+});
+
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReducer = injectReducer({ key: 'loginPage', reducer });
 const withSaga = injectSaga({ key: 'loginPage', saga });
 
 export default compose(
-  withReducer,
   withSaga,
   withConnect,
 )(LoginPage);

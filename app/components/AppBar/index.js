@@ -30,7 +30,7 @@ class AppBarMUI extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { draweropen: false, auth: true, anchorEl: null };
+    this.state = { draweropen: false, anchorEl: null };
   }
 
   handleToggle = () => {
@@ -50,20 +50,12 @@ class AppBarMUI extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { auth, anchorEl, draweropen } = this.state;
+    const { classes, auth } = this.props;
+    const { anchorEl, draweropen } = this.state;
     const open = Boolean(anchorEl);
 
     return (
       <div className={classes.root}>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch checked={auth} onChange={this.handleChange} aria-label="LoginSwitch" />
-            }
-            label={auth ? 'Logout' : 'Login'}
-          />
-        </FormGroup>
         <AppBar position="static">
           <Toolbar >
             <IconButton className={classes.menuButton} color="contrast" aria-label="Menu" onClick={this.handleToggle}>

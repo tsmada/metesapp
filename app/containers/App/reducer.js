@@ -15,6 +15,9 @@ import { fromJS, Map, List } from 'immutable';
 import {
   SET_SELECTED_ITEM,
   SELECT_ITEM,
+  USER_LOG_IN,
+  USER_LOG_IN_SUCCESS,
+  USER_LOG_IN_FAILURE,
   SELECT_USER,
   CHANGE_ROWS_PER_PAGE,
   CHANGE_SORT_ORDER,
@@ -50,6 +53,10 @@ const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case USER_LOG_IN_SUCCESS:
+    return state
+        .setIn(['userData','username'], action.username)
+        .setIn(['userData', 'isLoggedIn'], true)
     case SELECT_USER:
     return state
         .setIn(['userData','username'], action.username)
