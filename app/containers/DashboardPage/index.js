@@ -15,7 +15,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
 makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
-makeSelectSelected } from 'containers/App/selectors';
+makeSelectSelected, makeSelectIsLoggedIn } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
@@ -60,4 +60,18 @@ export class DashboardPage extends React.Component { // eslint-disable-line reac
 
 
 
-export default DashboardPage;
+export function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+const mapStateToProps = createStructuredSelector({
+  auth: makeSelectIsLoggedIn(),
+});
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(
+  withConnect,
+)(DashboardPage);

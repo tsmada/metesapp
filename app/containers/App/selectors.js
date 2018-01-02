@@ -63,6 +63,11 @@ const makeSelectToken = () => createSelector(
   (globalState) => globalState.getIn(['userData', 'token'])
 );
 
+const makeSelectDownload = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['userData', 'reportData'])
+);
+
 const makeSelectLoading = () => createSelector(
   selectGlobal,
   (globalState) => globalState.get('loading')
@@ -98,6 +103,7 @@ export {
   makeSelectChangeSortDirection,
   makeSelectRowsPerPage,
   makeSelectPageNumber,
+  makeSelectDownload,
   makeSelectToken,
   makeSelectMessage,
   makeSelectTableState,

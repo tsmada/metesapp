@@ -1,9 +1,30 @@
-import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { makeSelectCurrentUser, makeSelectIsLoggedIn, makeSelectMessage } from 'containers/App/selectors';
+import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
+import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
+import React from 'react';
 
-// Redirects to /login by default
-export const UserIsAuthenticated = UserAuthWrapper({
-  authSelector: makeSelectCurrentUser(), // how to get the user state
-  redirectAction: 'LOCATION_CHANGE', // the redux action to dispatch for redirect
-  wrapperDisplayName: 'UserIsAuthenticated' // a nice name for this auth check
-});
+const locationHelper = locationHelperBuilder({})
+
+export const Authenticated = connectedRouterRedirect({
+   // The url to redirect user to if they fail
+  redirectPath: '/login',
+   // If selector is true, wrapper will not redirect
+   // For example let's check that state contains user data
+  authenticatedSelector: makeSelectIsLoggedIn(),
+  // A nice display name for this check
+  wrapperDisplayName: 'UserIsAuthenticated'
+})
+
+export const NotAuthenticated = connectedRouterRedirect({
+   // The url to redirect user to if they fail
+  redirectPath: '/dash',
+   // If selector is true, wrapper will not redirect
+   // For example let's check that state contains user data
+  authenticatedSelector: username => username,
+  // A nice display name for this check
+  wrapperDisplayName: 'UserIsAuthenticated'
+})
+
+
+
+const LoadingSpinner = (props) => {return (<div>Logging in...</div>);}

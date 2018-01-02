@@ -5,9 +5,8 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { LOAD_LISTINGS, DOWNLOAD_ITEM } from 'containers/App/constants';
 import { listingsLoaded, listingsLoadedError,
-downloadItemSuccess, downloadItemError } from 'containers/App/actions';
+handleDownloadItemSuccess, handleDownloadItemError } from 'containers/App/actions';
 import { detailLoaded, detailLoadedError } from 'containers/App/actions';
-
 import request from 'utils/request';
 
 /**
@@ -25,12 +24,23 @@ export function* getListings() {
   }
 }
 
-export function* downloadItem() {
+export function* downloadItem(action) {
   const requestURL = `https://serouslabs.com:8000/api/export`;
-    // Call our request helper (see 'utils/request')
-    const download = yield call(request, requestURL);
-    console.log(download)
-    yield put(downloadItemSuccess(listings));
+    const result = yield call(request, requestURL,
+      {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    selected: action.selected,
+  })});
+    try{
+      console.log(result.result)
+    yield put(handleDownloadItemSuccess(result));
+  } catch (err) {
+    yield put(handleDownloadItemError(err));
+  }
 }
 
 /**

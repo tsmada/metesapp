@@ -15,7 +15,8 @@ import { fromJS, Map, List } from 'immutable';
 import {
   SET_SELECTED_ITEM,
   SELECT_ITEM,
-  DOWNLOAD_ITEM,
+  DOWNLOAD_ITEM_SUCCESS,
+  DOWNLOAD_ITEM_COMPLETE,
   USER_LOG_IN,
   USER_LOG_IN_SUCCESS,
   USER_LOG_IN_FAILURE,
@@ -49,16 +50,23 @@ const initialState = fromJS({
     rowsPerPage: 5,
   },
   userData: {
-    username: '',
+    username: null,
     isLoggedIn: false,
     isAdmin: false,
     message: false,
     token: false,
+    reportData: false
   },
 });
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case DOWNLOAD_ITEM_SUCCESS:
+    return state
+        .setIn(['userData','reportData'], action.report)
+    case DOWNLOAD_ITEM_COMPLETE:
+    return state
+        .setIn(['userData','reportData'], false)
     case REGISTER_ACCOUNT_FAILURE:
     return state
         .setIn(['userData','username'], action.username)

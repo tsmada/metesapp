@@ -9,6 +9,8 @@ import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
+import Notifications from 'material-ui-icons/Notifications';
+import PriorityHigh from 'material-ui-icons/PriorityHigh';
 import Switch from 'material-ui/Switch';
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import Menu, { MenuItem } from 'material-ui/Menu';
@@ -30,11 +32,15 @@ class AppBarMUI extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { draweropen: false, anchorEl: null };
+    this.state = { draweropen: false, anchorEl: null, notificationsopen: false };
   }
 
   handleToggle = () => {
     this.setState({ draweropen: !this.state.draweropen });
+  };
+
+    handleToggleNotifications = () => {
+    this.setState({ notificationsopen: !this.state.notificationsopen });
   };
 
   handleChange = (event, checked) => {
@@ -51,7 +57,7 @@ class AppBarMUI extends React.Component {
 
   render() {
     const { classes, auth } = this.props;
-    const { anchorEl, draweropen } = this.state;
+    const { anchorEl, draweropen, notificationsopen } = this.state;
     const open = Boolean(anchorEl);
 
     return (
@@ -83,6 +89,30 @@ class AppBarMUI extends React.Component {
             </Typography>
             {auth && (
               <div>
+              <IconButton
+                  aria-owns={open ? 'menu-appbar' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleToggleNotifications}
+                  color="contrast"
+                >
+                  <Notifications />
+                </IconButton>
+                <Menu
+                  id="menu-appbar-notifications"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={notificationsopen}
+                  onClose={this.handleToggleNotifications}
+                >
+                  <MenuItem onClick={this.handleToggleNotifications}><PriorityHigh/>Watched Listing Auction Starting in 5 minutes.</MenuItem>
+                </Menu>
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : null}
                   aria-haspopup="true"

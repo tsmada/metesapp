@@ -7,10 +7,11 @@ import saga from './saga';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
 makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
-makeSelectSelected } from 'containers/App/selectors';
+makeSelectSelected, makeSelectDownload } from 'containers/App/selectors';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
 handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail,
-handleDownloadItem } from 'containers/App/actions';
+handleDownloadItem, handleDownloadComplete } from 'containers/App/actions';
+import Download from 'components/Download';
 import keycode from 'keycode';
 import Table, {
   TableBody,
@@ -27,11 +28,18 @@ import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import Tooltip from 'material-ui/Tooltip';
-import FileDownloadIcon from 'material-ui-icons/FileDownload';
+import FileDownloadIcon from 'material-ui-icons/CloudDownload';
+import GroupAddIcon from 'material-ui-icons/GroupAdd';
+import GavelIcon from 'material-ui-icons/Gavel';
+import StarIcon from 'material-ui-icons/Star';
+import VisibilityOffIcon from 'material-ui-icons/VisibilityOff';
 import injectSaga from 'utils/injectSaga';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+
+var FileSaver = require('file-saver');
+
 
 const columnData = [
   { id: 'saledate', numeric: false, disablePadding: true, label: 'Sale Date' },
@@ -108,11 +116,11 @@ const toolbarStyles = theme => ({
   highlight:
     theme.palette.type === 'light'
       ? {
-          color: theme.palette.secondary.A700,
-          backgroundColor: theme.palette.secondary.A100,
+          color: theme.palette.primary.A700,
+          backgroundColor: theme.palette.secondary.A400,
         }
       : {
-          color: theme.palette.secondary.A100,
+          color: theme.palette.secondary.A700,
           backgroundColor: theme.palette.secondary.A700,
         },
   spacer: {
@@ -127,7 +135,7 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-  const { numSelected, classes, downloadSelected } = props;
+  const { numSelected, classes, selected, reportData, onDownload } = props;
 
   return (
     <Toolbar
@@ -143,10 +151,38 @@ let EnhancedTableToolbar = props => {
         )}
       </div>
       <div className={classes.spacer} />
+      <div className={classes.action}>
+      <Tooltip title="Hide Listings">
+            <IconButton aria-label="Hide Listings">
+              <VisibilityOffIcon />
+            </IconButton>
+          </Tooltip>
+      </div>
+      <div className={classes.action}>
+      <Tooltip title="Make Offer">
+            <IconButton aria-label="Make Offer">
+              <GavelIcon />
+            </IconButton>
+          </Tooltip>
+      </div>
+      <div className={classes.action}>
+      <Tooltip title="Watch Listing">
+            <IconButton aria-label="Watch Listing">
+              <StarIcon />
+            </IconButton>
+          </Tooltip>
+      </div>
+      <div className={classes.action}>
+      <Tooltip title="Create Horde">
+            <IconButton aria-label="Create Horde">
+              <GroupAddIcon />
+            </IconButton>
+          </Tooltip>
+      </div>
       <div className={classes.actions}>
         {numSelected > 0 ? (
           <Tooltip title="Download">
-            <IconButton aria-label="Download" onClick={downloadSelected}>
+            <IconButton aria-label="Download" onClick={() => onDownload(event, selected)}>
               <FileDownloadIcon />
             </IconButton>
           </Tooltip>
@@ -248,21 +284,27 @@ class EnhancedTable extends React.Component {
   }
  };
 
- downloadSelected = (event, id) => {
-    console.log(event, id)
-    this.props.handleDownloadItem(id);
+ downloadSelected = (evt, selected) => {
+    this.props.handleDownloadItem(selected);
+    if (this.props.reportData.result){
+      var blob = new Blob([this.props.reportData.result], {type: "text/plain;charset=utf-8"});
+      FileSaver.saveAs(blob, "Foreclosure Export.txt");
+    }
+    this.props.handleDownloadComplete();
  };
 
   isSelected = id => this.props.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes, rowsPerPage, data, page, orderBy, order, selected, history } = this.props;
+    const { classes, rowsPerPage, data, page, orderBy, order, selected, history, reportData } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     const allRows = Array.apply(null, {length: data.length}).map(Number.call, Number);
 
     return (
       <Paper className={classes.root}>
-        <EnhancedTableToolbar numSelected={selected.length} downloadSelected={this.downloadSelected}/>
+        <EnhancedTableToolbar numSelected={selected.length} onDownload={this.downloadSelected} selected={selected}
+        reportData={reportData}
+        />
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
             <EnhancedTableHead
@@ -335,6 +377,7 @@ const mapStateToProps = createStructuredSelector({
   orderBy: makeSelectChangeSortOrder(),
   order: makeSelectChangeSortDirection(),
   selected: makeSelectSelected(),
+  reportData: makeSelectDownload(),
 });
 
 
@@ -360,6 +403,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     handleDownloadItem: (item) => {
       dispatch(handleDownloadItem(item))
+    },
+    handleDownloadComplete: () => {
+      dispatch(handleDownloadComplete())
     },
   }
 };

@@ -23,6 +23,7 @@ import {
   DOWNLOAD_ITEM,
   DOWNLOAD_ITEM_SUCCESS,
   DOWNLOAD_ITEM_FAILURE,
+  DOWNLOAD_ITEM_COMPLETE,
   USER_LOG_IN_SUCCESS,
   USER_LOG_IN_FAILURE,
   UNSELECT_ALL_ITEMS,
@@ -105,24 +106,30 @@ export function handleSelectItem(selected){
   }
 }
 
-export function handleDownloadItem(item){
+export function handleDownloadItem(selected){
   return {
     type: DOWNLOAD_ITEM,
-    item,
+    selected,
   }
 }
 
-export function handleDownloadItemSuccess(item){
+export function handleDownloadItemSuccess(report){
   return {
     type: DOWNLOAD_ITEM_SUCCESS,
-    item,
+    report,
   }
 }
 
-export function handleDownloadItemFailure(item){
+export function handleDownloadComplete(){
+  return {
+    type: DOWNLOAD_ITEM_COMPLETE,
+  }
+}
+
+export function handleDownloadItemError(message){
   return {
     type: DOWNLOAD_ITEM_FAILURE,
-    item,
+    message,
   }
 }
 
