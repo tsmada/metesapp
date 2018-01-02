@@ -1,9 +1,7 @@
 import { makeSelectCurrentUser, makeSelectIsLoggedIn, makeSelectMessage } from 'containers/App/selectors';
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
-import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
-import React from 'react';
 
-const locationHelper = locationHelperBuilder({})
+import React from 'react';
 
 export const Authenticated = connectedRouterRedirect({
    // The url to redirect user to if they fail

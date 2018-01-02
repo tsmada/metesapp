@@ -9,14 +9,14 @@ import Dialog, {
   withMobileDialog,
 } from 'material-ui/Dialog';
 
-class ResponsiveDialog extends React.Component {
+class CustomDialog extends React.Component {
 
   render() {
     const { fullScreen, open, handleClose, handleClickOpen } = this.props;
 
     return (
       <div>
-        <Button onClick={this.handleClickOpen}>Open responsive dialog</Button>
+        <Button onClick={handleClickOpen}>Open responsive dialog</Button>
         <Dialog
           fullScreen={fullScreen}
           open={open}
@@ -44,8 +44,8 @@ class ResponsiveDialog extends React.Component {
   }
 }
 
-ResponsiveDialog.propTypes = {
+CustomDialog.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
 };
 
-export default withMobileDialog()(ResponsiveDialog);
+export default CustomDialog;

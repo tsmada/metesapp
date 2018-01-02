@@ -12,7 +12,7 @@ import Paper from 'material-ui/Paper';
 import { createStructuredSelector } from 'reselect';
 import { Helmet } from 'react-helmet';
 import { compose } from 'redux';
-import { makeSelectItemDetail } from 'containers/App/selectors';
+import { makeSelectItemDetail, makeSelectIsLoggedIn } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
 import H1 from 'components/H1';
 import H2 from 'components/H2';
@@ -129,6 +129,7 @@ export function mapDispatchToProps(dispatch) {
 
 const mapStateToProps = createStructuredSelector({
   item: makeSelectItemDetail(),
+  auth: makeSelectIsLoggedIn(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

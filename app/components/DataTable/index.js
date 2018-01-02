@@ -11,7 +11,6 @@ makeSelectSelected, makeSelectDownload } from 'containers/App/selectors';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
 handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail,
 handleDownloadItem, handleDownloadComplete } from 'containers/App/actions';
-import Download from 'components/Download';
 import keycode from 'keycode';
 import Table, {
   TableBody,
@@ -37,6 +36,15 @@ import injectSaga from 'utils/injectSaga';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { CustomDialog } from 'components/Dialog';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  withMobileDialog,
+} from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
 
 var FileSaver = require('file-saver');
 
@@ -135,7 +143,8 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-  const { numSelected, classes, selected, reportData, onDownload } = props;
+  const { numSelected, classes, selected, reportData, onDownload, createHorde,
+  createOffer } = props;
 
   return (
     <Toolbar
@@ -160,7 +169,7 @@ let EnhancedTableToolbar = props => {
       </div>
       <div className={classes.action}>
       <Tooltip title="Make Offer">
-            <IconButton aria-label="Make Offer">
+            <IconButton aria-label="Make Offer" onClick={() => createOffer()}>
               <GavelIcon />
             </IconButton>
           </Tooltip>
@@ -174,7 +183,7 @@ let EnhancedTableToolbar = props => {
       </div>
       <div className={classes.action}>
       <Tooltip title="Create Horde">
-            <IconButton aria-label="Create Horde">
+            <IconButton aria-label="Create Horde" onClick={() => createHorde()}>
               <GroupAddIcon />
             </IconButton>
           </Tooltip>
@@ -221,6 +230,11 @@ const styles = theme => ({
 class EnhancedTable extends React.Component {
   constructor(props, context) {
     super(props, context);
+
+    this.state = {
+      createHordeDialogOpen: false,
+      createOfferDialogOpen: false
+    }
   }
 
   componentDidMount() {
@@ -284,6 +298,14 @@ class EnhancedTable extends React.Component {
   }
  };
 
+ handleCreateHordeDialogToggle = () => {
+  this.setState({createHordeDialogOpen: !this.state.createHordeDialogOpen})
+ };
+
+ handleCreateOfferDialogToggle = () => {
+  this.setState({createOfferDialogOpen: !this.state.createOfferDialogOpen})
+ };
+
  downloadSelected = (evt, selected) => {
     this.props.handleDownloadItem(selected);
     if (this.props.reportData.result){
@@ -303,7 +325,8 @@ class EnhancedTable extends React.Component {
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar numSelected={selected.length} onDownload={this.downloadSelected} selected={selected}
-        reportData={reportData}
+        reportData={reportData} createHorde={this.handleCreateHordeDialogToggle} 
+        createOffer={this.handleCreateOfferDialogToggle}
         />
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
@@ -360,6 +383,39 @@ class EnhancedTable extends React.Component {
               </TableRow>
             </TableFooter>
           </Table>
+          <Dialog fullScreen={false} open={this.state.createHordeDialogOpen}>
+          <DialogTitle id="responsive-dialog-title">{"Create Horde?"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Create a pool of investors to purchase this property. The default buy-in is $100. Your income
+              must be verified to proceed.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCreateHordeDialogToggle} color="primary">
+              Disagree
+            </Button>
+            <Button onClick={this.handleCreateHordeDialogToggle} color="primary" autoFocus>
+              Agree
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog fullScreen={false} open={this.state.createOfferDialogOpen}>
+          <DialogTitle id="responsive-dialog-title">{"Place Bid?"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please type in your Max Bid for this listing and proceed to Auction site.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCreateOfferDialogToggle} color="primary">
+              Disagree
+            </Button>
+            <Button onClick={this.handleCreateOfferDialogToggle} color="primary" autoFocus>
+              Agree
+            </Button>
+          </DialogActions>
+        </Dialog>
         </div>
       </Paper>
     );
