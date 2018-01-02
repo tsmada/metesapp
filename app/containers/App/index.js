@@ -18,6 +18,7 @@ import LoginPage from 'containers/LoginPage/Loadable';
 import { makeSelectCurrentUser } from 'containers/App/selectors';
 import ItemDetail from 'containers/ItemDetail/Loadable';
 import DashboardContainer from 'containers/DashboardPage';
+import MapContainer from 'containers/MapContainer/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { LOCATION_CHANGE } from 'react-router-redux';
@@ -52,6 +53,7 @@ export default function App() {
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/dash/detail/:id" component={ItemDetail}/>
         <Route exact path="/register" component={RegistrationPage} />
+        <Route exact path="/map" component={MapContainer} />
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />

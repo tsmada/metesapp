@@ -73,6 +73,9 @@ class AppBarMUI extends React.Component {
                 <Link to="/register">
                   <MenuItem onClick={this.handleToggle}>Register</MenuItem>
                 </Link>
+                <Link to="/map">
+                  <MenuItem onClick={this.handleToggle}>Map</MenuItem>
+                </Link>
               </Drawer>
             </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>
