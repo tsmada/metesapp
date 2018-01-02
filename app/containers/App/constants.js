@@ -30,6 +30,7 @@ export const USER_LOG_IN_FAILURE = 'boilerplate/App/USER_LOG_IN_FAILURE';
 export const USER_LOG_OUT = 'boilerplate/App/USER_LOG_OUT';
 export const USER_LOG_OUT_SUCCESS = 'boilerplate/App/USER_LOG_OUT_SUCCESS';
 export const USER_LOG_OUT_FAILURE = 'boilerplate/App/USER_LOG_OUT_FAILURE';
+export const DOWNLOAD_ITEM = 'boilerplate/App/DOWNLOAD_ITEM';
 export const REGISTER_ACCOUNT = 'boilerplate/App/REGISTER_ACCOUNT';
 export const REGISTER_ACCOUNT_SUCCESS = 'boilerplate/App/REGISTER_ACCOUNT_SUCCESS';
 export const REGISTER_ACCOUNT_FAILURE = 'boilerplate/App/REGISTER_ACCOUNT_FAILURE';

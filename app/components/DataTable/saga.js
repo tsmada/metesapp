@@ -3,8 +3,9 @@
  */
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_LISTINGS } from 'containers/App/constants';
-import { listingsLoaded, listingsLoadedError } from 'containers/App/actions';
+import { LOAD_LISTINGS, DOWNLOAD_ITEM } from 'containers/App/constants';
+import { listingsLoaded, listingsLoadedError,
+downloadItemSuccess, downloadItemError } from 'containers/App/actions';
 import { detailLoaded, detailLoadedError } from 'containers/App/actions';
 
 import request from 'utils/request';
@@ -24,6 +25,14 @@ export function* getListings() {
   }
 }
 
+export function* downloadItem() {
+  const requestURL = `https://serouslabs.com:8000/api/export`;
+    // Call our request helper (see 'utils/request')
+    const download = yield call(request, requestURL);
+    console.log(download)
+    yield put(downloadItemSuccess(listings));
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -33,4 +42,5 @@ export default function* listingData() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(LOAD_LISTINGS, getListings);
+  yield takeLatest(DOWNLOAD_ITEM, downloadItem);
 }

@@ -15,6 +15,7 @@ import { fromJS, Map, List } from 'immutable';
 import {
   SET_SELECTED_ITEM,
   SELECT_ITEM,
+  DOWNLOAD_ITEM,
   USER_LOG_IN,
   USER_LOG_IN_SUCCESS,
   USER_LOG_IN_FAILURE,

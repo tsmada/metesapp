@@ -9,7 +9,8 @@ import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsP
 makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
 makeSelectSelected } from 'containers/App/selectors';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
-handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail } from 'containers/App/actions';
+handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail,
+handleDownloadItem } from 'containers/App/actions';
 import keycode from 'keycode';
 import Table, {
   TableBody,
@@ -26,7 +27,7 @@ import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import Tooltip from 'material-ui/Tooltip';
-import DeleteIcon from 'material-ui-icons/Delete';
+import FileDownloadIcon from 'material-ui-icons/FileDownload';
 import injectSaga from 'utils/injectSaga';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import { compose } from 'redux';
@@ -126,7 +127,7 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-  const { numSelected, classes } = props;
+  const { numSelected, classes, downloadSelected } = props;
 
   return (
     <Toolbar
@@ -144,9 +145,9 @@ let EnhancedTableToolbar = props => {
       <div className={classes.spacer} />
       <div className={classes.actions}>
         {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
-              <DeleteIcon />
+          <Tooltip title="Download">
+            <IconButton aria-label="Download" onClick={downloadSelected}>
+              <FileDownloadIcon />
             </IconButton>
           </Tooltip>
         ) : (
@@ -247,6 +248,11 @@ class EnhancedTable extends React.Component {
   }
  };
 
+ downloadSelected = (event, id) => {
+    console.log(event, id)
+    this.props.handleDownloadItem(id);
+ };
+
   isSelected = id => this.props.selected.indexOf(id) !== -1;
 
   render() {
@@ -256,7 +262,7 @@ class EnhancedTable extends React.Component {
 
     return (
       <Paper className={classes.root}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} downloadSelected={this.downloadSelected}/>
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
             <EnhancedTableHead
@@ -351,6 +357,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     handleSelectItem: (item) => {
       dispatch(handleSelectItem(item))
+    },
+    handleDownloadItem: (item) => {
+      dispatch(handleDownloadItem(item))
     },
   }
 };

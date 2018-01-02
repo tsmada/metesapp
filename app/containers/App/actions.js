@@ -20,6 +20,9 @@ import {
   SELECT_ITEM,
   SELECT_USER,
   USER_LOG_IN,
+  DOWNLOAD_ITEM,
+  DOWNLOAD_ITEM_SUCCESS,
+  DOWNLOAD_ITEM_FAILURE,
   USER_LOG_IN_SUCCESS,
   USER_LOG_IN_FAILURE,
   UNSELECT_ALL_ITEMS,
@@ -99,6 +102,27 @@ export function handleSelectItem(selected){
   return {
     type: SELECT_ITEM,
     selected,
+  }
+}
+
+export function handleDownloadItem(item){
+  return {
+    type: DOWNLOAD_ITEM,
+    item,
+  }
+}
+
+export function handleDownloadItemSuccess(item){
+  return {
+    type: DOWNLOAD_ITEM_SUCCESS,
+    item,
+  }
+}
+
+export function handleDownloadItemFailure(item){
+  return {
+    type: DOWNLOAD_ITEM_FAILURE,
+    item,
   }
 }
 
