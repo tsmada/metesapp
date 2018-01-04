@@ -50,6 +50,7 @@ import Select from 'material-ui/Select';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
+import SimpleSnackbar from 'components/Snackbar';
 
 var FileSaver = require('file-saver');
 
@@ -149,7 +150,7 @@ const toolbarStyles = theme => ({
 
 let EnhancedTableToolbar = props => {
   const { numSelected, classes, selected, reportData, onDownload, createHorde,
-  createOffer, filterList } = props;
+  createOffer, filterList, watchListing } = props;
 
   return (
     <Toolbar
@@ -181,7 +182,7 @@ let EnhancedTableToolbar = props => {
       </div>
       <div className={classes.action}>
       <Tooltip title="Watch Listing">
-            <IconButton aria-label="Watch Listing">
+            <IconButton aria-label="Watch Listing" onClick={() => watchListing()}>
               <StarIcon />
             </IconButton>
           </Tooltip>
@@ -241,7 +242,8 @@ class EnhancedTable extends React.Component {
       createOfferDialogOpen: false,
       createFilterDialogOpen: false,
       filter: '',
-      filterBy: ''
+      filterBy: '',
+      snackbarOpen: false,
     }
   }
 
@@ -326,6 +328,18 @@ class EnhancedTable extends React.Component {
   this.setState({filterBy: e.target.value})
  };
 
+  handleSnackbarOpen = () => {
+    this.setState({ snackbarOpen: true });
+  };
+
+  handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({ snackbarOpen: false });
+  };
+
  downloadSelected = (evt, selected) => {
     this.props.handleDownloadItem(selected);
     if (this.props.reportData.result){
@@ -349,6 +363,7 @@ class EnhancedTable extends React.Component {
         createOffer={this.handleCreateOfferDialogToggle}
         filterList={this.handleCreateFilterDialogToggle}
         handleChangeTableFilterValue={this.handleChangeTableFilterValue}
+        watchListing={this.handleSnackbarOpen}
         />
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
@@ -482,6 +497,8 @@ class EnhancedTable extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <SimpleSnackbar snackbarOpen={this.state.snackbarOpen} handleSnackbarClose={this.handleSnackbarClose}
+        handleSnackbarOpen={this.handleSnackbarOpen}/>
         </div>
       </Paper>
     );

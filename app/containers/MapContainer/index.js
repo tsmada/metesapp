@@ -24,6 +24,28 @@ const style = {
   height: '100%'
 }
 
+const Container = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <Map google={props.google} initialCenter={{lat: 30.3, lng: -81.7}} zoom={11}
+      onClick={props.onMapClicked}
+      >
+        {
+          props.markers.map((report, index) => (
+            <Marker
+              key={report.fcl_id}
+              title={report.propertyaddress}
+              name={report.casenumber}
+              onClick={props.onClick}
+              position={{lat: parseFloat(report.lat), lng: parseFloat(report.lon)}} />
+          ))
+        }
+      </Map>
+    </div>
+  );
+};
+
 export class MapContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   constructor(props, context) {
@@ -37,18 +59,16 @@ export class MapContainer extends React.Component { // eslint-disable-line react
   }
 
   componentDidMount() {
+    console.log('componentDidMount() fired');
     this.props.onLoad();
   }
 
    componentDidUpdate() {
+    console.log('componentDidUpdate() fired');
     }
 
   onMarkerClick = (props, marker, e) => {
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true
-    });
+    console.log('onMarkerClick() fired', props, marker, e);
   }
 
   onInfoWindowClose = () => {
@@ -59,6 +79,7 @@ export class MapContainer extends React.Component { // eslint-disable-line react
   }
 
   onMapClicked = (props) => {
+    console.log('onMapClicked() fired')
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
@@ -67,9 +88,13 @@ export class MapContainer extends React.Component { // eslint-disable-line react
     }
   }
 
+  onReady = () => {
+    console.log('google-maps-react onReady fired');
+  }
+
   render() {
 
-    const { loaded, markers } = this.props;
+    const { loaded, markers, google, map, position  } = this.props;
 
     if (!loaded && markers.length > 0) {
       return <div>Loading...</div>
@@ -77,18 +102,8 @@ export class MapContainer extends React.Component { // eslint-disable-line react
     return (
       <div>
       <AppBarMUI title="Mapview" auth={this.props.auth}/>
-      <Map google={this.props.google}
-          initialCenter={{lat: 30.3, lng: -81.3}}
-          style={{width: '100%', height: '100%', position: 'relative'}}
-          className={'map'}
-          onReady={this.onReady}
-          zoom={10}
-          onClick={this.onMapClicked}>
-          <Marker
-          onClick={this.onMarkerClick}
-          name={'SOMA'}
-          position={{lat: 30.3, lng: -81.7}} />
-        <InfoWindow
+          <Container onMapClicked={this.onMapClicked} onClick={this.onMarkerClick} {...this.props}/>
+          <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
           onClose={this.onInfoWindowClose}>
@@ -96,7 +111,6 @@ export class MapContainer extends React.Component { // eslint-disable-line react
               <h1>{this.state.selectedPlace.name}</h1>
             </div>
         </InfoWindow>
-      </Map>
       </div>
     );
   }
