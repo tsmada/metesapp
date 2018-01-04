@@ -7,10 +7,10 @@ import saga from './saga';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
 makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
-makeSelectSelected, makeSelectDownload } from 'containers/App/selectors';
+makeSelectSelected, makeSelectDownload, makeSelectChangeTableFilterBy, makeSelectChangeTableFilter } from 'containers/App/selectors';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
 handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail,
-handleDownloadItem, handleDownloadComplete } from 'containers/App/actions';
+handleDownloadItem, handleDownloadComplete, handleRequestFilter } from 'containers/App/actions';
 import keycode from 'keycode';
 import Table, {
   TableBody,
@@ -45,6 +45,11 @@ import Dialog, {
   withMobileDialog,
 } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
+import TextField from 'material-ui/TextField';
+import Select from 'material-ui/Select';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Input, { InputLabel } from 'material-ui/Input';
+import { MenuItem } from 'material-ui/Menu';
 
 var FileSaver = require('file-saver');
 
@@ -144,7 +149,7 @@ const toolbarStyles = theme => ({
 
 let EnhancedTableToolbar = props => {
   const { numSelected, classes, selected, reportData, onDownload, createHorde,
-  createOffer } = props;
+  createOffer, filterList } = props;
 
   return (
     <Toolbar
@@ -182,8 +187,8 @@ let EnhancedTableToolbar = props => {
           </Tooltip>
       </div>
       <div className={classes.action}>
-      <Tooltip title="Create Horde">
-            <IconButton aria-label="Create Horde" onClick={() => createHorde()}>
+      <Tooltip title="Create Investor Pool">
+            <IconButton aria-label="Create Investor Pool" onClick={() => createHorde()}>
               <GroupAddIcon />
             </IconButton>
           </Tooltip>
@@ -197,7 +202,7 @@ let EnhancedTableToolbar = props => {
           </Tooltip>
         ) : (
           <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
+            <IconButton aria-label="Filter list" onClick={() => filterList()}>
               <FilterListIcon />
             </IconButton>
           </Tooltip>
@@ -233,7 +238,10 @@ class EnhancedTable extends React.Component {
 
     this.state = {
       createHordeDialogOpen: false,
-      createOfferDialogOpen: false
+      createOfferDialogOpen: false,
+      createFilterDialogOpen: false,
+      filter: '',
+      filterBy: ''
     }
   }
 
@@ -306,6 +314,18 @@ class EnhancedTable extends React.Component {
   this.setState({createOfferDialogOpen: !this.state.createOfferDialogOpen})
  };
 
+ handleCreateFilterDialogToggle = () => {
+  this.setState({createFilterDialogOpen: !this.state.createFilterDialogOpen})
+ };
+
+ handleChangeTableFilterValue = (e,p) => {
+  this.setState({filter: e.target.value})
+ };
+
+  handleChangeTableFilter = (e,p) => {
+  this.setState({filterBy: e.target.value})
+ };
+
  downloadSelected = (evt, selected) => {
     this.props.handleDownloadItem(selected);
     if (this.props.reportData.result){
@@ -327,6 +347,8 @@ class EnhancedTable extends React.Component {
         <EnhancedTableToolbar numSelected={selected.length} onDownload={this.downloadSelected} selected={selected}
         reportData={reportData} createHorde={this.handleCreateHordeDialogToggle} 
         createOffer={this.handleCreateOfferDialogToggle}
+        filterList={this.handleCreateFilterDialogToggle}
+        handleChangeTableFilterValue={this.handleChangeTableFilterValue}
         />
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
@@ -416,6 +438,50 @@ class EnhancedTable extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Dialog fullScreen={false} open={this.state.createFilterDialogOpen}
+        handleChangeTableFilterValue={this.handleChangeTableFilterValue}
+        >
+          <DialogTitle id="responsive-dialog-title">{"Create Filter"}</DialogTitle>
+          <DialogContent>
+            <form className={classes.container} autoComplete="off">
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="filterBy-simple">Column</InputLabel>
+                  <Select
+                    value={this.state.filterBy}
+                    onChange={this.handleChangeTableFilter}
+                    input={<Input name="filterBy" id="filterBy-simple" />}
+                    >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={'saledate'}>Sale Date</MenuItem>
+                    <MenuItem value={'propertyaddress'}>Property Address</MenuItem>
+                    <MenuItem value={'propertyzip'}>Zip Code</MenuItem>
+                    <MenuItem value={'propertyuse'}>Property Usage</MenuItem>
+                    <MenuItem value={'assessedvalue'}>Assessed Value</MenuItem>
+                    <MenuItem value={'finaljudgement'}>Final Judgement</MenuItem>
+                    <MenuItem value={'maxbid'}>Plaintiff Max Bid</MenuItem>
+                    <MenuItem value={'parcelid'}>Parcel ID</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                <TextField
+                id="filtervalue"
+                label="Filter Value"
+                className={classes.textField}
+                value={this.state.filterValue}
+                onChange={this.handleChangeTableFilterValue}
+                margin="normal"
+                />
+                </FormControl>
+                </form>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCreateFilterDialogToggle} color="primary" autoFocus>
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
         </div>
       </Paper>
     );
@@ -434,6 +500,8 @@ const mapStateToProps = createStructuredSelector({
   order: makeSelectChangeSortDirection(),
   selected: makeSelectSelected(),
   reportData: makeSelectDownload(),
+  filter: makeSelectChangeTableFilter(),
+  filterBy: makeSelectChangeTableFilterBy(),
 });
 
 
@@ -462,6 +530,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     handleDownloadComplete: () => {
       dispatch(handleDownloadComplete())
+    },
+    handleSetTableFilters: (filter, filterBy) => {
+      dispatch(handleRequestFilter(filter, filterBy))
     },
   }
 };

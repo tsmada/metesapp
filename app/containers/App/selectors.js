@@ -18,6 +18,11 @@ const makeSelectRowsPerPage = () => createSelector(
   (globalState) => globalState.getIn(['listingTableData','rowsPerPage'])
 );
 
+const makeSelectForeclosureMarkers = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['mapData','foreclosureMarkers'])
+);
+
 const makeSelectPageNumber = () => createSelector(
   selectGlobal,
   (globalState) => globalState.getIn(['listingTableData','page'])
@@ -51,6 +56,16 @@ const makeSelectCurrentUser = () => createSelector(
 const makeSelectIsLoggedIn = () => createSelector(
   selectGlobal,
   (globalState) => globalState.getIn(['userData', 'isLoggedIn'])
+);
+
+const makeSelectChangeTableFilter = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['listingTableData', 'filter'])
+);
+
+const makeSelectChangeTableFilterBy = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['listingTableData', 'filterBy'])
 );
 
 const makeSelectMessage = () => createSelector(
@@ -100,10 +115,13 @@ export {
   makeSelectItemDetail,
   makeSelectChangeSortOrder,
   makeSelectCurrentUser,
+  makeSelectChangeTableFilter,
+  makeSelectChangeTableFilterBy,
   makeSelectChangeSortDirection,
   makeSelectRowsPerPage,
   makeSelectPageNumber,
   makeSelectDownload,
+  makeSelectForeclosureMarkers,
   makeSelectToken,
   makeSelectMessage,
   makeSelectTableState,

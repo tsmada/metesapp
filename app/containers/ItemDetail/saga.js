@@ -1,6 +1,5 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { LOAD_DETAIL, LOAD_DETAIL_SUCCESS } from 'containers/App/constants';
-import { listingsLoaded, listingsLoadedError } from 'containers/App/actions';
 import { detailLoaded, detailLoadedError } from 'containers/App/actions';
 
 import request from 'utils/request';

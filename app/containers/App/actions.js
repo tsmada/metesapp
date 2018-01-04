@@ -20,6 +20,11 @@ import {
   SELECT_ITEM,
   SELECT_USER,
   USER_LOG_IN,
+  USER_LOG_OUT,
+  CHANGE_TABLE_FILTER,
+  GET_FORECLOSURE_MARKERS,
+  GET_FORECLOSURE_MARKERS_SUCCESS,
+  GET_FORECLOSURE_MARKERS_FAILURE,
   DOWNLOAD_ITEM,
   DOWNLOAD_ITEM_SUCCESS,
   DOWNLOAD_ITEM_FAILURE,
@@ -59,12 +64,38 @@ export function handleRegisterAccountFailure(username, message){
   }
 }
 
-
 export function handleRegisterAccount(username, password){
   return {
     type: REGISTER_ACCOUNT,
     username,
     password,
+  }
+}
+
+export function handleGetForeclosureMarkers(){
+  return {
+    type: GET_FORECLOSURE_MARKERS,
+  }
+}
+
+export function handleGetForeclosureMarkersSuccess(markers){
+  return {
+    type: GET_FORECLOSURE_MARKERS_SUCCESS,
+    markers,
+  }
+}
+
+export function handleGetForeclosureMarkersFailure(error){
+  return {
+    type: GET_FORECLOSURE_MARKERS_FAILURE,
+    error,
+  }
+}
+
+export function handleUserLogout(username){
+  return {
+    type: USER_LOG_OUT,
+    username,
   }
 }
 
@@ -146,6 +177,15 @@ export function handleRequestSort(data, order, orderBy){
     data,
     order,
     orderBy,
+  }
+}
+
+export function handleRequestFilter(data, filter, filterBy){
+  return {
+    type: CHANGE_TABLE_FILTER,
+    data,
+    filter,
+    filterBy,
   }
 }
 

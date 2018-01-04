@@ -55,8 +55,9 @@ class AppBarMUI extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+
   render() {
-    const { classes, auth } = this.props;
+    const { classes, auth, handleLogout } = this.props;
     const { anchorEl, draweropen, notificationsopen } = this.state;
     const open = Boolean(anchorEl);
 
@@ -66,7 +67,8 @@ class AppBarMUI extends React.Component {
           <Toolbar >
             <IconButton className={classes.menuButton} color="contrast" aria-label="Menu" onClick={this.handleToggle}>
               <MenuIcon />
-              <Drawer open={this.state.draweropen} onRequestClose={this.handleToggle} docked={false}>
+              <Drawer open={this.state.draweropen} onRequestClose={this.handleToggle} onClose={this.handleToggle}
+              docked={true}>
                 <Link to="/dash">
                   <MenuItem onClick={this.handleToggle}>Foreclosures Dashboard</MenuItem>
                 </Link>
@@ -137,7 +139,7 @@ class AppBarMUI extends React.Component {
                 >
                   <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                   <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                  <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
               </div>
             )}

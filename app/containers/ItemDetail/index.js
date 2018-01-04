@@ -52,15 +52,11 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
   }
 
   render() {
-    const header = (!!this.props.item[0]) ? <H1>{this.props.item[0].propertyaddress}
-    , {this.props.item[0].propertycity}, {this.props.item[0].state}, {this.props.item[0].county} County
-    </H1> : 'loading';
-    const propertyImage = (!!this.props.item[0]) ? <img src={'https://www.serouslabs.com/images/' + this.props.item[0].localimgpath}></img> : 'loading';
-    const propertyInfo = (!!this.props.item[0]) ? <TableCell>{this.props.item[0].parcelid}</TableCell> : 'loading';
-    const casenumber = (!!this.props.item[0]) ? <TableCell>{this.props.item[0].casenumber}</TableCell> : 'loading';
-    const propertyOwner = (!!this.props.item[0]) ? <TableCell>{this.props.item[0].propertyowner}</TableCell> : 'loading';
-    const assessedValue = (!!this.props.item[0]) ? <TableCell>{this.props.item[0].assessedvalue}</TableCell> : 'loading';
-    const finalJudgementAmount = (!!this.props.item[0]) ? <TableCell>{this.props.item[0].finaljudgement}</TableCell> : 'loading';
+    if (!this.props.item[0]){
+      return (
+        <div>Loading....</div>
+        )
+    }
     return (
       <div>
         <div>
@@ -69,7 +65,11 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
         
           <div>
             <Paper style={style} zDepth={3}>
-              {header}
+              <H1>
+              {this.props.item[0].propertyaddress},
+{this.props.item[0].propertycity}, {this.props.item[0].state},
+ {this.props.item[0].county} County
+              </H1>
             </Paper>
           </div>
 
@@ -77,7 +77,7 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
         
           <div>
             <Paper style={styleHalf} zDepth={3}>
-              {propertyImage}
+              <img src={'https://www.serouslabs.com/images/' + this.props.item[0].localimgpath}></img>
             </Paper>
           </div>
 
@@ -95,19 +95,119 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
               <TableHead displaySelectAll={false}>
                 <TableRow>
                   <TableCell>Parcel ID</TableCell>
-                  <TableCell>Case Number</TableCell>
                   <TableCell>Property Owner</TableCell>
-                  <TableCell>Assessed Value</TableCell>
-                  <TableCell>Final Judgement Amount</TableCell>
+                  <TableCell>Legal Description</TableCell>
+                  <TableCell>Property Use</TableCell>
+                  <TableCell>Year Built</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 <TableRow>
-                {propertyInfo}
-                {casenumber}
-                {propertyOwner}
-                {assessedValue}
-                {finalJudgementAmount}
+                  <TableCell>{this.props.item[0].parcelid}</TableCell>
+                  <TableCell>{this.props.item[0].propertyowner}</TableCell>
+                  <TableCell>{this.props.item[0].legaldescription}</TableCell>
+                  <TableCell>{this.props.item[0].propertyuse}</TableCell>
+                  <TableCell>{this.props.item[0].yearbuilt}</TableCell>
+                </TableRow>
+              </TableBody>
+
+              <TableHead displaySelectAll={false}>
+                <TableRow>
+                  <TableCell>Assessed Value</TableCell>
+                  <TableCell>Total Area</TableCell>
+                  <TableCell>Structure Area</TableCell>
+                  <TableCell>Bedrooms</TableCell>
+                  <TableCell>Bathrooms</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>{this.props.item[0].assessedvalue}</TableCell>
+                  <TableCell>{this.props.item[0].totalarea}</TableCell>
+                  <TableCell>{this.props.item[0].structurearea}</TableCell>
+                  <TableCell>{this.props.item[0].bedrooms}</TableCell>
+                  <TableCell>{this.props.item[0].bathrooms}</TableCell>
+                </TableRow>
+              </TableBody>
+              </Table>
+            </Paper>
+          </div>
+
+        <P/>
+
+        <div>
+            <Paper style={style} zDepth={3}>
+              <H2>Case Information</H2>
+            </Paper>
+          </div>
+
+          <div>
+            <Paper style={style} zDepth={3}>
+             <Table selectable={false}>
+              <TableHead displaySelectAll={false}>
+                <TableRow>
+                  <TableCell>Case Number</TableCell>
+                  <TableCell>Max Bid</TableCell>
+                  <TableCell>Defendant</TableCell>
+                  <TableCell>Plaintiff</TableCell>
+                  <TableCell>Max Bid</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>{this.props.item[0].casenumber}</TableCell>
+                  <TableCell>{this.props.item[0].maxbid}</TableCell>
+                  <TableCell>{this.props.item[0].defendant}</TableCell>
+                  <TableCell>{this.props.item[0].plaintiff}</TableCell>
+                  <TableCell>{this.props.item[0].maxbid}</TableCell>
+                </TableRow>
+              </TableBody>
+              </Table>
+            </Paper>
+          </div>
+
+        <P/>
+        <div>
+            <Paper style={style} zDepth={3}>
+              <H2>Property Sales History</H2>
+            </Paper>
+          </div>
+
+          <div>
+            <Paper style={style} zDepth={3}>
+             <Table selectable={false}>
+              <TableHead displaySelectAll={false}>
+                <TableRow>
+                  <TableCell>Sale Date</TableCell>
+                  <TableCell>Sale Price</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                </TableRow>
+              </TableBody>
+              </Table>
+            </Paper>
+          </div>
+
+        <P/>
+        <div>
+            <Paper style={style} zDepth={3}>
+              <H2>Chain of Title</H2>
+            </Paper>
+          </div>
+
+          <div>
+            <Paper style={style} zDepth={3}>
+             <Table selectable={false}>
+              <TableHead displaySelectAll={false}>
+                <TableRow>
+                  <TableCell>Listed on Deed</TableCell>
+                  <TableCell>Issues</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
                 </TableRow>
               </TableBody>
               </Table>

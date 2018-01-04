@@ -15,11 +15,12 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
 makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
-makeSelectSelected, makeSelectIsLoggedIn } from 'containers/App/selectors';
+makeSelectSelected, makeSelectIsLoggedIn, makeSelectCurrentUser } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
-handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail } from '../App/actions';
+handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail,
+handleUserLogout } from '../App/actions';
 import ListingsToolbar from 'components/ListingsToolbar';
 import saga from './saga';
 import messages from './messages';
@@ -62,12 +63,15 @@ export class DashboardPage extends React.Component { // eslint-disable-line reac
 
 export function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    handleLogout: (username) => {
+      dispatch(handleUserLogout(username));
+    },
   };
 }
 
 const mapStateToProps = createStructuredSelector({
   auth: makeSelectIsLoggedIn(),
+  username: makeSelectCurrentUser(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

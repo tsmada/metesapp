@@ -66,6 +66,7 @@ class LoginForm extends React.Component { // eslint-disable-line react/prefer-st
           <Button
             href="#"
             onClick={this.onClick}
+            autoFocus
           >Login</Button>
         </div>
       </div>

@@ -16,8 +16,15 @@ import {
   SET_SELECTED_ITEM,
   SELECT_ITEM,
   DOWNLOAD_ITEM_SUCCESS,
+  CHANGE_TABLE_FILTER,
   DOWNLOAD_ITEM_COMPLETE,
+  GET_FORECLOSURE_MARKERS,
+  GET_FORECLOSURE_MARKERS_SUCCESS,
+  GET_FORECLOSURE_MARKERS_FAILURE,
   USER_LOG_IN,
+  USER_LOG_OUT,
+  USER_LOG_OUT_SUCCESS,
+  USER_LOG_OUT_FAILURE,
   USER_LOG_IN_SUCCESS,
   USER_LOG_IN_FAILURE,
   SELECT_USER,
@@ -48,6 +55,8 @@ const initialState = fromJS({
     data: [],
     page: 0,
     rowsPerPage: 5,
+    filterBy: 'parcelid',
+    filter: '',
   },
   userData: {
     username: null,
@@ -55,12 +64,28 @@ const initialState = fromJS({
     isAdmin: false,
     message: false,
     token: false,
-    reportData: false
+    reportData: false,
+    watchedListings: {},
+    hiddenListings: {}
   },
+  mapData: {
+    foreclosureMarkers: {},
+  }
 });
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_FORECLOSURE_MARKERS_SUCCESS:
+    return state
+        .setIn(['mapData','foreclosureMarkers'], action.markers)
+    case GET_FORECLOSURE_MARKERS_FAILURE:
+    return state
+        .setIn(['mapData','foreclosureMarkers'], false)
+    case USER_LOG_OUT:
+    return state
+        .setIn(['userData','isLoggedIn'], false)
+        .setIn(['userData','username'], null)
+        .setIn(['userData','token'], false)
     case DOWNLOAD_ITEM_SUCCESS:
     return state
         .setIn(['userData','reportData'], action.report)
@@ -95,6 +120,10 @@ function appReducer(state = initialState, action) {
     case SELECT_ITEM:
     return state
         .setIn(['listingTableData','selected'], action.selected)
+    case CHANGE_TABLE_FILTER:
+    return state
+        .setIn(['listingTableData', 'filter'], action.filter)
+        .setIn(['listingTableData', 'filterBy'], action.filterBy)
     case CHANGE_SORT_ORDER:
     return state
         .setIn(['listingTableData','data'], action.data)
