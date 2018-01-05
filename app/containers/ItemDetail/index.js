@@ -12,13 +12,13 @@ import Paper from 'material-ui/Paper';
 import { createStructuredSelector } from 'reselect';
 import { Helmet } from 'react-helmet';
 import { compose } from 'redux';
-import { makeSelectItemDetail, makeSelectIsLoggedIn } from 'containers/App/selectors';
+import { makeSelectItemDetail, makeSelectIsLoggedIn, makeSelectCurrentUser } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
 import H1 from 'components/H1';
 import H2 from 'components/H2';
 import P from 'components/P';
 import reducer from 'containers/App/reducer';
-import { loadDetail } from '../App/actions';
+import { loadDetail, handleUserLogout } from '../App/actions';
 import Table, {
   TableBody,
   TableCell,
@@ -60,7 +60,8 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
     return (
       <div>
         <div>
-          <AppBarMUI title="Foreclosure Detail" auth={this.props.auth}/>
+          <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
+        history={this.props.history} logout={this.props.handleLogout}/>
         </div>
         
           <div>
@@ -224,12 +225,16 @@ export function mapDispatchToProps(dispatch) {
     onLoad: (id) => {
       dispatch(loadDetail(id));
     },
+    handleLogout: (username) => {
+      dispatch(handleUserLogout(username));
+    },
   };
 }
 
 const mapStateToProps = createStructuredSelector({
   item: makeSelectItemDetail(),
   auth: makeSelectIsLoggedIn(),
+  username: makeSelectCurrentUser(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

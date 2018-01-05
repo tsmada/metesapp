@@ -7,7 +7,8 @@ import saga from './saga';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
 makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
-makeSelectSelected, makeSelectDownload, makeSelectTableFilterBy, makeSelectTableFilter } from 'containers/App/selectors';
+makeSelectSelected, makeSelectDownload, makeSelectTableFilterBy, makeSelectTableFilter,
+makeSelectCurrentUser } from 'containers/App/selectors';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
 handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail,
 handleDownloadItem, handleDownloadComplete, handleRequestFilter } from 'containers/App/actions';
@@ -538,6 +539,7 @@ const mapStateToProps = createStructuredSelector({
   reportData: makeSelectDownload(),
   filter: makeSelectTableFilter(),
   filterBy: makeSelectTableFilterBy(),
+  username: makeSelectCurrentUser(),
 });
 
 

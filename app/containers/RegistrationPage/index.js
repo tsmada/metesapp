@@ -28,6 +28,11 @@ const style = {
 };
 
 export class RegistrationPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  
+  componentDidUpdate() {
+    setTimeout(() => this.props.history.push('/dash'), 750);
+  }
+
   render() {
     return (
       <div>

@@ -10,10 +10,10 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom'
 import { compose } from 'redux';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import { makeSelectIsLoggedIn, makeSelectForeclosureMarkers } from 'containers/App/selectors';
+import { makeSelectIsLoggedIn, makeSelectForeclosureMarkers, makeSelectCurrentUser } from 'containers/App/selectors';
 import { createStructuredSelector } from 'reselect';
 import AppBarMUI from 'components/AppBar';
-import { handleGetForeclosureMarkers } from 'containers/App/actions';
+import { handleGetForeclosureMarkers, handleUserLogout } from 'containers/App/actions';
 
 import injectSaga from 'utils/injectSaga';
 import saga from './saga';
@@ -25,7 +25,6 @@ const style = {
 }
 
 const Container = (props) => {
-  console.log(props);
   return (
     <div>
       <Map google={props.google} initialCenter={{lat: 30.3, lng: -81.7}} zoom={11}
@@ -60,12 +59,10 @@ export class MapContainer extends React.Component { // eslint-disable-line react
   }
 
   componentDidMount() {
-    console.log('componentDidMount() fired');
     this.props.onLoad();
   }
 
    componentDidUpdate() {
-    console.log('componentDidUpdate() fired');
     }
 
   onMarkerClick = (props, marker, e) => {
@@ -81,7 +78,6 @@ export class MapContainer extends React.Component { // eslint-disable-line react
   }
 
   onMapClicked = (props) => {
-    console.log('onMapClicked() fired')
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
@@ -103,7 +99,8 @@ export class MapContainer extends React.Component { // eslint-disable-line react
     }
     return (
       <div>
-      <AppBarMUI title="Mapview" auth={this.props.auth}/>
+      <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
+        history={this.props.history} logout={this.props.handleLogout}/>
           <Container onMapClicked={this.onMapClicked} onClick={this.onMarkerClick} {...this.props}/>
           <InfoWindow
           marker={this.state.activeMarker}
@@ -125,12 +122,16 @@ MapContainer.propTypes = {
 const mapStateToProps = createStructuredSelector({
   auth: makeSelectIsLoggedIn(),
   markers: makeSelectForeclosureMarkers(),
+  username: makeSelectCurrentUser(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     onLoad: () => {
       dispatch(handleGetForeclosureMarkers());
+    },
+    handleLogout: (username) => {
+      dispatch(handleUserLogout(username));
     },
   }
 }

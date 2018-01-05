@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import LoginForm from 'components/LoginForm';
-import { handleUserLogin } from '../App/actions';
+import { handleUserLogin, handleUserLogout } from '../App/actions';
 import H2 from 'components/H2';
 
 import injectSaga from 'utils/injectSaga';
@@ -36,6 +36,10 @@ const style = {
 
 export class LoginPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   
+  componentDidUpdate() {
+    console.log('componentDidUpdate() fired');
+    setTimeout(() => this.props.history.push('/dash'), 750);
+  }
 
   render() {
     return (
@@ -44,9 +48,10 @@ export class LoginPage extends React.Component { // eslint-disable-line react/pr
           <title>LoginPage</title>
           <meta name="description" content="Description of LoginPage" />
         </Helmet>
-        <AppBarMUI title="Login" auth={this.props.auth}/>
+        <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
+        history={this.props.history} logout={this.props.handleLogout}/>
         <Paper style={style} zDepth={3}>
-        <LoginForm onSubmit={this.props.onLogin}/>
+        <LoginForm onSubmit={this.props.onLogin} history={this.props.history}/>
         <H2><center>{this.props.message}</center></H2>
         </Paper>
       </div>
@@ -62,6 +67,9 @@ export function mapDispatchToProps(dispatch) {
   return {
     onLogin: (username, password) => {
       dispatch(handleUserLogin(username, password));
+    },
+    handleLogout: (username) => {
+      dispatch(handleUserLogout(username));
     },
   };
 }

@@ -84,6 +84,7 @@ function appReducer(state = initialState, action) {
     case USER_LOG_OUT:
     return state
         .setIn(['userData','isLoggedIn'], false)
+        .setIn(['userData', 'message'], 'Logout Successful.')
         .setIn(['userData','username'], null)
         .setIn(['userData','token'], false)
     case DOWNLOAD_ITEM_SUCCESS:

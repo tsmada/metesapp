@@ -52,7 +52,7 @@ export default function App() {
         <Route exact path="/" component={HomePage} />
           <Route exact path="/dash" component={Authenticated(DashboardPage)} />
           <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/dash/detail/:id" component={ItemDetail}/>
+          <Route exact path="/dash/detail/:id" component={Authenticated(ItemDetail)} />
           <Route exact path="/user/:id" component={Authenticated(ProfileContainer)}/>
           <Route exact path="/register" component={RegistrationPage} />
           <Route exact path="/map" component={MapContainer} />

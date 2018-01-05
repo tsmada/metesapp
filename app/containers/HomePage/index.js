@@ -14,7 +14,9 @@ import { createStructuredSelector } from 'reselect';
 
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import { makeSelectLoading, makeSelectError } from 'containers/App/selectors';
+import { makeSelectLoading, makeSelectError, makeSelectCurrentUser,
+makeSelectIsLoggedIn } from 'containers/App/selectors';
+import { handleUserLogout } from '../App/actions';
 import H2 from 'components/H2';
 import TextField from 'material-ui/TextField';
 import H1 from 'components/H1';
@@ -77,7 +79,8 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
     return (
         <div style={heroImgDivStyle}>
-          <AppBarMUI title="metes.io" auth={this.props.auth}/>
+          <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
+        history={this.props.history} logout={this.props.handleLogout}/>
           <Img src={Hero} alt={'test'}/>
           <div style={centered}>
             <div style={searchBacking}>
@@ -114,12 +117,15 @@ export function mapDispatchToProps(dispatch) {
     onSubmitForm: (evt) => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
     },
+    handleLogout: (username) => {
+      dispatch(handleUserLogout(username));
+    },
   };
 }
 
 const mapStateToProps = createStructuredSelector({
-  loading: makeSelectLoading(),
-  error: makeSelectError(),
+  auth: makeSelectIsLoggedIn(),
+  username: makeSelectCurrentUser(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

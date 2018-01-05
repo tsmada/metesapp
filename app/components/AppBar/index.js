@@ -11,6 +11,7 @@ import MenuIcon from 'material-ui-icons/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Notifications from 'material-ui-icons/Notifications';
 import PriorityHigh from 'material-ui-icons/PriorityHigh';
+import Badge from 'material-ui/Badge';
 import Switch from 'material-ui/Switch';
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import Menu, { MenuItem } from 'material-ui/Menu';
@@ -32,15 +33,17 @@ class AppBarMUI extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { draweropen: false, anchorEl: null, notificationsopen: false };
+    this.state = { draweropen: false, anchorEl: null, notificationsopen: false,
+    notificationCount: 1 };
   }
 
   handleToggle = () => {
     this.setState({ draweropen: !this.state.draweropen });
   };
 
-    handleToggleNotifications = () => {
-    this.setState({ notificationsopen: !this.state.notificationsopen });
+  handleToggleNotifications = () => {
+    this.setState({ notificationsopen: !this.state.notificationsopen,
+    notificationCount: 0 });
   };
 
   handleChange = (event, checked) => {
@@ -55,11 +58,32 @@ class AppBarMUI extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  handleLogout = () => {
+    this.setState({ anchorEl: null });
+    this.props.logout(this.props.username);
+    this.props.history.push('/login');
+  };
+
+  handleProfileClick = () => {
+    const username = this.props.username;
+    if (username) {
+    this.props.history.push('/user/' + username);
+    this.setState({ anchorEl: null });
+  } else {
+    this.setState({ ancholEl: null });
+  }
+  };
+
 
   render() {
-    const { classes, auth, handleLogout } = this.props;
-    const { anchorEl, draweropen, notificationsopen } = this.state;
+    const { classes, auth, handleLogout, username, logout } = this.props;
+    const { anchorEl, draweropen, notificationsopen, notificationCount } = this.state;
     const open = Boolean(anchorEl);
+    const notificationMenu = (notificationCount > 0)
+    ? <Badge className={classes.badge} badgeContent={this.state.notificationCount} color="secondary">
+        <Notifications />
+      </Badge>
+    : <Notifications />;
 
     return (
       <div className={classes.root}>
@@ -97,7 +121,7 @@ class AppBarMUI extends React.Component {
                   onClick={this.handleToggleNotifications}
                   color="contrast"
                 >
-                  <Notifications />
+                  {notificationMenu}
                 </IconButton>
                 <Menu
                   id="menu-appbar-notifications"
@@ -111,7 +135,6 @@ class AppBarMUI extends React.Component {
                     horizontal: 'right',
                   }}
                   open={notificationsopen}
-                  onClose={this.handleToggleNotifications}
                 >
                   <MenuItem onClick={this.handleToggleNotifications}><PriorityHigh/>Watched Listing Auction Starting in 5 minutes.</MenuItem>
                 </Menu>
@@ -137,9 +160,9 @@ class AppBarMUI extends React.Component {
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={this.handleProfileClick}>Profile</MenuItem>
                   <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                 </Menu>
               </div>
             )}
