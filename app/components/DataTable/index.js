@@ -60,6 +60,8 @@ var FileSaver = require('file-saver');
 const columnData = [
   { id: 'saledate', numeric: false, disablePadding: true, label: 'Sale Date' },
   { id: 'propertyaddress', numeric: false, disablePadding: true, label: 'Property Address' },
+  { id: 'propertycity', numeric: false, disablePadding: true, label: 'Property City' },
+  { id: 'state', numeric: false, disablePadding: true, label: 'Property State' },
   { id: 'propertyzip', numeric: false, disablePadding: true, label: 'Zip Code' },
   { id: 'propertyuse', numeric: false, disablePadding: true, label: 'Property Usage' },
   { id: 'assessedvalue', numeric: false, disablePadding: true, label: 'Assessed Value' },
@@ -414,6 +416,8 @@ class EnhancedTable extends React.Component {
                     </TableCell>
                     <TableCell>{n.saledate}</TableCell>
                     <TableCell>{n.propertyaddress}</TableCell>
+                    <TableCell>{n.propertycity}</TableCell>
+                    <TableCell>{n.state}</TableCell>
                     <TableCell>{n.propertyzip}</TableCell>
                     <TableCell>{n.propertyuse}</TableCell>
                     <TableCell>{n.assessedvalue}</TableCell>

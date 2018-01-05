@@ -120,6 +120,7 @@ class AppBarMUI extends React.Component {
                   aria-haspopup="true"
                   onClick={this.handleToggleNotifications}
                   color="contrast"
+                  tooltip="Notifications"
                 >
                   {notificationMenu}
                 </IconButton>
