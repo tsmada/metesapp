@@ -18,6 +18,7 @@ import LoginPage from 'containers/LoginPage/Loadable';
 import { makeSelectCurrentUser } from 'containers/App/selectors';
 import ItemDetail from 'containers/ItemDetail/Loadable';
 import DashboardContainer from 'containers/DashboardPage';
+import ProfileContainer from 'containers/ProfileContainer';
 import MapContainer from 'containers/MapContainer/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { UserAuthWrapper } from 'redux-auth-wrapper';
@@ -49,11 +50,12 @@ export default function App() {
 
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/dash" component={Authenticated(DashboardPage)} />
-        <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/dash/detail/:id" component={ItemDetail}/>
-        <Route exact path="/register" component={RegistrationPage} />
-        <Route exact path="/map" component={MapContainer} />
+          <Route exact path="/dash" component={Authenticated(DashboardPage)} />
+          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/dash/detail/:id" component={ItemDetail}/>
+          <Route exact path="/user/:id" component={Authenticated(ProfileContainer)}/>
+          <Route exact path="/register" component={RegistrationPage} />
+          <Route exact path="/map" component={MapContainer} />
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />

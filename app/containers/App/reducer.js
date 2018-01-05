@@ -55,8 +55,8 @@ const initialState = fromJS({
     data: [],
     page: 0,
     rowsPerPage: 5,
-    filterBy: 'parcelid',
-    filter: '',
+    filterBy: 'saledate',
+    filter: false,
   },
   userData: {
     username: null,
@@ -122,6 +122,7 @@ function appReducer(state = initialState, action) {
         .setIn(['listingTableData','selected'], action.selected)
     case CHANGE_TABLE_FILTER:
     return state
+        .setIn(['listingTableData', 'data'], action.data)
         .setIn(['listingTableData', 'filter'], action.filter)
         .setIn(['listingTableData', 'filterBy'], action.filterBy)
     case CHANGE_SORT_ORDER:

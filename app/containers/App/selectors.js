@@ -58,12 +58,12 @@ const makeSelectIsLoggedIn = () => createSelector(
   (globalState) => globalState.getIn(['userData', 'isLoggedIn'])
 );
 
-const makeSelectChangeTableFilter = () => createSelector(
+const makeSelectTableFilter = () => createSelector(
   selectGlobal,
   (globalState) => globalState.getIn(['listingTableData', 'filter'])
 );
 
-const makeSelectChangeTableFilterBy = () => createSelector(
+const makeSelectTableFilterBy = () => createSelector(
   selectGlobal,
   (globalState) => globalState.getIn(['listingTableData', 'filterBy'])
 );
@@ -115,8 +115,8 @@ export {
   makeSelectItemDetail,
   makeSelectChangeSortOrder,
   makeSelectCurrentUser,
-  makeSelectChangeTableFilter,
-  makeSelectChangeTableFilterBy,
+  makeSelectTableFilter,
+  makeSelectTableFilterBy,
   makeSelectChangeSortDirection,
   makeSelectRowsPerPage,
   makeSelectPageNumber,

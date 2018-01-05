@@ -35,6 +35,7 @@ const Container = (props) => {
           props.markers.map((report, index) => (
             <Marker
               key={report.fcl_id}
+              id={report.fcl_id}
               title={report.propertyaddress}
               name={report.casenumber}
               onClick={props.onClick}
@@ -68,7 +69,8 @@ export class MapContainer extends React.Component { // eslint-disable-line react
     }
 
   onMarkerClick = (props, marker, e) => {
-    console.log('onMarkerClick() fired', props, marker, e);
+    console.log('onMarkerClick() fired', props, marker);
+     this.props.history.push(`/dash/detail/${props.id}`);
   }
 
   onInfoWindowClose = () => {

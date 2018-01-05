@@ -7,7 +7,7 @@ import saga from './saga';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
 makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
-makeSelectSelected, makeSelectDownload, makeSelectChangeTableFilterBy, makeSelectChangeTableFilter } from 'containers/App/selectors';
+makeSelectSelected, makeSelectDownload, makeSelectTableFilterBy, makeSelectTableFilter } from 'containers/App/selectors';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
 handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail,
 handleDownloadItem, handleDownloadComplete, handleRequestFilter } from 'containers/App/actions';
@@ -36,6 +36,7 @@ import injectSaga from 'utils/injectSaga';
 import FilterListIcon from 'material-ui-icons/FilterList';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import P from 'components/P';
 import { CustomDialog } from 'components/Dialog';
 import Dialog, {
   DialogActions,
@@ -175,21 +176,21 @@ let EnhancedTableToolbar = props => {
       </div>
       <div className={classes.action}>
       <Tooltip title="Make Offer">
-            <IconButton aria-label="Make Offer" onClick={() => createOffer()}>
+            <IconButton aria-label="Make Offer" onClick={createOffer}>
               <GavelIcon />
             </IconButton>
           </Tooltip>
       </div>
       <div className={classes.action}>
       <Tooltip title="Watch Listing">
-            <IconButton aria-label="Watch Listing" onClick={() => watchListing()}>
+            <IconButton aria-label="Watch Listing" onClick={watchListing}>
               <StarIcon />
             </IconButton>
           </Tooltip>
       </div>
       <div className={classes.action}>
       <Tooltip title="Create Investor Pool">
-            <IconButton aria-label="Create Investor Pool" onClick={() => createHorde()}>
+            <IconButton aria-label="Create Investor Pool" onClick={createHorde}>
               <GroupAddIcon />
             </IconButton>
           </Tooltip>
@@ -197,13 +198,13 @@ let EnhancedTableToolbar = props => {
       <div className={classes.actions}>
         {numSelected > 0 ? (
           <Tooltip title="Download">
-            <IconButton aria-label="Download" onClick={() => onDownload(event, selected)}>
+            <IconButton aria-label="Download" onClick={onDownload}>
               <FileDownloadIcon />
             </IconButton>
           </Tooltip>
         ) : (
           <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list" onClick={() => filterList()}>
+            <IconButton aria-label="Filter list" onClick={filterList}>
               <FilterListIcon />
             </IconButton>
           </Tooltip>
@@ -241,9 +242,9 @@ class EnhancedTable extends React.Component {
       createHordeDialogOpen: false,
       createOfferDialogOpen: false,
       createFilterDialogOpen: false,
-      filter: '',
-      filterBy: '',
       snackbarOpen: false,
+      filter: '> now()',
+      filterBy: 'saledate',
     }
   }
 
@@ -320,14 +321,6 @@ class EnhancedTable extends React.Component {
   this.setState({createFilterDialogOpen: !this.state.createFilterDialogOpen})
  };
 
- handleChangeTableFilterValue = (e,p) => {
-  this.setState({filter: e.target.value})
- };
-
-  handleChangeTableFilter = (e,p) => {
-  this.setState({filterBy: e.target.value})
- };
-
   handleSnackbarOpen = () => {
     this.setState({ snackbarOpen: true });
   };
@@ -351,8 +344,34 @@ class EnhancedTable extends React.Component {
 
   isSelected = id => this.props.selected.indexOf(id) !== -1;
 
+  handleSetFilter = (event, property) => {
+    this.setState({filterBy: event.target.value});
+  }
+
+  handleSetFilterValue = (event, property) => {
+    this.setState({filter: event.target.value});
+  }
+
+  confirmFilters = () => {
+    this.setState({createFilterDialogOpen: false});
+    const data = this.props.data.filter((n) => {
+      console.log(n[this.props.filterBy]);
+      console.log(this.props.filter);
+      if ( n[this.props.filterBy] === this.props.filter) {
+        console.log(n);
+        return n;
+      } else {
+        return;
+      }
+    })
+    console.log(data);
+    console.log(data.length);
+    this.props.handleRequestFilter(data, this.state.filter, this.state.filterBy);
+  }
+
   render() {
-    const { classes, rowsPerPage, data, page, orderBy, order, selected, history, reportData } = this.props;
+    const { classes, rowsPerPage, data, page, orderBy, order, selected, history, reportData,
+    filter, filterBy } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     const allRows = Array.apply(null, {length: data.length}).map(Number.call, Number);
 
@@ -362,7 +381,6 @@ class EnhancedTable extends React.Component {
         reportData={reportData} createHorde={this.handleCreateHordeDialogToggle} 
         createOffer={this.handleCreateOfferDialogToggle}
         filterList={this.handleCreateFilterDialogToggle}
-        handleChangeTableFilterValue={this.handleChangeTableFilterValue}
         watchListing={this.handleSnackbarOpen}
         />
         <div className={classes.tableWrapper}>
@@ -376,7 +394,9 @@ class EnhancedTable extends React.Component {
               rowCount={data.length}
             />
             <TableBody>
-              {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(n => {
+              {data
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map(n => {
                 const isSelected = this.isSelected(n.fcl_id);
                 return (
                   <TableRow
@@ -453,9 +473,7 @@ class EnhancedTable extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <Dialog fullScreen={false} open={this.state.createFilterDialogOpen}
-        handleChangeTableFilterValue={this.handleChangeTableFilterValue}
-        >
+        <Dialog fullScreen={false} open={this.state.createFilterDialogOpen}>
           <DialogTitle id="responsive-dialog-title">{"Create Filter"}</DialogTitle>
           <DialogContent>
             <form className={classes.container} autoComplete="off">
@@ -463,10 +481,10 @@ class EnhancedTable extends React.Component {
                 <InputLabel htmlFor="filterBy-simple">Column</InputLabel>
                   <Select
                     value={this.state.filterBy}
-                    onChange={this.handleChangeTableFilter}
+                    onChange={this.handleSetFilter}
                     input={<Input name="filterBy" id="filterBy-simple" />}
                     >
-                    <MenuItem value="">
+                    <MenuItem value="none">
                       <em>None</em>
                     </MenuItem>
                     <MenuItem value={'saledate'}>Sale Date</MenuItem>
@@ -479,20 +497,21 @@ class EnhancedTable extends React.Component {
                     <MenuItem value={'parcelid'}>Parcel ID</MenuItem>
                   </Select>
                 </FormControl>
+                <P/>
                 <FormControl className={classes.formControl}>
                 <TextField
                 id="filtervalue"
                 label="Filter Value"
                 className={classes.textField}
-                value={this.state.filterValue}
-                onChange={this.handleChangeTableFilterValue}
+                onChange={this.handleSetFilterValue}
+                value={this.state.filter}
                 margin="normal"
                 />
                 </FormControl>
                 </form>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleCreateFilterDialogToggle} color="primary" autoFocus>
+            <Button onClick={this.confirmFilters} color="primary" autoFocus>
               Close
             </Button>
           </DialogActions>
@@ -517,8 +536,8 @@ const mapStateToProps = createStructuredSelector({
   order: makeSelectChangeSortDirection(),
   selected: makeSelectSelected(),
   reportData: makeSelectDownload(),
-  filter: makeSelectChangeTableFilter(),
-  filterBy: makeSelectChangeTableFilterBy(),
+  filter: makeSelectTableFilter(),
+  filterBy: makeSelectTableFilterBy(),
 });
 
 
@@ -548,8 +567,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     handleDownloadComplete: () => {
       dispatch(handleDownloadComplete())
     },
-    handleSetTableFilters: (filter, filterBy) => {
-      dispatch(handleRequestFilter(filter, filterBy))
+    handleRequestFilter: (data, filter, filterBy) => {
+      dispatch(handleRequestFilter(data, filter, filterBy))
     },
   }
 };
