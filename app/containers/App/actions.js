@@ -21,7 +21,9 @@ import {
   SELECT_USER,
   USER_LOG_IN,
   USER_LOG_OUT,
+  CHANGE_ROW_COUNT,
   CHANGE_TABLE_FILTER,
+  GET_FILTERED_ITEMS,
   GET_FORECLOSURE_MARKERS,
   GET_FORECLOSURE_MARKERS_SUCCESS,
   GET_FORECLOSURE_MARKERS_FAILURE,
@@ -47,6 +49,14 @@ import {
   REGISTER_ACCOUNT_FAILURE,
 } from './constants';
 
+
+
+export function handleChangeRowCount(rowCount){
+  return {
+    type: CHANGE_ROW_COUNT,
+    rowCount,
+  }
+}
 
 export function handleRegisterAccountSuccess(username, message){
   return {

@@ -8,10 +8,11 @@ import { createStructuredSelector } from 'reselect';
 import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
 makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
 makeSelectSelected, makeSelectDownload, makeSelectTableFilterBy, makeSelectTableFilter,
-makeSelectCurrentUser } from 'containers/App/selectors';
+makeSelectCurrentUser, makeSelectFilteredItems, makeSelectRowCount } from 'containers/App/selectors';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
 handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail,
-handleDownloadItem, handleDownloadComplete, handleRequestFilter } from 'containers/App/actions';
+handleDownloadItem, handleDownloadComplete, handleRequestFilter,
+handleChangeRowCount } from 'containers/App/actions';
 import keycode from 'keycode';
 import Table, {
   TableBody,
@@ -246,7 +247,7 @@ class EnhancedTable extends React.Component {
       createOfferDialogOpen: false,
       createFilterDialogOpen: false,
       snackbarOpen: false,
-      filter: '> now()',
+      filterValue: '01/08/2018',
       filterBy: 'saledate',
     }
   }
@@ -272,8 +273,17 @@ class EnhancedTable extends React.Component {
   };
 
   handleSelectAllClick = (event, checked) => {
+    console.log('handleSelectAllClick() fired')
     if (checked) {
       let checkedRows = this.props.data.map(n => n.fcl_id);
+      if (this.props.filteredItems.length > 0){
+          checkedRows = this.props.data.filter((item) => {
+          if (this.props.filteredItems.indexOf(item) === -1) {
+            return item;
+          }
+        })
+      }
+      console.log(checkedRows.length)
       this.props.handleSelectAllClick(checkedRows)
       return;
     }
@@ -288,6 +298,7 @@ class EnhancedTable extends React.Component {
 
   handleClick = (event, id) => {
     const { selected } = this.props;
+    console.log('handleclick() fired -- Previous Selection: ', selected)
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
@@ -303,6 +314,7 @@ class EnhancedTable extends React.Component {
         selected.slice(selectedIndex + 1),
       );
     }
+    console.log('handleclick() fired -- New Selection: ', newSelected)
     this.props.handleSelectItem(newSelected);
   };
 
@@ -352,31 +364,39 @@ class EnhancedTable extends React.Component {
   }
 
   handleSetFilterValue = (event, property) => {
-    this.setState({filter: event.target.value});
+    this.setState({filterValue: event.target.value});
   }
 
   confirmFilters = () => {
+    let filteredValues = [];
+    const data = this.props.data.map((n, i) => {
+      // n[this.state.filterBy] === 01/08/2018
+      // n[this.state.filter] === possibly undefined
+      if (this.state.filterValue.indexOf(n[this.state.filterBy]) === 0) {
+        filteredValues.push(n);
+      };
+    });
     this.setState({createFilterDialogOpen: false});
-    const data = this.props.data.filter((n) => {
-      console.log(n[this.props.filterBy]);
-      console.log(this.props.filter);
-      if ( n[this.props.filterBy] === this.props.filter) {
-        console.log(n);
-        return n;
-      } else {
-        return;
-      }
-    })
-    console.log(data);
-    console.log(data.length);
-    this.props.handleRequestFilter(data, this.state.filter, this.state.filterBy);
+
+    this.props.handleRequestFilter(filteredValues, this.state.filterValue, this.state.filterBy);
   }
 
   render() {
     const { classes, rowsPerPage, data, page, orderBy, order, selected, history, reportData,
-    filter, filterBy } = this.props;
+    filterValue, filterBy, filteredItems, rowcount } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-    const allRows = Array.apply(null, {length: data.length}).map(Number.call, Number);
+
+    const RowCount = (this.props.filteredItems.length > 0)
+    ? this.props.data.length - this.props.filteredItems.length
+    : this.props.data.length;
+
+    const FilterData = (this.props.filteredItems.length > 0)
+    ? this.props.data.filter((item) => {
+      if (this.props.filteredItems.indexOf(item) === -1) {
+        return item;
+      }
+    })
+    : this.props.data;
 
     return (
       <Paper className={classes.root}>
@@ -394,10 +414,10 @@ class EnhancedTable extends React.Component {
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
+              rowCount={RowCount}
             />
             <TableBody>
-              {data
+              {FilterData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
                 const isSelected = this.isSelected(n.fcl_id);
@@ -436,7 +456,7 @@ class EnhancedTable extends React.Component {
             <TableFooter>
               <TableRow>
                 <TablePagination
-                  count={data.length}
+                  count={RowCount}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onChangePage={this.props.handleChangePage}
@@ -506,10 +526,10 @@ class EnhancedTable extends React.Component {
                 <FormControl className={classes.formControl}>
                 <TextField
                 id="filtervalue"
-                label="Filter Value"
+                label="Exclude Value"
                 className={classes.textField}
                 onChange={this.handleSetFilterValue}
-                value={this.state.filter}
+                value={this.state.filterValue}
                 margin="normal"
                 />
                 </FormControl>
@@ -541,9 +561,11 @@ const mapStateToProps = createStructuredSelector({
   order: makeSelectChangeSortDirection(),
   selected: makeSelectSelected(),
   reportData: makeSelectDownload(),
-  filter: makeSelectTableFilter(),
+  filterValue: makeSelectTableFilter(),
   filterBy: makeSelectTableFilterBy(),
   username: makeSelectCurrentUser(),
+  filteredItems: makeSelectFilteredItems(),
+  rowcount: makeSelectRowCount(),
 });
 
 
@@ -575,6 +597,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     handleRequestFilter: (data, filter, filterBy) => {
       dispatch(handleRequestFilter(data, filter, filterBy))
+    },
+    handleRowCount: (rowCount) => {
+      dispatch(handleChangeRowCount(rowCount))
     },
   }
 };

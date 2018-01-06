@@ -18,6 +18,16 @@ const makeSelectRowsPerPage = () => createSelector(
   (globalState) => globalState.getIn(['listingTableData','rowsPerPage'])
 );
 
+const makeSelectRowCount = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['listingTableData','rowCount'])
+);
+
+const makeSelectFilteredItems = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['userData','filteredListings'])
+);
+
 const makeSelectForeclosureMarkers = () => createSelector(
   selectGlobal,
   (globalState) => globalState.getIn(['mapData','foreclosureMarkers'])
@@ -115,6 +125,8 @@ export {
   makeSelectItemDetail,
   makeSelectChangeSortOrder,
   makeSelectCurrentUser,
+  makeSelectFilteredItems,
+  makeSelectRowCount,
   makeSelectTableFilter,
   makeSelectTableFilterBy,
   makeSelectChangeSortDirection,

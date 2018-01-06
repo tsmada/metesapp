@@ -17,6 +17,8 @@ import {
   SELECT_ITEM,
   DOWNLOAD_ITEM_SUCCESS,
   CHANGE_TABLE_FILTER,
+  CHANGE_ROW_COUNT,
+  GET_FILTERED_ITEMS,
   DOWNLOAD_ITEM_COMPLETE,
   GET_FORECLOSURE_MARKERS,
   GET_FORECLOSURE_MARKERS_SUCCESS,
@@ -51,10 +53,11 @@ const initialState = fromJS({
   listingTableData: {
     order: 'asc',
     orderBy: 'fcl_id',
-    selected: List([]),
+    selected: [],
     data: [],
     page: 0,
     rowsPerPage: 5,
+    rowCount: 0,
     filterBy: 'saledate',
     filter: false,
   },
@@ -65,11 +68,12 @@ const initialState = fromJS({
     message: false,
     token: false,
     reportData: false,
-    watchedListings: {},
-    hiddenListings: {}
+    watchedListings: [],
+    hiddenListings: [],
+    filteredListings: [],
   },
   mapData: {
-    foreclosureMarkers: {},
+    foreclosureMarkers: [],
   }
 });
 
@@ -123,7 +127,7 @@ function appReducer(state = initialState, action) {
         .setIn(['listingTableData','selected'], action.selected)
     case CHANGE_TABLE_FILTER:
     return state
-        .setIn(['listingTableData', 'data'], action.data)
+        .setIn(['userData', 'filteredListings'], action.data)
         .setIn(['listingTableData', 'filter'], action.filter)
         .setIn(['listingTableData', 'filterBy'], action.filterBy)
     case CHANGE_SORT_ORDER:
@@ -134,6 +138,9 @@ function appReducer(state = initialState, action) {
     case CHANGE_PAGE:
     return state
         .setIn(['listingTableData','page'], action.page)
+    case CHANGE_ROW_COUNT:
+    return state
+        .setIn(['listingTableData','rowCount'], action.rowCount)
     case CHANGE_ROWS_PER_PAGE:
     return state
         .setIn(['listingTableData','rowsPerPage'], action.newval)
@@ -153,6 +160,7 @@ function appReducer(state = initialState, action) {
     case LOAD_LISTINGS_SUCCESS:
       return state
         .setIn(['listingTableData', 'data'], action.listings)
+        .setIn(['listingTableData', 'rowCount'], action.listings.length)
     case LOAD_LISTINGS_ERROR:
       return state
         .set('error', action.error)
