@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
@@ -15,15 +16,21 @@ import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import { makeSelectLoading, makeSelectError, makeSelectCurrentUser,
-makeSelectIsLoggedIn } from 'containers/App/selectors';
-import { handleUserLogout } from '../App/actions';
+makeSelectIsLoggedIn, makeSelectSearchString,
+makeSelectForeclosureMarkers } from 'containers/App/selectors';
+import { handleUserLogout, handleChangeSearchString,
+handleHeroSearchSubmit } from '../App/actions';
 import H2 from 'components/H2';
 import TextField from 'material-ui/TextField';
 import H1 from 'components/H1';
 import Img from 'components/Img';
 import AppBarMUI from 'components/AppBar';
 import Hero from './metes.png';
+import Button from 'material-ui/Button';
 import styled from 'styled-components';
+import saga from './saga';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Input, { InputLabel } from 'material-ui/Input';
 
 
 const centered = {
@@ -69,14 +76,20 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
    * when initial state username is not null, submit the form to load repos
    */
   componentDidMount() {
-    if (this.props.username && this.props.username.trim().length > 0) {
-      this.props.onSubmitForm();
+  }
+
+  submitAndNav = () => {
+    this.props.onSubmitForm(this.props.searchstring);
+  };
+
+  componentDidUpdate() {
+    if (this.props.markers && this.props.markers.length > 0) {
+      this.props.history.push('/map')
     }
   }
 
   render() {
-    const { loading, error } = this.props;
-
+    const { loading, error, searchstring, onChangeSearchString } = this.props;
     return (
         <div style={heroImgDivStyle}>
           <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
@@ -84,16 +97,18 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           <Img src={Hero} alt={'test'}/>
           <div style={centered}>
             <div style={searchBacking}>
-              <TextField
-              id="search"
-              type="search"
-              className='search'
-              margin="normal"
-              style={textInput}
-              placeholder='Address, City, Zip, Neighborhood, School'
-              autoFocus
-              />
-            </div>
+                <Input
+                  id="hero"
+                  type="text"
+                  style={textInput}
+                  placeholder="Address, City, State, Neighborhood"
+                  value={searchstring}
+                  onChange={onChangeSearchString}/>
+              </div>
+              <Button raised color="primary" className={'button'}
+              onClick={() => this.submitAndNav()}>
+                 Search
+              </Button>
           </div>
         </div>
 
@@ -109,13 +124,13 @@ HomePage.propTypes = {
   ]),
   onSubmitForm: PropTypes.func,
   username: PropTypes.string,
-  onChangeUsername: PropTypes.func,
 };
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onSubmitForm: (evt) => {
-      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+    onChangeSearchString: (evt) => dispatch(handleChangeSearchString(evt.target.value)),
+    onSubmitForm: (searchString) => {
+      dispatch(handleHeroSearchSubmit(searchString));
     },
     handleLogout: (username) => {
       dispatch(handleUserLogout(username));
@@ -126,10 +141,14 @@ export function mapDispatchToProps(dispatch) {
 const mapStateToProps = createStructuredSelector({
   auth: makeSelectIsLoggedIn(),
   username: makeSelectCurrentUser(),
+  searchstring: makeSelectSearchString(),
+  markers: makeSelectForeclosureMarkers(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withSaga = injectSaga({ key: 'homePage', saga });
 
 export default compose(
   withConnect,
+  withSaga,
 )(HomePage);

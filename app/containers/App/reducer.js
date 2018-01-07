@@ -17,6 +17,9 @@ import {
   SELECT_ITEM,
   DOWNLOAD_ITEM_SUCCESS,
   CHANGE_TABLE_FILTER,
+  HERO_SEARCH_SUBMIT,
+  HERO_SEARCH_SUBMIT_SUCCESS,
+  CHANGE_HERO_SEARCH_STRING,
   CHANGE_ROW_COUNT,
   GET_FILTERED_ITEMS,
   DOWNLOAD_ITEM_COMPLETE,
@@ -50,6 +53,7 @@ const initialState = fromJS({
   item: [],
   loading: false,
   error: false,
+  herosearch: 'Address, City, State, Neighborhood',
   listingTableData: {
     order: 'asc',
     orderBy: 'fcl_id',
@@ -79,6 +83,12 @@ const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+     case HERO_SEARCH_SUBMIT_SUCCESS:
+    return state
+        .setIn(['mapData','foreclosureMarkers'], action.markers)
+    case CHANGE_HERO_SEARCH_STRING:
+    return state
+        .set('herosearch', action.searchstring)
     case GET_FORECLOSURE_MARKERS_SUCCESS:
     return state
         .setIn(['mapData','foreclosureMarkers'], action.markers)

@@ -19,6 +19,10 @@ import {
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
   SELECT_USER,
+  HERO_SEARCH_SUBMIT,
+  HERO_SEARCH_SUBMIT_SUCCESS,
+  HERO_SEARCH_SUBMIT_FAILURE,
+  CHANGE_HERO_SEARCH_STRING,
   USER_LOG_IN,
   USER_LOG_OUT,
   CHANGE_ROW_COUNT,
@@ -63,6 +67,34 @@ export function handleRegisterAccountSuccess(username, message){
     type: REGISTER_ACCOUNT_SUCCESS,
     username,
     message,
+  }
+}
+
+export function handleHeroSearchSubmit(searchstring){
+  return {
+    type: HERO_SEARCH_SUBMIT,
+    searchstring,
+  }
+}
+
+export function handleHeroSearchSubmitSuccess(markers){
+  return {
+    type: HERO_SEARCH_SUBMIT_SUCCESS,
+    markers,
+  }
+}
+
+export function handleHeroSearchSubmitFailure(markers){
+  return {
+    type: HERO_SEARCH_SUBMIT_FAILURE,
+    markers,
+  }
+}
+
+export function handleChangeSearchString(searchstring){
+  return {
+    type: CHANGE_HERO_SEARCH_STRING,
+    searchstring,
   }
 }
 

@@ -18,6 +18,11 @@ const makeSelectRowsPerPage = () => createSelector(
   (globalState) => globalState.getIn(['listingTableData','rowsPerPage'])
 );
 
+const makeSelectSearchString = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.get('herosearch')
+);
+
 const makeSelectRowCount = () => createSelector(
   selectGlobal,
   (globalState) => globalState.getIn(['listingTableData','rowCount'])
@@ -125,6 +130,7 @@ export {
   makeSelectItemDetail,
   makeSelectChangeSortOrder,
   makeSelectCurrentUser,
+  makeSelectSearchString,
   makeSelectFilteredItems,
   makeSelectRowCount,
   makeSelectTableFilter,

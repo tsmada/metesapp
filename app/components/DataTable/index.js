@@ -87,7 +87,7 @@ class EnhancedTableHead extends React.Component {
 
   render() {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
-
+    console.log('numSelected from EnhancedTableHead: ', numSelected);
     return (
       <TableHead>
         <TableRow>
@@ -156,6 +156,8 @@ const toolbarStyles = theme => ({
 let EnhancedTableToolbar = props => {
   const { numSelected, classes, selected, reportData, onDownload, createHorde,
   createOffer, filterList, watchListing } = props;
+
+  console.log('numSelected from EnhancedTableToolbar: ', numSelected);
 
   return (
     <Toolbar
@@ -253,6 +255,7 @@ class EnhancedTable extends React.Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount() fired.')
     this.props.onLoad();
   }
 
@@ -274,6 +277,7 @@ class EnhancedTable extends React.Component {
 
   handleSelectAllClick = (event, checked) => {
     console.log('handleSelectAllClick() fired')
+    console.log('handleSelectAllClick() selected =>', this.props.selected)
     if (checked) {
       let checkedRows = this.props.data.map(n => n.fcl_id);
       if (this.props.filteredItems.length > 0){
@@ -297,21 +301,20 @@ class EnhancedTable extends React.Component {
   };
 
   handleClick = (event, id) => {
-    const { selected } = this.props;
-    console.log('handleclick() fired -- Previous Selection: ', selected)
-    const selectedIndex = selected.indexOf(id);
+    console.log('handleclick() fired -- Previous Selection: ', this.props.selected)
+    const selectedIndex = this.props.selected.indexOf(id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected,id)
+      newSelected = newSelected.concat(this.props.selected,id)
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = newSelected.concat(this.props.selected.slice(1));
+    } else if (selectedIndex === this.props.selected.length - 1) {
+      newSelected = newSelected.concat(this.props.selected.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        this.props.selected.slice(0, selectedIndex),
+        this.props.selected.slice(selectedIndex + 1),
       );
     }
     console.log('handleclick() fired -- New Selection: ', newSelected)
@@ -390,7 +393,7 @@ class EnhancedTable extends React.Component {
     ? this.props.data.length - this.props.filteredItems.length
     : this.props.data.length;
 
-    const FilterData = (this.props.filteredItems.length > 0)
+    const FilterData = (this.props.filteredItems.length > 0 && this.props.data.length > 0)
     ? this.props.data.filter((item) => {
       if (this.props.filteredItems.indexOf(item) === -1) {
         return item;
@@ -420,7 +423,7 @@ class EnhancedTable extends React.Component {
               {FilterData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
-                const isSelected = this.isSelected(n.fcl_id);
+                const isSelected = this.isSelected(n.fcl_id); // returns true when checked
                 return (
                   <TableRow
                     hover

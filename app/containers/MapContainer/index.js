@@ -59,7 +59,10 @@ export class MapContainer extends React.Component { // eslint-disable-line react
   }
 
   componentDidMount() {
+    if (!this.props.markers && this.props.markers.length === 0) {
+      console.log('MapContainer componented mounted without markers')
     this.props.onLoad();
+  }
   }
 
    componentDidUpdate() {
