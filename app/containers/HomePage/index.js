@@ -19,7 +19,7 @@ import { makeSelectLoading, makeSelectError, makeSelectCurrentUser,
 makeSelectIsLoggedIn, makeSelectSearchString,
 makeSelectForeclosureMarkers } from 'containers/App/selectors';
 import { handleUserLogout, handleChangeSearchString,
-handleHeroSearchSubmit } from '../App/actions';
+handleHeroSearchSubmit, handleClearCurrentForeclosureMarkers } from '../App/actions';
 import H2 from 'components/H2';
 import TextField from 'material-ui/TextField';
 import H1 from 'components/H1';
@@ -76,6 +76,10 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
    * when initial state username is not null, submit the form to load repos
    */
   componentDidMount() {
+    if (this.props.searchstring && this.props.markers.length > 0) {
+      this.clearSearch()
+      this.clearMarkers()
+    }
   }
 
   submitAndNav = () => {
@@ -83,9 +87,6 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   };
 
   componentDidUpdate() {
-    if (this.props.markers && this.props.markers.length > 0) {
-      this.props.history.push('/map')
-    }
   }
 
   render() {
@@ -129,6 +130,8 @@ HomePage.propTypes = {
 export function mapDispatchToProps(dispatch) {
   return {
     onChangeSearchString: (evt) => dispatch(handleChangeSearchString(evt.target.value)),
+    clearSearch: dispatch(handleChangeSearchString('')),
+    clearMarkers: dispatch(handleClearCurrentForeclosureMarkers()),
     onSubmitForm: (searchString) => {
       dispatch(handleHeroSearchSubmit(searchString));
     },

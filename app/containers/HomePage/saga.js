@@ -1,13 +1,13 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { HERO_SEARCH_SUBMIT, HERO_SEARCH_SUBMIT_SUCCESS } from 'containers/App/constants';
 import { handleHeroSearchSubmit, handleHeroSearchSubmitSuccess, handleHeroSearchSubmitFailure } from 'containers/App/actions';
-
 import request from 'utils/request';
+import { push } from 'react-router-redux';
 
 /**
  * Github repos request/response handler
  */
-export function* submitSearch(action) {
+export function* submitSearch(action, dispatch) {
 
   const requestURL = `https://serouslabs.com:8000/api/main/` + String(action.searchstring);
 
@@ -21,8 +21,8 @@ export function* submitSearch(action) {
     address: action.searchstring
   })});
 
-    
     yield put(handleHeroSearchSubmitSuccess(result));
+    yield put(push('/map'));
 }
 
 /**

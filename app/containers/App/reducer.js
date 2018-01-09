@@ -23,6 +23,7 @@ import {
   CHANGE_ROW_COUNT,
   GET_FILTERED_ITEMS,
   DOWNLOAD_ITEM_COMPLETE,
+  CLEAR_CURRENT_FORECLOSURE_MARKERS,
   GET_FORECLOSURE_MARKERS,
   GET_FORECLOSURE_MARKERS_SUCCESS,
   GET_FORECLOSURE_MARKERS_FAILURE,
@@ -83,7 +84,10 @@ const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-     case HERO_SEARCH_SUBMIT_SUCCESS:
+    case CLEAR_CURRENT_FORECLOSURE_MARKERS:
+    return state
+        .setIn(['mapData','foreclosureMarkers'], [])
+    case HERO_SEARCH_SUBMIT_SUCCESS:
     return state
         .setIn(['mapData','foreclosureMarkers'], action.markers)
     case CHANGE_HERO_SEARCH_STRING:

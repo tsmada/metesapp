@@ -54,6 +54,8 @@ import { FormControl, FormHelperText } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import SimpleSnackbar from 'components/Snackbar';
+import Workbook from 'react-xlsx-workbook'
+
 
 var FileSaver = require('file-saver');
 
@@ -87,7 +89,6 @@ class EnhancedTableHead extends React.Component {
 
   render() {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
-    console.log('numSelected from EnhancedTableHead: ', numSelected);
     return (
       <TableHead>
         <TableRow>
@@ -154,11 +155,16 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-  const { numSelected, classes, selected, reportData, onDownload, createHorde,
-  createOffer, filterList, watchListing } = props;
+  const { numSelected, classes, selected, reportData, createHorde,
+  createOffer, filterList, watchListing, data } = props;
 
-  console.log('numSelected from EnhancedTableToolbar: ', numSelected);
+  const wbData = data.filter((item)=>{
+    if (selected.indexOf(item.fcl_id) > 0) {
+      return item;
+    }
+  })
 
+  const workBookname = 'Foreclosure Export - ' + String(Date.now()) + '.xlsx'
   return (
     <Toolbar
       className={classNames(classes.root, {
@@ -204,8 +210,22 @@ let EnhancedTableToolbar = props => {
       <div className={classes.actions}>
         {numSelected > 0 ? (
           <Tooltip title="Download">
-            <IconButton aria-label="Download" onClick={onDownload}>
-              <FileDownloadIcon />
+            <IconButton aria-label="Download">
+              <Workbook filename={workBookname} element={<FileDownloadIcon />}>
+                <Workbook.Sheet data={wbData} name="Foreclosures">
+                  <Workbook.Column label="State" value="state"/>
+                  <Workbook.Column label="County" value="county"/>
+                  <Workbook.Column label="Sale Date" value="saledate"/>
+                  <Workbook.Column label="Property Address" value="propertyaddress"/>
+                  <Workbook.Column label="Property City" value="propertycity"/>
+                  <Workbook.Column label="Property Zip" value="propertyzip"/>
+                  <Workbook.Column label="Property Use" value="propertyuse"/>
+                  <Workbook.Column label="Assessed Value" value="assessedvalue"/>
+                  <Workbook.Column label="Final Judgement" value="finaljudgement"/>
+                  <Workbook.Column label="Plaintiff Max Bid" value="maxbid"/>
+                  <Workbook.Column label="Parcel ID" value="parcelid"/>
+                </Workbook.Sheet>
+              </Workbook>
             </IconButton>
           </Tooltip>
         ) : (
@@ -255,7 +275,6 @@ class EnhancedTable extends React.Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount() fired.')
     this.props.onLoad();
   }
 
@@ -280,17 +299,26 @@ class EnhancedTable extends React.Component {
     console.log('handleSelectAllClick() selected =>', this.props.selected)
     if (checked) {
       let checkedRows = this.props.data.map(n => n.fcl_id);
-      if (this.props.filteredItems.length > 0){
-          checkedRows = this.props.data.filter((item) => {
-          if (this.props.filteredItems.indexOf(item) === -1) {
-            return item;
+      if (this.props.filteredItems.length) {
+        checkedRows = []
+        console.log(checkedRows.length)
+        for (let i=0; i < this.props.data.length; i++){
+          for (let k=0; k < this.props.filteredItems.length; k++) {
+            if (this.props.data[i].fcl_id === this.props.filteredItems[k].fcl_id) {
+              console.log('Matched filtered item')
+            } else {
+              
+            }
+            }
+            
+ 
           }
-        })
-      }
-      console.log(checkedRows.length)
       this.props.handleSelectAllClick(checkedRows)
       return;
     }
+    this.props.handleSelectAllClick(checkedRows)
+    return;
+  }
     this.props.handleSelectAllClick([])
   };
 
@@ -352,12 +380,6 @@ class EnhancedTable extends React.Component {
   };
 
  downloadSelected = (evt, selected) => {
-    this.props.handleDownloadItem(selected);
-    if (this.props.reportData.result){
-      var blob = new Blob([this.props.reportData.result], {type: "text/plain;charset=utf-8"});
-      FileSaver.saveAs(blob, "Foreclosure Export.txt");
-    }
-    this.props.handleDownloadComplete();
  };
 
   isSelected = id => this.props.selected.indexOf(id) !== -1;
@@ -403,11 +425,12 @@ class EnhancedTable extends React.Component {
 
     return (
       <Paper className={classes.root}>
-        <EnhancedTableToolbar numSelected={selected.length} onDownload={this.downloadSelected} selected={selected}
+        <EnhancedTableToolbar numSelected={selected.length} selected={selected}
         reportData={reportData} createHorde={this.handleCreateHordeDialogToggle} 
         createOffer={this.handleCreateOfferDialogToggle}
         filterList={this.handleCreateFilterDialogToggle}
         watchListing={this.handleSnackbarOpen}
+        data={FilterData}
         />
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
@@ -546,6 +569,7 @@ class EnhancedTable extends React.Component {
         </Dialog>
         <SimpleSnackbar snackbarOpen={this.state.snackbarOpen} handleSnackbarClose={this.handleSnackbarClose}
         handleSnackbarOpen={this.handleSnackbarOpen}/>
+
         </div>
       </Paper>
     );

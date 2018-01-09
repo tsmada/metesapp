@@ -25,6 +25,7 @@ export const CHANGE_SORT_BY = 'boilerplate/App/CHANGE_SORT_BY';
 export const CHANGE_PAGE = 'boilerplate/App/CHANGE_PAGE';
 export const CHANGE_ROWS_PER_PAGE = 'boilerplate/App/CHANGE_ROWS_PER_PAGE';
 export const GET_FORECLOSURE_MARKERS = 'boilerplate/App/GET_FORECLOSURE_MARKERS';
+export const CLEAR_CURRENT_FORECLOSURE_MARKERS = 'boilerplate/App/CLEAR_CURRENT_FORECLOSURE_MARKERS';
 export const GET_FORECLOSURE_MARKERS_SUCCESS = 'boilerplate/App/GET_FORECLOSURE_MARKERS_SUCCESS';
 export const GET_FORECLOSURE_MARKERS_FAILURE = 'boilerplate/App/GET_FORECLOSURE_MARKERS_FAILURE';
 export const LOAD_DETAIL = 'boilerplate/App/LOAD_DETAIL';

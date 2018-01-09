@@ -51,6 +51,13 @@ module.exports = require('./webpack.base.babel')({
     chunkFilename: '[name].chunk.js',
   },
 
+  // react-xlsx-workbook
+  node: {fs: 'empty'},
+    externals: [
+      {'./cptable': 'var cptable'},
+      {'./jszip': 'jszip'}
+    ],
+
   // Add development plugins
   plugins: dependencyHandlers().concat(plugins), // eslint-disable-line no-use-before-define
 

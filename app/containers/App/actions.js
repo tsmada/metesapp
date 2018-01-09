@@ -28,6 +28,7 @@ import {
   CHANGE_ROW_COUNT,
   CHANGE_TABLE_FILTER,
   GET_FILTERED_ITEMS,
+  CLEAR_CURRENT_FORECLOSURE_MARKERS,
   GET_FORECLOSURE_MARKERS,
   GET_FORECLOSURE_MARKERS_SUCCESS,
   GET_FORECLOSURE_MARKERS_FAILURE,
@@ -117,6 +118,12 @@ export function handleRegisterAccount(username, password){
 export function handleGetForeclosureMarkers(){
   return {
     type: GET_FORECLOSURE_MARKERS,
+  }
+}
+
+export function handleClearCurrentForeclosureMarkers(){
+  return {
+    type: CLEAR_CURRENT_FORECLOSURE_MARKERS,
   }
 }
 
