@@ -16,6 +16,12 @@ module.exports = require('./webpack.base.babel')({
     chunkFilename: '[name].[chunkhash].chunk.js',
   },
 
+  node: {fs: 'empty'},
+    externals: [
+      {'./cptable': 'var cptable'},
+      {'./jszip': 'jszip'}
+    ],
+
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
