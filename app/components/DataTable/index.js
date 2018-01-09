@@ -13,6 +13,7 @@ import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
 handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail,
 handleDownloadItem, handleDownloadComplete, handleRequestFilter,
 handleChangeRowCount } from 'containers/App/actions';
+import { fromJS, Map, List } from 'immutable';
 import keycode from 'keycode';
 import Table, {
   TableBody,
@@ -158,7 +159,7 @@ let EnhancedTableToolbar = props => {
   const { numSelected, classes, selected, reportData, createHorde,
   createOffer, filterList, watchListing, data } = props;
 
-  const wbData = data.filter((item)=>{
+  const wbData = data.filter((item) => {
     if (selected.indexOf(item.fcl_id) > 0) {
       return item;
     }
@@ -295,29 +296,19 @@ class EnhancedTable extends React.Component {
   };
 
   handleSelectAllClick = (event, checked) => {
-    console.log('handleSelectAllClick() fired')
-    console.log('handleSelectAllClick() selected =>', this.props.selected)
     if (checked) {
       let checkedRows = this.props.data.map(n => n.fcl_id);
-      if (this.props.filteredItems.length) {
-        checkedRows = []
-        console.log(checkedRows.length)
-        for (let i=0; i < this.props.data.length; i++){
-          for (let k=0; k < this.props.filteredItems.length; k++) {
-            if (this.props.data[i].fcl_id === this.props.filteredItems[k].fcl_id) {
-              console.log('Matched filtered item')
-            } else {
-              
-            }
-            }
-            
- 
-          }
-      this.props.handleSelectAllClick(checkedRows)
-      return;
+      if (this.props.filteredItems.length > 0){
+        this.props.handleSelectAllClick(checkedRows)
+        let fRows = this.props.filteredItems.map(n => n.fcl_id);
+        let cRows = checkedRows.filter(e => !fRows.includes(e));
+        this.props.handleSelectAllClick(cRows);
+        return;
+    } else {
+        let checkedRows = this.props.data.map(n => n.fcl_id);
+        this.props.handleSelectAllClick(checkedRows)
+        return;
     }
-    this.props.handleSelectAllClick(checkedRows)
-    return;
   }
     this.props.handleSelectAllClick([])
   };
