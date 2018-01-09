@@ -28,6 +28,11 @@ const makeSelectRowCount = () => createSelector(
   (globalState) => globalState.getIn(['listingTableData','rowCount'])
 );
 
+const makeSelectHiddenItems = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['userData','hiddenListings'])
+);
+
 const makeSelectFilteredItems = () => createSelector(
   selectGlobal,
   (globalState) => globalState.getIn(['userData','filteredListings'])
@@ -132,6 +137,7 @@ export {
   makeSelectCurrentUser,
   makeSelectSearchString,
   makeSelectFilteredItems,
+  makeSelectHiddenItems,
   makeSelectRowCount,
   makeSelectTableFilter,
   makeSelectTableFilterBy,

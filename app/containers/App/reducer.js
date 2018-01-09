@@ -17,6 +17,8 @@ import {
   SELECT_ITEM,
   DOWNLOAD_ITEM_SUCCESS,
   CHANGE_TABLE_FILTER,
+  HIDE_SELECTED_ITEMS,
+  SHOW_HIDDEN_ITEMS,
   HERO_SEARCH_SUBMIT,
   HERO_SEARCH_SUBMIT_SUCCESS,
   CHANGE_HERO_SEARCH_STRING,
@@ -84,6 +86,13 @@ const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case HIDE_SELECTED_ITEMS:
+    return state
+        .setIn(['userData','hiddenListings'], action.items)
+        .setIn(['listingTableData', 'selected'], [])
+    case SHOW_HIDDEN_ITEMS:
+    return state
+        .setIn(['userData','hiddenListings'], [])
     case CLEAR_CURRENT_FORECLOSURE_MARKERS:
     return state
         .setIn(['mapData','foreclosureMarkers'], [])

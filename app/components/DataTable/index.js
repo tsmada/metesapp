@@ -8,11 +8,13 @@ import { createStructuredSelector } from 'reselect';
 import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
 makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
 makeSelectSelected, makeSelectDownload, makeSelectTableFilterBy, makeSelectTableFilter,
-makeSelectCurrentUser, makeSelectFilteredItems, makeSelectRowCount } from 'containers/App/selectors';
+makeSelectCurrentUser, makeSelectFilteredItems, makeSelectRowCount,
+makeSelectHiddenItems } from 'containers/App/selectors';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
 handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail,
 handleDownloadItem, handleDownloadComplete, handleRequestFilter,
-handleChangeRowCount } from 'containers/App/actions';
+handleChangeRowCount, handleHideSelectedItems,
+ handleShowHiddenItems } from 'containers/App/actions';
 import { fromJS, Map, List } from 'immutable';
 import keycode from 'keycode';
 import Table, {
@@ -58,9 +60,6 @@ import SimpleSnackbar from 'components/Snackbar';
 import Workbook from 'react-xlsx-workbook'
 
 
-var FileSaver = require('file-saver');
-
-
 const columnData = [
   { id: 'saledate', numeric: false, disablePadding: true, label: 'Sale Date' },
   { id: 'propertyaddress', numeric: false, disablePadding: true, label: 'Property Address' },
@@ -73,6 +72,17 @@ const columnData = [
   { id: 'maxbid', numeric: false, disablePadding: true, label: 'Plaintiff Max Bid' },
   { id: 'parcelid', numeric: false, disablePadding: true, label: 'Parcel ID' },
   ];
+
+const countyData = [
+  { id: 'duval', url: 'https://www.duval.realforeclose.com', labelname: 'Duval'},
+  { id: 'clay', url: 'https://www.clay.realforeclose.com', labelname: 'Clay'},
+  { id: 'hillsborough', url: 'https://www.hillsborough.realforeclose.com', labelname: 'Hillsborough'},
+  { id: 'pinellas', url: 'https://www.pinellas.realforeclose.com', labelname: 'Pinellas'},
+  { id: 'nassau', url: 'https://www.nassau.realforeclose.com', labelname: 'Nassau'},
+  { id: 'saintjohns', url: 'https://www.clay.realforeclose.com', labelname: 'Saint Johns'}
+  ];
+
+
 
 class EnhancedTableHead extends React.Component {
   static propTypes = {
@@ -157,7 +167,7 @@ const toolbarStyles = theme => ({
 
 let EnhancedTableToolbar = props => {
   const { numSelected, classes, selected, reportData, createHorde,
-  createOffer, filterList, watchListing, data } = props;
+  createOffer, filterList, watchListing, data, hideSelected } = props;
 
   const wbData = data.filter((item) => {
     if (selected.indexOf(item.fcl_id) > 0) {
@@ -182,7 +192,7 @@ let EnhancedTableToolbar = props => {
       <div className={classes.spacer} />
       <div className={classes.action}>
       <Tooltip title="Hide Listings">
-            <IconButton aria-label="Hide Listings">
+            <IconButton aria-label="Hide Listings" onClick={hideSelected}>
               <VisibilityOffIcon />
             </IconButton>
           </Tooltip>
@@ -279,6 +289,10 @@ class EnhancedTable extends React.Component {
     this.props.onLoad();
   }
 
+  componentDidUpdate(){
+    console.log('updated')
+  }
+
   handleRequestSort = (event, property) => {
     const orderBy = property;
     let order = 'desc';
@@ -305,7 +319,6 @@ class EnhancedTable extends React.Component {
         this.props.handleSelectAllClick(cRows);
         return;
     } else {
-        let checkedRows = this.props.data.map(n => n.fcl_id);
         this.props.handleSelectAllClick(checkedRows)
         return;
     }
@@ -354,6 +367,20 @@ class EnhancedTable extends React.Component {
   this.setState({createOfferDialogOpen: !this.state.createOfferDialogOpen})
  };
 
+ handleOfferNav = () => {
+  console.log('Naving to ', this.props.selected)
+  this.props.data.map((item) => {
+    if (item.fcl_id === this.props.selected[0]) {
+      countyData.map((cd) => {
+        if (cd.labelname === item.county) {
+          window.open(cd.url, '_blank')
+        }
+      })
+    }
+  })
+  this.setState({createOfferDialogOpen: !this.state.createOfferDialogOpen})
+ };
+
  handleCreateFilterDialogToggle = () => {
   this.setState({createFilterDialogOpen: !this.state.createFilterDialogOpen})
  };
@@ -383,6 +410,16 @@ class EnhancedTable extends React.Component {
     this.setState({filterValue: event.target.value});
   }
 
+  hideSelected = () => {
+    if (this.props.selected.length > 0){
+        console.log('hiding rows');
+        let mRows = this.props.data.map((n) => n.fcl_id);
+        let cRows = mRows.filter(e => this.props.selected.includes(e));
+        this.props.handleHideSelected(cRows);
+        return;
+  }
+}
+
   confirmFilters = () => {
     let filteredValues = [];
     const data = this.props.data.map((n, i) => {
@@ -399,14 +436,14 @@ class EnhancedTable extends React.Component {
 
   render() {
     const { classes, rowsPerPage, data, page, orderBy, order, selected, history, reportData,
-    filterValue, filterBy, filteredItems, rowcount } = this.props;
+    filterValue, filterBy, filteredItems, rowcount, hidden } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     const RowCount = (this.props.filteredItems.length > 0)
     ? this.props.data.length - this.props.filteredItems.length
     : this.props.data.length;
 
-    const FilterData = (this.props.filteredItems.length > 0 && this.props.data.length > 0)
+    const FilterData = (this.props.filteredItems.length > 0 )
     ? this.props.data.filter((item) => {
       if (this.props.filteredItems.indexOf(item) === -1) {
         return item;
@@ -422,6 +459,7 @@ class EnhancedTable extends React.Component {
         filterList={this.handleCreateFilterDialogToggle}
         watchListing={this.handleSnackbarOpen}
         data={FilterData}
+        hideSelected={this.hideSelected}
         />
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
@@ -503,14 +541,16 @@ class EnhancedTable extends React.Component {
           <DialogTitle id="responsive-dialog-title">{"Place Bid?"}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Please type in your Max Bid for this listing and proceed to Auction site.
+              You are leaving this site and being taken to the Auction Site. Most auctions require 5% deposited
+              before the day of the sale and 100% payment by end of day. Please verify doc fees and stamp fees
+              with your local clerk.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleCreateOfferDialogToggle} color="primary">
               Disagree
             </Button>
-            <Button onClick={this.handleCreateOfferDialogToggle} color="primary" autoFocus>
+            <Button onClick={this.handleOfferNav} color="primary" autoFocus>
               Agree
             </Button>
           </DialogActions>
@@ -584,6 +624,7 @@ const mapStateToProps = createStructuredSelector({
   username: makeSelectCurrentUser(),
   filteredItems: makeSelectFilteredItems(),
   rowcount: makeSelectRowCount(),
+  hidden: makeSelectHiddenItems(),
 });
 
 
@@ -591,6 +632,12 @@ function mapDispatchToProps(dispatch, ownProps) {
   return {
     onLoad: () => {
       dispatch(loadListings());
+    },
+    handleHideSelected: (checked) => {
+    dispatch(handleHideSelectedItems(checked))
+    },
+    handleShowHiddenItems: (checked) => {
+    dispatch(handleShowHiddenItems(checked))
     },
     handleChangeRowsPerPage: (event) => {
     dispatch(changeRowsPerPage(event.target.value))

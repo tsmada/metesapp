@@ -19,6 +19,8 @@ import {
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
   SELECT_USER,
+  HIDE_SELECTED_ITEMS,
+  SHOW_HIDDEN_ITEMS,
   HERO_SEARCH_SUBMIT,
   HERO_SEARCH_SUBMIT_SUCCESS,
   HERO_SEARCH_SUBMIT_FAILURE,
@@ -54,6 +56,22 @@ import {
   REGISTER_ACCOUNT_FAILURE,
 } from './constants';
 
+
+
+
+export function handleHideSelectedItems(items){
+  return {
+    type: HIDE_SELECTED_ITEMS,
+    items,
+  }
+}
+
+export function handleShowHiddenItems(items){
+  return {
+    type: SHOW_HIDDEN_ITEMS,
+    items,
+  }
+}
 
 
 export function handleChangeRowCount(rowCount){
