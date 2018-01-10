@@ -5,7 +5,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { USER_LOG_IN, USER_LOG_IN_SUCCESS } from 'containers/App/constants';
 import { handleUserLogin, handleUserLoginSuccess, handleUserLoginFailure } from 'containers/App/actions';
-
+import { push } from 'react-router-redux';
 import request from 'utils/request';
 
 /**
@@ -26,6 +26,7 @@ export function* submitLogin(action) {
   })});
     if (result.success === true){ // should use response codes instead
     yield put(handleUserLoginSuccess(action.username, result.token));
+    yield put(push('/dash'));
   } else {
     yield put(handleUserLoginFailure(action.username, result.message));
   }

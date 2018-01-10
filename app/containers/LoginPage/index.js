@@ -35,11 +35,6 @@ const style = {
 };
 
 export class LoginPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  
-  componentDidUpdate() {
-    console.log('componentDidUpdate() fired');
-    setTimeout(() => this.props.history.push('/dash'), 750);
-  }
 
   render() {
     return (
