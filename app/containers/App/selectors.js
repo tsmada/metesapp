@@ -8,6 +8,8 @@ const selectGlobal = (state) => state.get('global');
 
 const selectRoute = (state) => state.get('route');
 
+const selectNotification = (state) => state.get('notification');
+
 const makeSelectItemID = () => createSelector(
   selectGlobal,
   (globalState) => globalState.get('itemid')
@@ -126,6 +128,11 @@ const makeSelectListings = () => createSelector(
 const makeSelectLocation = () => createSelector(
   selectRoute,
   (routeState) => routeState.get('location').toJS()
+);
+
+const makeSelectNotifications = () => createSelector(
+    selectNotification,
+    (notificationState) => notificationState.get('listingTableData')
 );
 
 export {
