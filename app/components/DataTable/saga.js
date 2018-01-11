@@ -76,6 +76,7 @@ export function* createPool(action) {
     console.log(result)
     if (result.success === true){ // should use response codes instead
     yield put(handleCreatePoolSuccess());
+    yield put(push('/invest'))
   } else {
     yield put(handleCreatePoolFailure());
   }
