@@ -9,12 +9,12 @@ import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsP
 makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
 makeSelectSelected, makeSelectDownload, makeSelectTableFilterBy, makeSelectTableFilter,
 makeSelectCurrentUser, makeSelectFilteredItems, makeSelectRowCount,
-makeSelectHiddenItems } from 'containers/App/selectors';
+makeSelectHiddenItems, makeSelectPools } from 'containers/App/selectors';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
 handleRequestSort, handleSelectAllClick, handleSelectItem, loadDetail,
 handleDownloadItem, handleDownloadComplete, handleRequestFilter,
 handleChangeRowCount, handleHideSelectedItems,
- handleShowHiddenItems } from 'containers/App/actions';
+handleShowHiddenItems, loadPools, handleCreatePool } from 'containers/App/actions';
 import { fromJS, Map, List } from 'immutable';
 import keycode from 'keycode';
 import Table, {
@@ -34,6 +34,7 @@ import IconButton from 'material-ui/IconButton';
 import Tooltip from 'material-ui/Tooltip';
 import FileDownloadIcon from 'material-ui-icons/CloudDownload';
 import GroupAddIcon from 'material-ui-icons/GroupAdd';
+import PersonAddIcon from 'material-ui-icons/PersonAdd';
 import GavelIcon from 'material-ui-icons/Gavel';
 import StarIcon from 'material-ui-icons/Star';
 import VisibilityOffIcon from 'material-ui-icons/VisibilityOff';
@@ -280,6 +281,7 @@ class EnhancedTable extends React.Component {
       createOfferDialogOpen: false,
       createFilterDialogOpen: false,
       snackbarOpen: false,
+      snackbarContent: false,
       filterValue: '01/08/2018',
       filterBy: 'saledate',
     }
@@ -290,7 +292,6 @@ class EnhancedTable extends React.Component {
   }
 
   componentDidUpdate(){
-    console.log('updated')
   }
 
   handleRequestSort = (event, property) => {
@@ -363,9 +364,24 @@ class EnhancedTable extends React.Component {
   this.setState({createHordeDialogOpen: !this.state.createHordeDialogOpen})
  };
 
+ handleCreateHordeDialogConfirm = () => {
+  var fAmt = this.props.data.filter((item) => {
+    if (item.fcl_id === this.props.selected[0]) {
+      return item;
+    }
+  })
+  //console.log(this.props.username, this.props.selected[0], fAmt[0].maxbid, fAmt[0].assessedvalue)
+  this.props.handleCreatePool(this.props.username, this.props.selected[0], fAmt[0].maxbid);
+  this.setState({createHordeDialogOpen: !this.state.createHordeDialogOpen})
+ };
+
  handleCreateOfferDialogToggle = () => {
   this.setState({createOfferDialogOpen: !this.state.createOfferDialogOpen})
  };
+
+ handleWatchListing = () => {
+  this.setState({ snackbarOpen: true, snackbarContent: 'Listing Watched'});
+ }
 
  handleOfferNav = () => {
   console.log('Naving to ', this.props.selected)
@@ -401,6 +417,7 @@ class EnhancedTable extends React.Component {
  };
 
   isSelected = id => this.props.selected.indexOf(id) !== -1;
+  isPooled = (id, index) => this.props.pools[index] ? this.props.pools[index].itemID.indexOf(id) !== -1 : false;
 
   handleSetFilter = (event, property) => {
     this.setState({filterBy: event.target.value});
@@ -412,7 +429,6 @@ class EnhancedTable extends React.Component {
 
   hideSelected = () => {
     if (this.props.selected.length > 0){
-        console.log('hiding rows');
         let mRows = this.props.data.map((n) => n.fcl_id);
         let cRows = mRows.filter(e => this.props.selected.includes(e));
         this.props.handleHideSelected(cRows);
@@ -443,7 +459,7 @@ class EnhancedTable extends React.Component {
     ? this.props.data.length - this.props.filteredItems.length
     : this.props.data.length;
 
-    const FilterData = (this.props.filteredItems.length > 0 )
+    const FilterData = (this.props.filteredItems.length > 0)
     ? this.props.data.filter((item) => {
       if (this.props.filteredItems.indexOf(item) === -1) {
         return item;
@@ -457,7 +473,7 @@ class EnhancedTable extends React.Component {
         reportData={reportData} createHorde={this.handleCreateHordeDialogToggle} 
         createOffer={this.handleCreateOfferDialogToggle}
         filterList={this.handleCreateFilterDialogToggle}
-        watchListing={this.handleSnackbarOpen}
+        watchListing={this.handleWatchListing}
         data={FilterData}
         hideSelected={this.hideSelected}
         />
@@ -474,8 +490,10 @@ class EnhancedTable extends React.Component {
             <TableBody>
               {FilterData
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
+                .map((n,index) => {
                 const isSelected = this.isSelected(n.fcl_id); // returns true when checked
+                const isPooled = this.isPooled(n.fcl_id, index);
+                console.log(isPooled);
                 return (
                   <TableRow
                     hover
@@ -485,6 +503,7 @@ class EnhancedTable extends React.Component {
                     tabIndex={-1}
                     key={n.fcl_id}
                     selected={isSelected}
+                    pooled={isPooled}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox checked={isSelected} onClick={event => this.handleClick(event, n.fcl_id)} />
@@ -498,7 +517,9 @@ class EnhancedTable extends React.Component {
                     <TableCell>{n.assessedvalue}</TableCell>
                     <TableCell>{n.finaljudgement}</TableCell>
                     <TableCell>{n.maxbid}</TableCell>
-                    <TableCell>{n.parcelid}</TableCell>
+                    {isPooled
+                    ? <Tooltip title="Join this CrowdPool"><TableCell>{n.parcelid}<PersonAddIcon/></TableCell></Tooltip>
+                    : <TableCell>{n.parcelid}</TableCell>}
                   </TableRow>
                 );
               })}
@@ -532,7 +553,7 @@ class EnhancedTable extends React.Component {
             <Button onClick={this.handleCreateHordeDialogToggle} color="primary">
               Disagree
             </Button>
-            <Button onClick={this.handleCreateHordeDialogToggle} color="primary" autoFocus>
+            <Button onClick={this.handleCreateHordeDialogConfirm} color="primary" autoFocus>
               Agree
             </Button>
           </DialogActions>
@@ -599,7 +620,7 @@ class EnhancedTable extends React.Component {
           </DialogActions>
         </Dialog>
         <SimpleSnackbar snackbarOpen={this.state.snackbarOpen} handleSnackbarClose={this.handleSnackbarClose}
-        handleSnackbarOpen={this.handleSnackbarOpen}/>
+        handleSnackbarOpen={this.handleSnackbarOpen} content={this.state.snackbarContent}/>
 
         </div>
       </Paper>
@@ -625,13 +646,15 @@ const mapStateToProps = createStructuredSelector({
   filteredItems: makeSelectFilteredItems(),
   rowcount: makeSelectRowCount(),
   hidden: makeSelectHiddenItems(),
+  pools: makeSelectPools(),
 });
 
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     onLoad: () => {
-      dispatch(loadListings());
+      dispatch(loadListings()),
+      dispatch(loadPools())
     },
     handleHideSelected: (checked) => {
     dispatch(handleHideSelectedItems(checked))
@@ -650,6 +673,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     handleSelectAllClick: (checked) => {
     dispatch(handleSelectAllClick(checked))
+    },
+    handleCreatePool: (username, item, maxbid) => {
+      dispatch(handleCreatePool(username, item, maxbid))
     },
     handleSelectItem: (item) => {
       dispatch(handleSelectItem(item))

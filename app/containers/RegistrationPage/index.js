@@ -13,7 +13,8 @@ import { compose } from 'redux';
 import RegistrationForm from 'components/RegistrationForm';
 import { handleRegisterAccount } from '../App/actions';
 import { Helmet } from 'react-helmet';
-import { makeSelectCurrentUser, makeSelectIsLoggedIn, makeSelectMessage } from 'containers/App/selectors';
+import { makeSelectCurrentUser, makeSelectIsLoggedIn, makeSelectMessage,
+makeSelectName } from 'containers/App/selectors';
 import AppBarMUI from 'components/AppBar';
 import H2 from 'components/H2';
 import Paper from 'material-ui/Paper';
@@ -28,10 +29,6 @@ const style = {
 };
 
 export class RegistrationPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  
-  componentDidUpdate() {
-    setTimeout(() => this.props.history.push('/dash'), 750);
-  }
 
   render() {
     return (
@@ -58,12 +55,13 @@ const mapStateToProps = createStructuredSelector({
   username: makeSelectCurrentUser(),
   auth: makeSelectIsLoggedIn(),
   message: makeSelectMessage(),
+  name: makeSelectName(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleSubmitRegistration: (username, password) => {
-      dispatch(handleRegisterAccount(username, password));
+    handleSubmitRegistration: (username, password, name) => {
+      dispatch(handleRegisterAccount(username, password, name));
     },
   };
 }

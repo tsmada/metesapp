@@ -27,6 +27,9 @@ import {
   CHANGE_HERO_SEARCH_STRING,
   USER_LOG_IN,
   USER_LOG_OUT,
+  GET_USER_POOLS,
+  GET_USER_POOLS_SUCCESS,
+  GET_USER_POOLS_FAILURE,
   CHANGE_ROW_COUNT,
   CHANGE_TABLE_FILTER,
   GET_FILTERED_ITEMS,
@@ -48,16 +51,60 @@ import {
   LOAD_DETAIL,
   LOAD_DETAIL_SUCCESS,
   LOAD_DETAIL_ERROR,
+  LOAD_POOLS,
+  LOAD_POOLS_SUCCESS,
+  LOAD_POOLS_FAILURE,
   LOAD_LISTINGS,
   LOAD_LISTINGS_SUCCESS,
   LOAD_LISTINGS_ERROR,
   REGISTER_ACCOUNT,
   REGISTER_ACCOUNT_SUCCESS,
   REGISTER_ACCOUNT_FAILURE,
+  CREATE_POOL,
+  CREATE_POOL_SUCCESS,
+  CREATE_POOL_FAILURE,
 } from './constants';
 
+export function handleCreatePool(username, item, maxbid){
+  return {
+    type: CREATE_POOL,
+    username,
+    item,
+    maxbid,
+  }
+}
 
+export function handleGetUserPools(username){
+  return {
+    type: GET_USER_POOLS,
+    username,
+  }
+}
 
+export function handleGetUserPoolsSuccess(pools){
+  return {
+    type: GET_USER_POOLS_SUCCESS,
+    pools,
+  }
+}
+
+export function handleGetUserPoolsFailure(){
+  return {
+    type: GET_USER_POOLS_FAILURE,
+  }
+}
+
+export function handleCreatePoolSuccess(){
+  return {
+    type: CREATE_POOL_SUCCESS,
+  }
+}
+
+export function handleCreatePoolFailure(){
+  return {
+    type: CREATE_POOL_FAILURE,
+  }
+}
 
 export function handleHideSelectedItems(items){
   return {
@@ -125,11 +172,12 @@ export function handleRegisterAccountFailure(username, message){
   }
 }
 
-export function handleRegisterAccount(username, password){
+export function handleRegisterAccount(username, password, name){
   return {
     type: REGISTER_ACCOUNT,
     username,
     password,
+    name,
   }
 }
 
@@ -303,6 +351,26 @@ export function register(newuser) {
         type: REGISTER,
         error,
     };
+}
+
+export function loadPools() {
+  return {
+    type: LOAD_POOLS,
+  };
+}
+
+export function poolsLoadedSuccess(pools) {
+  return {
+    type: LOAD_POOLS_SUCCESS,
+    pools,
+  };
+}
+
+export function poolsLoadedFailure(error) {
+  return {
+    type: LOAD_POOLS_FAILURE,
+    error,
+  };
 }
 
 /**

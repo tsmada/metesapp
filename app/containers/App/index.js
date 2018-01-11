@@ -20,6 +20,7 @@ import ItemDetail from 'containers/ItemDetail/Loadable';
 import DashboardContainer from 'containers/DashboardPage';
 import ProfileContainer from 'containers/ProfileContainer';
 import MapContainer from 'containers/MapContainer/Loadable';
+import InvestorContainer from 'containers/InvestorContainer/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { LOCATION_CHANGE } from 'react-router-redux';
@@ -56,6 +57,7 @@ export default function App() {
           <Route exact path="/user/:id" component={Authenticated(ProfileContainer)}/>
           <Route exact path="/register" component={RegistrationPage} />
           <Route exact path="/map" component={MapContainer} />
+          <Route exact path="/invest" component={Authenticated(InvestorContainer)} />
         <Route path="" component={NotFoundPage} />
       </Switch>
       <Footer />

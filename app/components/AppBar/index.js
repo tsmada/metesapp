@@ -74,6 +74,16 @@ class AppBarMUI extends React.Component {
   }
   };
 
+  handleInvestmentsClick = () => {
+    const username = this.props.username;
+    if (username) {
+    this.props.history.push('/invest/');
+    this.setState({ anchorEl: null });
+  } else {
+    this.setState({ ancholEl: null });
+  }
+  };
+
 
   render() {
     const { classes, auth, handleLogout, username, logout } = this.props;
@@ -163,6 +173,7 @@ class AppBarMUI extends React.Component {
                 >
                   <MenuItem onClick={this.handleProfileClick}>Profile</MenuItem>
                   <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  <MenuItem onClick={this.handleInvestmentsClick}>Manage Investments</MenuItem>
                   <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                 </Menu>
               </div>

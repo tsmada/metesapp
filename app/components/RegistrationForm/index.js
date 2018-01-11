@@ -29,13 +29,14 @@ class RegistrationForm extends React.Component { // eslint-disable-line react/pr
     super(props, context);
     this.state = {
       username: false,
-      password: false
+      password: false,
+      name: false,
     }
   }
 
   onClick = (e) => {
     e.preventDefault()
-    this.props.onSubmit(this.state.username, this.state.password)
+    this.props.onSubmit(this.state.username, this.state.password, this.state.name)
   };
 
   handleChangeUsername = event => {
@@ -44,6 +45,10 @@ class RegistrationForm extends React.Component { // eslint-disable-line react/pr
 
   handleChangePassword = event => {
     this.setState({password: event.target.value})
+  };
+
+  handleChangeName = event => {
+    this.setState({name: event.target.value})
   };
 
   render() {
@@ -55,6 +60,7 @@ class RegistrationForm extends React.Component { // eslint-disable-line react/pr
             id="name"
             label="Name"
             margin="normal"
+            onChange={this.handleChangeName}
           /><br />
           <TextField
             id="password"

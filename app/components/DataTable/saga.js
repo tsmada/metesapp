@@ -3,12 +3,14 @@
  */
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_LISTINGS, DOWNLOAD_ITEM, CHANGE_TABLE_FILTER } from 'containers/App/constants';
+import { LOAD_LISTINGS, DOWNLOAD_ITEM, CHANGE_TABLE_FILTER, LOAD_POOLS,
+CREATE_POOL } from 'containers/App/constants';
 import { listingsLoaded, listingsLoadedError,
 handleDownloadItemSuccess, handleDownloadItemError,
-handleRequestFilter } from 'containers/App/actions';
-import { detailLoaded, detailLoadedError } from 'containers/App/actions';
+handleRequestFilter, poolsLoadedSuccess, poolsLoadedFailure,
+handleCreatePoolSuccess, handleCreatePoolFailure } from 'containers/App/actions';
 import request from 'utils/request';
+import { push } from 'react-router-redux';
 
 /**
  * Listings handler
@@ -22,6 +24,18 @@ export function* getListings() {
     yield put(listingsLoaded(listings));
   } catch (err) {
     yield put(listingsLoadedError(err));
+  }
+}
+
+export function* getPools() {
+  const requestURL = `https://serouslabs.com:8000/api/pool`;
+
+  try {
+    // Call our request helper (see 'utils/request')
+    const pools = yield call(request, requestURL);
+    yield put(poolsLoadedSuccess(pools));
+  } catch (err) {
+    yield put(poolsLoadedFailure(err));
   }
 }
 
@@ -44,6 +58,29 @@ export function* downloadItem(action) {
   }
 }
 
+export function* createPool(action) {
+  // username, itemid, fundingamt
+  const requestURL = `https://serouslabs.com:8000/api/pool/${action.username}/${action.item}/${action.maxbid}`;
+
+    const result = yield call(request, requestURL,
+      {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    username: action.username,
+    itemid: action.item,
+    fundingamt: action.maxbid
+  })})
+    console.log(result)
+    if (result.success === true){ // should use response codes instead
+    yield put(handleCreatePoolSuccess());
+  } else {
+    yield put(handleCreatePoolFailure());
+  }
+}
+
 export function* getFilter(action) {
   const requestURL = `https://serouslabs.com:8000/api/top/${action.filterBy}`;
     const result = yield call(request, requestURL);
@@ -62,4 +99,6 @@ export default function* listingData() {
 
   yield takeLatest(LOAD_LISTINGS, getListings);
   yield takeLatest(DOWNLOAD_ITEM, downloadItem);
+  yield takeLatest(LOAD_POOLS, getPools);
+  yield takeLatest(CREATE_POOL, createPool);
 }

@@ -23,6 +23,11 @@ const makeSelectSearchString = () => createSelector(
   (globalState) => globalState.get('herosearch')
 );
 
+const makeSelectUserPools = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['userData','pools'])
+);
+
 const makeSelectRowCount = () => createSelector(
   selectGlobal,
   (globalState) => globalState.getIn(['listingTableData','rowCount'])
@@ -31,6 +36,16 @@ const makeSelectRowCount = () => createSelector(
 const makeSelectHiddenItems = () => createSelector(
   selectGlobal,
   (globalState) => globalState.getIn(['userData','hiddenListings'])
+);
+
+const makeSelectPools = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.get('poolData')
+);
+
+const makeSelectName = () => createSelector(
+  selectGlobal,
+  (globalState) => globalState.getIn(['userData','name'])
 );
 
 const makeSelectFilteredItems = () => createSelector(
@@ -138,8 +153,11 @@ export {
   makeSelectSearchString,
   makeSelectFilteredItems,
   makeSelectHiddenItems,
+  makeSelectUserPools,
   makeSelectRowCount,
+  makeSelectName,
   makeSelectTableFilter,
+  makeSelectPools,
   makeSelectTableFilterBy,
   makeSelectChangeSortDirection,
   makeSelectRowsPerPage,

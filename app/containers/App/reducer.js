@@ -20,6 +20,8 @@ import {
   HIDE_SELECTED_ITEMS,
   SHOW_HIDDEN_ITEMS,
   HERO_SEARCH_SUBMIT,
+  GET_USER_POOLS_SUCCESS,
+  GET_USER_POOLS_FAILURE,
   HERO_SEARCH_SUBMIT_SUCCESS,
   CHANGE_HERO_SEARCH_STRING,
   CHANGE_ROW_COUNT,
@@ -43,6 +45,8 @@ import {
   LOAD_DETAIL,
   LOAD_DETAIL_SUCCESS,
   LOAD_DETAIL_ERROR,
+  LOAD_POOLS_SUCCESS,
+  LOAD_POOLS_FAILURE,
   LOAD_LISTINGS_SUCCESS,
   LOAD_LISTINGS_ERROR,
   REGISTER_ACCOUNT,
@@ -56,6 +60,7 @@ const initialState = fromJS({
   item: [],
   loading: false,
   error: false,
+  poolData: {},
   herosearch: 'Address, City, State, Neighborhood',
   listingTableData: {
     order: 'asc',
@@ -70,6 +75,7 @@ const initialState = fromJS({
   },
   userData: {
     username: null,
+    name: null,
     isLoggedIn: false,
     isAdmin: false,
     message: false,
@@ -78,6 +84,7 @@ const initialState = fromJS({
     watchedListings: [],
     hiddenListings: [],
     filteredListings: [],
+    pools: {},
   },
   mapData: {
     foreclosureMarkers: [],
@@ -86,6 +93,12 @@ const initialState = fromJS({
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
+    case GET_USER_POOLS_SUCCESS:
+    return state
+        .setIn(['userData','pools'], action.pools)
+    case GET_USER_POOLS_FAILURE:
+    return state
+        .setIn(['userData','pools'], {})
     case HIDE_SELECTED_ITEMS:
     return state
         .setIn(['userData','hiddenListings'], action.items)
@@ -114,6 +127,7 @@ function appReducer(state = initialState, action) {
         .setIn(['userData', 'message'], 'Logout Successful.')
         .setIn(['userData','username'], null)
         .setIn(['userData','token'], false)
+        .setIn(['userData','name'], false)
     case DOWNLOAD_ITEM_SUCCESS:
     return state
         .setIn(['userData','reportData'], action.report)
@@ -128,6 +142,7 @@ function appReducer(state = initialState, action) {
     case REGISTER_ACCOUNT_SUCCESS:
     return state
         .setIn(['userData','username'], action.username)
+        .setIn(['userData','name'], action.name)
         .setIn(['userData', 'isLoggedIn'], true)
         .setIn(['userData', 'token'], action.token)
         .setIn(['userData', 'message'], 'Registration Successful')
@@ -180,6 +195,12 @@ function appReducer(state = initialState, action) {
       return state
         .set('error', action.error)
         .set('loading', false);
+    case LOAD_POOLS_SUCCESS:
+      return state
+        .set('poolData', action.pools)
+    case LOAD_POOLS_FAILURE:
+      return state
+        .set('poolData', {})
     case LOAD_LISTINGS_SUCCESS:
       return state
         .setIn(['listingTableData', 'data'], action.listings)

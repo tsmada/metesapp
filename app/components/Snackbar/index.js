@@ -4,6 +4,7 @@ import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
+import { SnackbarContent } from 'material-ui/Snackbar';
 import CloseIcon from 'material-ui-icons/Close';
 
 const styles = theme => ({
@@ -17,7 +18,7 @@ class SimpleSnackbar extends React.Component {
 
 
   render() {
-    const { classes, snackbarOpen, handleSnackbarClose, handleSnackbarOpen } = this.props;
+    const { classes, snackbarOpen, handleSnackbarClose, handleSnackbarOpen, content } = this.props;
     return (
       <div>
         <Snackbar
@@ -31,7 +32,7 @@ class SimpleSnackbar extends React.Component {
           SnackbarContentProps={{
             'aria-describedby': 'message-id',
           }}
-          message={<span id="message-id">Listing Watched</span>}
+          message={<span id="message-id">{content}</span>}
           action={[
             <Button key="undo" color="accent" dense onClick={handleSnackbarClose}>
               UNDO

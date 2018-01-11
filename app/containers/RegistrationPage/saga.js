@@ -24,6 +24,7 @@ export function* submitRegister(action) {
   body: JSON.stringify({
     email: action.username,
     password: action.password,
+    name: action.name,
   })});
     if (result.success === true){ // should use response codes instead
     yield put(handleRegisterAccountSuccess(action.username, result.message));
