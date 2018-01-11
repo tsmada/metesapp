@@ -9,16 +9,17 @@ import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
-import Notifications from 'material-ui-icons/Notifications';
+//import Notifications from 'material-ui-icons/Notifications';
 import PriorityHigh from 'material-ui-icons/PriorityHigh';
 import Badge from 'material-ui/Badge';
 import Switch from 'material-ui/Switch';
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import Menu, { MenuItem } from 'material-ui/Menu';
-import AppNotifications from 'react-notification-system-redux';
+import Notifications from 'react-notification-system-redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { makeSelectNotifications } from 'containers/App/selectors';
 
 
 const styles = {
@@ -95,7 +96,7 @@ class AppBarMUI extends React.Component {
     const { classes, auth, handleLogout, username, logout } = this.props;
     const { anchorEl, draweropen, notificationsopen, notificationCount } = this.state;
     const open = Boolean(anchorEl);
-    const { appNotifications } = this.props;
+    const { notifications } = this.props;
     const notificationMenu = (notificationCount > 0)
             ? (<Badge className={classes.badge} badgeContent={this.state.notificationCount} color="secondary">
               <Notifications />
@@ -104,8 +105,8 @@ class AppBarMUI extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppNotifications
-          notifications={appNotifications}
+        <Notifications
+          notifications={notifications}
           style={styles}
         />
         <AppBar position="static">
@@ -201,7 +202,7 @@ class AppBarMUI extends React.Component {
 
 AppBarMUI.propTypes = {
   classes: PropTypes.object.isRequired,
-  appNotifications: PropTypes.array,
+  notifications: PropTypes.array,
 };
 
 export function mapDispatchToProps(dispatch) {
@@ -211,7 +212,7 @@ export function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  //appNotifications: state.notifications,
+  notifications: makeSelectNotifications,
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

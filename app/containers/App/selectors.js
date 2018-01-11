@@ -132,7 +132,7 @@ const makeSelectLocation = () => createSelector(
 
 const makeSelectNotifications = () => createSelector(
     selectNotification,
-    (notificationState) => notificationState.get('listingTableData')
+    (notificationState) => notificationState.get('notifications')
 );
 
 export {
@@ -161,4 +161,5 @@ export {
   makeSelectError,
   makeSelectListings,
   makeSelectLocation,
+  makeSelectNotifications,
 };
