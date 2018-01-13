@@ -6,7 +6,17 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import { Link } from 'react-router-dom';
 import Drawer from 'material-ui/Drawer';
+import ListSubheader from 'material-ui/List/ListSubheader';
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import Dashboard from 'material-ui-icons/Dashboard';
+import Collapse from 'material-ui/transitions/Collapse';
+import ExpandLess from 'material-ui-icons/ExpandLess';
+import ExpandMore from 'material-ui-icons/ExpandMore';
 import IconButton from 'material-ui/IconButton';
+import AccountBoxIcon from 'material-ui-icons/AccountBox';
+import SearchIcon from 'material-ui-icons/Search';
+import PlaceIcon from 'material-ui-icons/Place';
+import PermIdentity from 'material-ui-icons/PermIdentity';
 import MenuIcon from 'material-ui-icons/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Notifications from 'material-ui-icons/Notifications';
@@ -103,21 +113,38 @@ class AppBarMUI extends React.Component {
               <MenuIcon />
               <Drawer open={this.state.draweropen} onRequestClose={this.handleToggle} onClose={this.handleToggle}
               docked={true}>
-                <Link to="/dash">
-                  <MenuItem onClick={this.handleToggle}>Foreclosures Dashboard</MenuItem>
-                </Link>
-                <Link to="/">
-                  <MenuItem onClick={this.handleToggle}>Hero Search</MenuItem>
-                </Link>
-                <Link to="/login">
-                  <MenuItem onClick={this.handleToggle}>Account Login</MenuItem>
-                </Link>
-                <Link to="/register">
-                  <MenuItem onClick={this.handleToggle}>Register</MenuItem>
-                </Link>
-                <Link to="/map">
-                  <MenuItem onClick={this.handleToggle}>Map</MenuItem>
-                </Link>
+               <List className={classes.root} subheader={<ListSubheader>Navigate</ListSubheader>}>
+                <ListItem button>
+                  <ListItemIcon>
+                    <Dashboard />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Foreclosure Dashboard" onClick={() => {this.props.history.push('/dash')}}/>
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon>
+                    <SearchIcon />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Map Search" onClick={() => {this.props.history.push('/')}} />
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon>
+                    <PlaceIcon />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Map Browse" onClick={() => {this.props.history.push('/map')}}/>
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon>
+                    <PermIdentity />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Account Sign In" onClick={() => {this.props.history.push('/login')}}/>
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon>
+                    <AccountBoxIcon />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Register Account" onClick={() => {this.props.history.push('/register')}}/>
+                </ListItem>
+              </List>
               </Drawer>
             </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>

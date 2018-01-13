@@ -31,11 +31,16 @@ const brown500 = brown['500'];
 import P from 'components/P';
 import Paper from 'material-ui/Paper';
 import { Switch, Route } from 'react-router-dom';
+import { SocketProvider } from 'socket.io-react';
+import io from 'socket.io-client';
 
 
 const style = {
   display: 'flex',
 };
+
+const socket = io.connect('http://serouslabs.com:4000');
+socket.on('connection', msg => console.log(msg));
 
 
 export class DashboardPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -51,7 +56,9 @@ export class DashboardPage extends React.Component { // eslint-disable-line reac
         history={this.props.history} logout={this.props.handleLogout}
         />
         <Paper style={style}>
-        <DataTable history={this.props.history}/>
+        <SocketProvider socket={socket}>
+          <DataTable history={this.props.history}/>
+        </SocketProvider>
         </Paper>
         <div>
         <P/>

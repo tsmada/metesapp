@@ -58,7 +58,7 @@ import { FormControl, FormHelperText } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 import { MenuItem } from 'material-ui/Menu';
 import SimpleSnackbar from 'components/Snackbar';
-import Workbook from 'react-xlsx-workbook'
+import Workbook from 'react-xlsx-workbook';
 
 
 const columnData = [
@@ -264,6 +264,10 @@ const styles = theme => ({
   table: {
     minWidth: 800,
   },
+  tableCell: {
+    padding: '4px 56px 4px 24px',
+    overflowX: 'auto',
+  },
   tableWrapper: {
     overflowX: 'auto',
   },
@@ -461,7 +465,6 @@ class EnhancedTable extends React.Component {
     const { classes, rowsPerPage, data, page, orderBy, order, selected, history, reportData,
     filterValue, filterBy, filteredItems, rowcount, hidden } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
     const wbData = selected.length > 0 ? data.filter((item) => {
     if (selected.indexOf(item.fcl_id) > 0) {
       //console.log(item, selected)
@@ -685,7 +688,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     dispatch(changePage(page));
     },
     handleRequestSort: (data, order, orderBy) => {
-      dispatch(handleRequestSort(data, order, orderBy))
+    dispatch(handleRequestSort(data, order, orderBy))
     },
     handleSelectAllClick: (checked) => {
     dispatch(handleSelectAllClick(checked))

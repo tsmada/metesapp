@@ -15,6 +15,7 @@ import { compose } from 'redux';
 import { makeSelectItemDetail, makeSelectIsLoggedIn, makeSelectCurrentUser } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
 import H1 from 'components/H1';
+import Countdown from 'components/Countdown';
 import H2 from 'components/H2';
 import P from 'components/P';
 import reducer from 'containers/App/reducer';
@@ -66,11 +67,16 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
         
           <div>
             <Paper style={style} zDepth={3}>
+            <div>
+            <center>
               <H1>
-              {this.props.item[0].propertyaddress},
-{this.props.item[0].propertycity}, {this.props.item[0].state},
+              {this.props.item[0].propertyaddress},  
+{this.props.item[0].propertycity}, {this.props.item[0].state}, 
  {this.props.item[0].county} County
               </H1>
+              <H2><Countdown date={this.props.item[0].saledate}/> Remaining until Auction</H2>
+              </center>
+            </div>
             </Paper>
           </div>
 
