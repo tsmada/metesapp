@@ -337,18 +337,24 @@ class EnhancedTable extends React.Component {
     const selectedIndex = this.props.selected.indexOf(id);
     let newSelected = [];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(this.props.selected,id)
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(this.props.selected.slice(1));
-    } else if (selectedIndex === this.props.selected.length - 1) {
-      newSelected = newSelected.concat(this.props.selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        this.props.selected.slice(0, selectedIndex),
-        this.props.selected.slice(selectedIndex + 1),
-      );
-    }
+    if (this.props.selected.size != 0) { // weird fix for immutableJS making a list in the first index of this.props.selected
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(this.props.selected,id)
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(this.props.selected.slice(1));
+      } else if (selectedIndex === this.props.selected.length - 1) {
+        newSelected = newSelected.concat(this.props.selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          this.props.selected.slice(0, selectedIndex),
+          this.props.selected.slice(selectedIndex + 1),
+        );
+      }
+  } else {
+    console.log(id)
+    newSelected = [id];
+  }
+
     console.log('handleclick() fired -- New Selection: ', newSelected)
     this.props.handleSelectItem(newSelected);
   };
