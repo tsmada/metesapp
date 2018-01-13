@@ -6,6 +6,7 @@ import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import { SnackbarContent } from 'material-ui/Snackbar';
 import CloseIcon from 'material-ui-icons/Close';
+import CheckCircleIcon from 'material-ui-icons/CheckCircle';
 
 const styles = theme => ({
   close: {
@@ -27,12 +28,12 @@ class SimpleSnackbar extends React.Component {
             horizontal: 'left',
           }}
           open={snackbarOpen}
-          autoHideDuration={6000}
+          autoHideDuration={3000}
           onClose={handleSnackbarClose}
           SnackbarContentProps={{
             'aria-describedby': 'message-id',
           }}
-          message={<span id="message-id">{content}</span>}
+          message={<div><span id="message-id">{content}</span></div>}
           action={[
             <Button key="undo" color="accent" dense onClick={handleSnackbarClose}>
               UNDO

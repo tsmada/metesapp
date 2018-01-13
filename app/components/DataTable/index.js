@@ -192,32 +192,31 @@ let EnhancedTableToolbar = props => {
       </div>
       <div className={classes.spacer} />
       <div className={classes.action}>
-      <Tooltip title="Hide Listings">
-            <IconButton aria-label="Hide Listings" onClick={hideSelected}>
-              <VisibilityOffIcon />
-            </IconButton>
-          </Tooltip>
-      </div>
-      <div className={classes.action}>
+      {numSelected > 0 ? (
       <Tooltip title="Make Offer">
             <IconButton aria-label="Make Offer" onClick={createOffer}>
               <GavelIcon />
             </IconButton>
           </Tooltip>
+      ) : null}
       </div>
       <div className={classes.action}>
+      {numSelected > 0 ? (
       <Tooltip title="Watch Listing">
             <IconButton aria-label="Watch Listing" onClick={watchListing}>
               <StarIcon />
             </IconButton>
           </Tooltip>
+      ) : null}
       </div>
       <div className={classes.action}>
+      {numSelected > 0 ? (
       <Tooltip title="Create Investor Pool">
             <IconButton aria-label="Create Investor Pool" onClick={createHorde}>
               <GroupAddIcon />
             </IconButton>
           </Tooltip>
+      ) : null }
       </div>
       <div className={classes.actions}>
         {numSelected > 0 ? (
@@ -373,6 +372,7 @@ class EnhancedTable extends React.Component {
   //console.log(this.props.username, this.props.selected[0], fAmt[0].maxbid, fAmt[0].assessedvalue)
   this.props.handleCreatePool(this.props.username, this.props.selected[0], fAmt[0].maxbid);
   this.setState({createHordeDialogOpen: !this.state.createHordeDialogOpen})
+  this.setState({ snackbarOpen: true, snackbarContent: 'Horde Created'});
  };
 
  handleCreateOfferDialogToggle = () => {

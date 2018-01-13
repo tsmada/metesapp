@@ -121,7 +121,7 @@ class AppBarMUI extends React.Component {
               </Drawer>
             </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>
-              Listings Dashboard
+              metes.io
             </Typography>
             {auth && (
               <div>
