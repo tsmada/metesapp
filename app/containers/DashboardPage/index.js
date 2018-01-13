@@ -39,10 +39,6 @@ const style = {
   display: 'flex',
 };
 
-const socket = io.connect('http://serouslabs.com:4000');
-socket.on('connection', msg => console.log(msg));
-
-
 export class DashboardPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   render() {

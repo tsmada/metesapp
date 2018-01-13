@@ -114,35 +114,35 @@ class AppBarMUI extends React.Component {
               <Drawer open={this.state.draweropen} onRequestClose={this.handleToggle} onClose={this.handleToggle}
               docked={true}>
                <List className={classes.root} subheader={<ListSubheader>Navigate</ListSubheader>}>
-                <ListItem button>
+                <ListItem button onClick={() => {this.props.history.push('/dash')}}>
                   <ListItemIcon>
                     <Dashboard />
                   </ListItemIcon>
-                  <ListItemText inset primary="Foreclosure Dashboard" onClick={() => {this.props.history.push('/dash')}}/>
+                  <ListItemText inset primary="Foreclosure Dashboard"/>
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={() => {this.props.history.push('/')}}>
                   <ListItemIcon>
                     <SearchIcon />
                   </ListItemIcon>
-                  <ListItemText inset primary="Map Search" onClick={() => {this.props.history.push('/')}} />
+                  <ListItemText inset primary="Map Search" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={() => {this.props.history.push('/map')}}>
                   <ListItemIcon>
                     <PlaceIcon />
                   </ListItemIcon>
-                  <ListItemText inset primary="Map Browse" onClick={() => {this.props.history.push('/map')}}/>
+                  <ListItemText inset primary="Map Browse"/>
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={() => {this.props.history.push('/login')}}>
                   <ListItemIcon>
                     <PermIdentity />
                   </ListItemIcon>
-                  <ListItemText inset primary="Account Sign In" onClick={() => {this.props.history.push('/login')}}/>
+                  <ListItemText inset primary="Account Sign In"/>
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={() => {this.props.history.push('/register')}}>
                   <ListItemIcon>
                     <AccountBoxIcon />
                   </ListItemIcon>
-                  <ListItemText inset primary="Register Account" onClick={() => {this.props.history.push('/register')}}/>
+                  <ListItemText inset primary="Register Account"/>
                 </ListItem>
               </List>
               </Drawer>
