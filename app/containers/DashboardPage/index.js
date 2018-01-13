@@ -52,9 +52,7 @@ export class DashboardPage extends React.Component { // eslint-disable-line reac
         history={this.props.history} logout={this.props.handleLogout}
         />
         <Paper style={style}>
-        <SocketProvider socket={socket}>
           <DataTable history={this.props.history}/>
-        </SocketProvider>
         </Paper>
         <div>
         <P/>
