@@ -99,6 +99,10 @@ class EnhancedTableHead extends React.Component {
     this.props.onRequestSort(event, property);
   };
 
+  createFilterHandler = property => event => {
+    this.props.onRequestSort(event, property);
+  };
+
   render() {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
     return (
@@ -168,13 +172,7 @@ const toolbarStyles = theme => ({
 
 let EnhancedTableToolbar = props => {
   const { numSelected, classes, selected, reportData, createHorde,
-  createOffer, filterList, watchListing, data, hideSelected } = props;
-
-  const wbData = data.filter((item) => {
-    if (selected.indexOf(item.fcl_id) > 0) {
-      return item;
-    }
-  })
+  createOffer, filterList, watchListing, data, hideSelected, wbData } = props;
 
   const workBookname = 'Foreclosure Export - ' + String(Date.now()) + '.xlsx'
   return (
@@ -293,6 +291,10 @@ class EnhancedTable extends React.Component {
   componentDidUpdate(){
   }
 
+  handleRequestTableFilter = (event, property) => {
+    console.log('Table Filter Requested for Column: ', property)
+  }
+
   handleRequestSort = (event, property) => {
     const orderBy = property;
     let order = 'desc';
@@ -333,7 +335,7 @@ class EnhancedTable extends React.Component {
   };
 
   handleClick = (event, id) => {
-    console.log('handleclick() fired -- Previous Selection: ', this.props.selected)
+    //console.log('handleclick() fired -- Previous Selection: ', this.props.selected)
     const selectedIndex = this.props.selected.indexOf(id);
     let newSelected = [];
 
@@ -351,11 +353,10 @@ class EnhancedTable extends React.Component {
         );
       }
   } else {
-    console.log(id)
     newSelected = [id];
   }
 
-    console.log('handleclick() fired -- New Selection: ', newSelected)
+    //console.log('handleclick() fired -- New Selection: ', newSelected)
     this.props.handleSelectItem(newSelected);
   };
 
@@ -390,7 +391,7 @@ class EnhancedTable extends React.Component {
  }
 
  handleOfferNav = () => {
-  console.log('Naving to ', this.props.selected)
+  //console.log('Naving to ', this.props.selected)
   this.props.data.map((item) => {
     if (item.fcl_id === this.props.selected[0]) {
       countyData.map((cd) => {
@@ -452,7 +453,7 @@ class EnhancedTable extends React.Component {
       };
     });
     this.setState({createFilterDialogOpen: false});
-
+    this.setState({ snackbarOpen: true, snackbarContent: 'Filtered ' + filteredValues.length + ' listings.'});
     this.props.handleRequestFilter(filteredValues, this.state.filterValue, this.state.filterBy);
   }
 
@@ -460,6 +461,13 @@ class EnhancedTable extends React.Component {
     const { classes, rowsPerPage, data, page, orderBy, order, selected, history, reportData,
     filterValue, filterBy, filteredItems, rowcount, hidden } = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+
+    const wbData = selected.length > 0 ? data.filter((item) => {
+    if (selected.indexOf(item.fcl_id) > 0) {
+      //console.log(item, selected)
+      return item;
+    }
+    }) : null;
 
     const RowCount = (this.props.filteredItems.length > 0)
     ? this.props.data.length - this.props.filteredItems.length
@@ -482,6 +490,7 @@ class EnhancedTable extends React.Component {
         watchListing={this.handleWatchListing}
         data={FilterData}
         hideSelected={this.hideSelected}
+        wbData={wbData}
         />
         <div className={classes.tableWrapper}>
           <Table className={classes.table}>
@@ -491,6 +500,7 @@ class EnhancedTable extends React.Component {
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
+              onRequestFilter={this.handleRequestTableFilter}
               rowCount={RowCount}
             />
             <TableBody>
@@ -499,7 +509,7 @@ class EnhancedTable extends React.Component {
                 .map((n,index) => {
                 const isSelected = this.isSelected(n.fcl_id); // returns true when checked
                 const isPooled = this.isPooled(n.fcl_id, index);
-                console.log(isPooled);
+                //console.log(isPooled);
                 return (
                   <TableRow
                     hover

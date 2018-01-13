@@ -46,7 +46,7 @@ class LoginForm extends React.Component { // eslint-disable-line react/prefer-st
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, snackbarOpen } = this.props;
     return (
       <div style={style}>
         <H2>Please Log Into Your Account </H2>
@@ -65,12 +65,12 @@ class LoginForm extends React.Component { // eslint-disable-line react/prefer-st
           />
           <Button
             href="#"
-            onClick={this.onClick}
+            onClick={(e) => {this.onClick(e);this.props.snackbarOpen();}}
             autoFocus
           >Login</Button>
           <Button
             href="#"
-            onClick={this.onClick}
+            onClick={(e) => {this.onClick(e);this.props.snackbarOpen();}}
           >Forgot Password</Button>
           <Button
             href="#"
