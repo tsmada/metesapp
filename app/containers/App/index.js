@@ -21,6 +21,7 @@ import DashboardContainer from 'containers/DashboardPage';
 import ProfileContainer from 'containers/ProfileContainer';
 import MapContainer from 'containers/MapContainer/Loadable';
 import InvestorContainer from 'containers/InvestorContainer/Loadable';
+import HordeContainer from 'containers/HordeContainer/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { UserAuthWrapper } from 'redux-auth-wrapper';
 import { LOCATION_CHANGE } from 'react-router-redux';
@@ -53,6 +54,7 @@ export default function App() {
         <Route exact path="/" component={HomePage} />
           <Route exact path="/dash" component={Authenticated(DashboardPage)} />
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/hordes" component={HordeContainer} />
           <Route exact path="/dash/detail/:id" component={Authenticated(ItemDetail)} />
           <Route exact path="/user/:id" component={Authenticated(ProfileContainer)}/>
           <Route exact path="/register" component={RegistrationPage} />

@@ -17,6 +17,7 @@ import AccountBoxIcon from 'material-ui-icons/AccountBox';
 import SearchIcon from 'material-ui-icons/Search';
 import PlaceIcon from 'material-ui-icons/Place';
 import PermIdentity from 'material-ui-icons/PermIdentity';
+import PollIcon from 'material-ui-icons/Poll';
 import MenuIcon from 'material-ui-icons/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import Notifications from 'material-ui-icons/Notifications';
@@ -119,6 +120,12 @@ class AppBarMUI extends React.Component {
                     <Dashboard />
                   </ListItemIcon>
                   <ListItemText inset primary="Foreclosure Dashboard"/>
+                </ListItem>
+                <ListItem button onClick={() => {this.props.history.push('/hordes')}}>
+                  <ListItemIcon>
+                    <PollIcon />
+                  </ListItemIcon>
+                  <ListItemText inset primary="Active Hordes" />
                 </ListItem>
                 <ListItem button onClick={() => {this.props.history.push('/')}}>
                   <ListItemIcon>
