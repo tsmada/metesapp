@@ -31,9 +31,6 @@ const brown500 = brown['500'];
 import P from 'components/P';
 import Paper from 'material-ui/Paper';
 import { Switch, Route } from 'react-router-dom';
-import { SocketProvider } from 'socket.io-react';
-import io from 'socket.io-client';
-
 
 const style = {
   display: 'flex',
@@ -59,7 +56,7 @@ export class DashboardPage extends React.Component { // eslint-disable-line reac
         </div>
       </div>
     );
-  }
+  } 
 }
 
 

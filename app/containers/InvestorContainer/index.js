@@ -11,6 +11,7 @@ import { compose } from 'redux';
 import AppBarMUI from 'components/AppBar';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import H2 from 'components/H2';
+import H3 from 'components/H3';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectCurrentUser, makeSelectPools,
 makeSelectIsLoggedIn, makeSelectUserPools } from 'containers/App/selectors';
@@ -18,6 +19,11 @@ import { handleGetUserPools } from '../App/actions';
 import { withStyles } from 'material-ui/styles';
 import injectSaga from 'utils/injectSaga';
 import saga from './saga';
+import Paper from 'material-ui/Paper';
+import Typography from 'material-ui/Typography';
+import P from 'components/P';
+import SimpleCard from 'components/SimpleCard';
+import HordeTable from 'components/HordeTable';
 
 const styles = theme => ({
   root: {
@@ -33,7 +39,51 @@ const styles = theme => ({
   column: {
     float: 'left',
     width: '50%',
-  }
+  },
+  title: {
+    marginLeft: 10,
+    marginTop: 0,
+    marginRight: 10,
+    marginBottom: 10,
+    width: '100%',
+  },
+  subtitle: {
+    marginLeft: 20,
+    marginTop: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    width: '100%',
+    color: 'gray',
+  },
+  header: {
+    marginLeft: 10,
+    marginTop: 0,
+    marginRight: 10,
+    marginBottom: 10,
+    width: '100%',
+  },
+  table: {
+    width: '98%',
+    marginLeft: 10,
+    marginBottom: 10,
+    marginRight: 10,
+    marginTop: 10,
+  },
+  cardrow: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  card: {
+    width: '100%',
+    maxWidth: 250,
+    maxHeight: 250,
+    marginLeft: 40,
+    marginTop: 10,
+    marginBottom: 10,
+    marginRight: 10,
+    flex: 1,
+  },
 });
 
 export class InvestorContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -47,32 +97,40 @@ export class InvestorContainer extends React.Component { // eslint-disable-line 
 
   render() {
     const { classes } = this.props;
-    const poolList = (this.props.userPools[0]) ? this.props.userPools.map((anObjectMapped, index) => {
-    return (
-        <div className={classes.root}>
-          <div className={classes.row}>
-            <div className={classes.column}>
-              <H2>Investor Pool</H2>
-            </div>
-            <div className={classes.column}>
-              <H2>Target Funding Amount</H2>
-            </div>
-          </div>
-          <List>
-            <ListItem button key={`${anObjectMapped.itemID}`}>
-              <ListItemText primary={anObjectMapped.title + ' - $' + anObjectMapped.targetFundingAmt} />
-            </ListItem>
-            </List>
-        </div>
-    );
-}):null;
-
     return (
       <div>
       <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
         history={this.props.history} logout={this.props.handleLogout}/>
         <div>
-        {poolList}
+          <div className={classes.header}>
+            <Paper elevation={4}>
+              <div className={classes.title}>
+                <H2>Hordes</H2>
+              </div>
+              <div className={classes.subtitle}>
+                <H3>Recently Viewed</H3>
+              </div>
+              <P/>
+              <div className={classes.cardrow}>
+                <div className={classes.card}>
+                  <SimpleCard headline={'Greasy-Raider'} comment={'3 bedroom, 3 bath, 30.2% Projected ROI'}/>
+                </div>
+                <div className={classes.card}>
+                  <SimpleCard headline={'Fuzzy-Diaper'} comment={'4 bedroom, 2 bath, 18.3% Projected ROI'}/>
+                </div>
+                <div className={classes.card}>
+                  <SimpleCard headline={'Against-All-Odds'} comment={'2 bedroom, 1 bath, 11.82% Projected ROI'}/>
+                </div>
+                <div className={classes.card}>
+                  <SimpleCard headline={'Silent-Earnings'} comment={'1 bedroom, 1 bath, 19.12% Projected ROI'}/>
+                </div>
+              </div>
+              <P/>
+              <div className={classes.table}>
+                <HordeTable pools={this.props.pools}/>
+              </div>
+            </Paper>
+          </div>
         </div>
       </div>
     );
