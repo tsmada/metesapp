@@ -30,6 +30,7 @@ const styles = theme => ({
     width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
+    overflowX: 'auto',
   },
   row: {
     content: '',
@@ -63,9 +64,10 @@ const styles = theme => ({
     width: '100%',
   },
   table: {
-    width: '98%',
-    marginLeft: 10,
-    marginBottom: 10,
+    jusfify: 'center',
+    width: '85%',
+    marginLeft: 30,
+    marginBottom: 30,
     marginRight: 10,
     marginTop: 10,
   },
@@ -129,6 +131,7 @@ export class InvestorContainer extends React.Component { // eslint-disable-line 
               <div className={classes.table}>
                 <HordeTable pools={this.props.pools}/>
               </div>
+              <P/>
             </Paper>
           </div>
         </div>

@@ -29,7 +29,7 @@ class Countdown extends Component {
     let diff = (Date.parse(new Date(endDate)) - Date.parse(new Date())) / 1000;
 
     // clear countdown when date is reached
-    if (diff <= 0) return (<TimeAgo date={this.props.date} />);
+    if (diff <= 0) return null;
 
     const timeLeft = {
       years: 0,
@@ -77,6 +77,14 @@ class Countdown extends Component {
   render() {
     const countDown = this.state;
 
+    if (countDown.days == 0 && countDown.hours == 0 && countDown.min == 0 && countDown.sec == 0){
+      return (
+        <div>
+          Auction ended <TimeAgo date={this.props.date}/>
+        </div>
+        );
+    } else {
+
     return (
       <div className="Countdown">
         <span className="Countdown-col">
@@ -109,6 +117,7 @@ class Countdown extends Component {
         </span>
       </div>
     );
+  }
   }
 }
 

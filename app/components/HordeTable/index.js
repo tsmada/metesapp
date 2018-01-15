@@ -149,7 +149,10 @@ HordeTableToolbar = withStyles(toolbarStyles)(HordeTableToolbar);
 const styles = theme => ({
   root: {
     width: '100%',
+    paddingRight: 2,
+    paddingLeft: 10,
     marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
   },
   table: {
     minWidth: 800,

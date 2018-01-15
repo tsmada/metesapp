@@ -74,7 +74,7 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
 {this.props.item[0].propertycity}, {this.props.item[0].state}, 
  {this.props.item[0].county} County
               </H1>
-              <H2><Countdown date={this.props.item[0].saledate}/> Remaining until Auction</H2>
+              <H2><Countdown date={this.props.item[0].saledate}/></H2>
               </center>
             </div>
             </Paper>

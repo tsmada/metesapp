@@ -51,6 +51,7 @@ import Dialog, {
   DialogTitle,
   withMobileDialog,
 } from 'material-ui/Dialog';
+import HordeCreateDialog from 'components/HordeCreateDialog';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import Select from 'material-ui/Select';
@@ -285,6 +286,7 @@ class EnhancedTable extends React.Component {
       snackbarContent: false,
       filterValue: '01/08/2018',
       filterBy: 'saledate',
+      currentListing: false,
     }
   }
 
@@ -362,6 +364,13 @@ class EnhancedTable extends React.Component {
 
     //console.log('handleclick() fired -- New Selection: ', newSelected)
     this.props.handleSelectItem(newSelected);
+    this.props.data.forEach((item) => {
+      if (item.fcl_id == id) {
+        this.setState({
+          currentListing: item,
+        })
+      }
+    })
   };
 
   handleRowCheck = (event, id) => {
@@ -536,9 +545,7 @@ class EnhancedTable extends React.Component {
                     <TableCell>{n.assessedvalue}</TableCell>
                     <TableCell>{n.finaljudgement}</TableCell>
                     <TableCell>{n.maxbid}</TableCell>
-                    {isPooled
-                    ? <Tooltip title="Join this CrowdPool"><TableCell>{n.parcelid}<PersonAddIcon/></TableCell></Tooltip>
-                    : <TableCell>{n.parcelid}</TableCell>}
+                    <TableCell>{n.parcelid}</TableCell>
                   </TableRow>
                 );
               })}
@@ -560,7 +567,7 @@ class EnhancedTable extends React.Component {
               </TableRow>
             </TableFooter>
           </Table>
-          <Dialog fullScreen={false} open={this.state.createHordeDialogOpen}>
+          <Dialog fullScreen={false} open={false}>
           <DialogTitle id="responsive-dialog-title">{"Create Horde?"}</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -638,6 +645,10 @@ class EnhancedTable extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <HordeCreateDialog open={this.state.createHordeDialogOpen} listing={this.state.currentListing}
+        cancelButton={this.handleCreateHordeDialogToggle}
+        agreeButton={this.handleCreateHordeDialogConfirm}
+        />
         <SimpleSnackbar snackbarOpen={this.state.snackbarOpen} handleSnackbarClose={this.handleSnackbarClose}
         handleSnackbarOpen={this.handleSnackbarOpen} content={this.state.snackbarContent}/>
 
