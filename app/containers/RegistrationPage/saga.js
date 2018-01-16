@@ -3,10 +3,9 @@
  */
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { REGISTER_ACCOUNT, REGISTER_ACCOUNT_FAILURE, REGISTER_ACCOUNT_SUCCESS } from 'containers/App/constants';
-import { handleRegisterAccount, handleRegisterAccountSuccess, handleRegisterAccountFailure,
-handleUserLogin } from 'containers/App/actions';
-
+import { REGISTER_ACCOUNT, REGISTER_ACCOUNT_FAILURE, REGISTER_ACCOUNT_SUCCESS, USER_LOG_IN } from 'containers/App/constants';
+import { handleRegisterAccount, handleRegisterAccountSuccess, handleRegisterAccountFailure } from 'containers/App/actions';
+import { push } from 'react-router-redux';
 import request from 'utils/request';
 
 /**
@@ -28,7 +27,7 @@ export function* submitRegister(action) {
   })});
     if (result.success === true){ // should use response codes instead
     yield put(handleRegisterAccountSuccess(action.username, result.message));
-    yield put(handleUserLogin(action.username, action.password));
+    yield put(push('/dash'))
   } else {
     yield put(handleRegisterAccountFailure(action.username, result.message));
   }

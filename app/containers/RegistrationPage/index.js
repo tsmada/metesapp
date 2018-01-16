@@ -18,6 +18,7 @@ makeSelectName } from 'containers/App/selectors';
 import AppBarMUI from 'components/AppBar';
 import H2 from 'components/H2';
 import Paper from 'material-ui/Paper';
+import SimpleSnackbar from 'components/Snackbar';
 
 import injectSaga from 'utils/injectSaga';
 import saga from './saga';
@@ -29,6 +30,27 @@ const style = {
 };
 
 export class RegistrationPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      snackbarOpen: false,
+      snackbarContent: false,
+    }
+  }
+
+  handleSnackbarOpen = () => {
+    console.log('Snackbar opening onRegister')
+    this.setState({ snackbarOpen: true });
+  };
+
+  handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({ snackbarOpen: false });
+  };
 
   render() {
     return (
@@ -41,9 +63,10 @@ export class RegistrationPage extends React.Component { // eslint-disable-line r
         history={this.props.history} logout={this.props.handleLogout}
         />
         <Paper style={style} zDepth={3}>
-          <RegistrationForm onSubmit={this.props.handleSubmitRegistration}/>
+          <RegistrationForm onSubmit={this.props.handleSubmitRegistration} snackbarOpen={this.handleSnackbarOpen}/>
         </Paper>
-        <H2><center>{this.props.message}</center></H2>
+        <SimpleSnackbar snackbarOpen={this.state.snackbarOpen} handleSnackbarClose={this.handleSnackbarClose}
+        handleSnackbarOpen={this.handleSnackbarOpen} content={this.props.message}/>
       </div>
     );
   }

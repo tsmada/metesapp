@@ -373,9 +373,10 @@ class EnhancedTable extends React.Component {
     })
   };
 
-  handleRowCheck = (event, id) => {
+  handleRowCheck = (event, n) => {
     if (event.target.type != 'checkbox') {
-    this.props.history.push(`/dash/detail/${id}`);
+      const addressStub = n.propertyaddress.replace(/[\s]/g, '-')
+    this.props.history.push(`/dash/detail/${n.fcl_id}/${addressStub}-${n.propertycity}-${n.state}-${n.propertyzip}`);
   }
  };
 
@@ -526,7 +527,7 @@ class EnhancedTable extends React.Component {
                   <TableRow
                     hover
                     role="checkbox"
-                    onClick={event => this.handleRowCheck(event, n.fcl_id)}
+                    onClick={event => this.handleRowCheck(event, n)}
                     aria-checked={isSelected}
                     tabIndex={-1}
                     key={n.fcl_id}

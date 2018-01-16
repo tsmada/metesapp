@@ -36,7 +36,8 @@ class RegistrationForm extends React.Component { // eslint-disable-line react/pr
 
   onClick = (e) => {
     e.preventDefault()
-    this.props.onSubmit(this.state.username, this.state.password, this.state.name)
+    this.props.onSubmit(this.state.username, this.state.password, this.state.name);
+    this.props.snackbarOpen();
   };
 
   handleChangeUsername = event => {
