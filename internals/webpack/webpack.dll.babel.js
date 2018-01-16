@@ -28,16 +28,8 @@ module.exports = require('./webpack.base.babel')({
     path: outputPath,
     library: '[name]',
   },
-  node: {fs: 'empty'},
-    externals: [
-      {'./cptable': 'var cptable'},
-      {'./jszip': 'jszip'}
-    ],
   plugins: [
-    new webpack.DllPlugin({
-      name: '[name]',
-      path: join(outputPath, '[name].json'),
-    }),
+    new webpack.DllPlugin({ name: '[name]', path: join(outputPath, '[name].json') }), // eslint-disable-line no-new
   ],
   performance: {
     hints: false,

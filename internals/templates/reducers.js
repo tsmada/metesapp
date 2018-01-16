@@ -1,5 +1,6 @@
 /**
  * Combine all reducers in this file and export the combined reducers.
+ * If we were to do this in store.js, reducers wouldn't be hot reloadable.
  */
 
 import { combineReducers } from 'redux-immutable';
@@ -18,7 +19,7 @@ import languageProviderReducer from 'containers/LanguageProvider/reducer';
 
 // Initial routing state
 const routeInitialState = fromJS({
-  location: null,
+  locationBeforeTransitions: null,
 });
 
 /**
@@ -29,7 +30,7 @@ function routeReducer(state = routeInitialState, action) {
     /* istanbul ignore next */
     case LOCATION_CHANGE:
       return state.merge({
-        location: action.payload,
+        locationBeforeTransitions: action.payload,
       });
     default:
       return state;
@@ -37,12 +38,12 @@ function routeReducer(state = routeInitialState, action) {
 }
 
 /**
- * Creates the main reducer with the dynamically injected ones
+ * Creates the main reducer with the asynchronously loaded ones
  */
-export default function createReducer(injectedReducers) {
+export default function createReducer(asyncReducers) {
   return combineReducers({
     route: routeReducer,
     language: languageProviderReducer,
-    ...injectedReducers,
+    ...asyncReducers,
   });
 }
