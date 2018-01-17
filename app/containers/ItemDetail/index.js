@@ -49,7 +49,9 @@ const muiTheme = {
 export class ItemDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   componentDidMount() {
-    this.props.onLoad(this.props.match.params.id);
+    if (this.props.params.id) {
+      this.props.onLoad(this.props.params.id);
+    }
   }
 
   render() {
@@ -62,7 +64,7 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
       <div>
         <div>
           <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.history} logout={this.props.handleLogout}/>
+        history={this.props.router} logout={this.props.handleLogout}/>
         </div>
         
           <div>
@@ -248,8 +250,4 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'itemDetail', reducer });
 const withSaga = injectSaga({ key: 'itemDetail', saga });
 
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
-)(ItemDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemDetail);

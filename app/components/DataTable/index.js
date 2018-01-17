@@ -728,9 +728,6 @@ function mapDispatchToProps(dispatch, ownProps) {
 
 const withConnect = connect(mapStateToProps,mapDispatchToProps);
 const withSaga = injectSaga({ key: 'dashboardPage', saga });
+const withComponent = withStyles(styles)(EnhancedTable);
 
-export default compose(
-  withStyles(styles),
-  withSaga,
-  withConnect,
-)(EnhancedTable);
+export default connect(mapStateToProps,mapDispatchToProps)(withComponent);

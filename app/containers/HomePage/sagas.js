@@ -1,47 +1,42 @@
-/**
- * Gets the repositories of the user from Github
- */
-
 import { take, call, put, select, cancel, takeLatest } from 'redux-saga/effects';
-import { LOCATION_CHANGE } from 'react-router-redux';
-import { LOAD_REPOS } from 'containers/App/constants';
-import { reposLoaded, repoLoadingError } from 'containers/App/actions';
-
+import { HERO_SEARCH_SUBMIT, HERO_SEARCH_SUBMIT_SUCCESS } from 'containers/App/constants';
+import { handleHeroSearchSubmit, handleHeroSearchSubmitSuccess, handleHeroSearchSubmitFailure } from 'containers/App/actions';
 import request from 'utils/request';
-import { makeSelectUsername } from 'containers/HomePage/selectors';
+import { push, LOCATION_CHANGE } from 'react-router-redux';
 
 /**
  * Github repos request/response handler
  */
-export function* getRepos() {
-  // Select username from store
-  const username = yield select(makeSelectUsername());
-  const requestURL = `https://api.github.com/users/${username}/repos?type=all&sort=updated`;
+export function* submitSearch(action, dispatch) {
 
-  try {
-    // Call our request helper (see 'utils/request')
-    const repos = yield call(request, requestURL);
-    yield put(reposLoaded(repos, username));
-  } catch (err) {
-    yield put(repoLoadingError(err));
-  }
+  const requestURL = `https://serouslabs.com:8000/api/main/` + String(action.searchstring);
+
+    const result = yield call(request, requestURL,
+      {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    address: action.searchstring
+  })});
+
+    yield put(handleHeroSearchSubmitSuccess(result));
+    yield put(push('/map'));
 }
 
 /**
  * Root saga manages watcher lifecycle
  */
-export function* githubData() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  const watcher = yield takeLatest(LOAD_REPOS, getRepos);
-
-  // Suspend execution until location changes
+export function* userSearch() {
+// watches for USER_LOG_IN actions and submits the details
+  const watcher = yield takeLatest(HERO_SEARCH_SUBMIT, submitSearch);
   yield take(LOCATION_CHANGE);
   yield cancel(watcher);
 }
 
+
 // Bootstrap sagas
 export default [
-  githubData,
+  userSearch,
 ];

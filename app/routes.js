@@ -39,19 +39,138 @@ function createChildRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
-      path: '/features',
-      getComponent(nextState, cb) {
-        import('containers/FeaturePage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
-      },
-    }, {
-      path: '/users/:username',
-      name: 'user',
+      path: '/map',
       getComponent(nextState, cb) {
         const importModules = Promise.all([
-          import('containers/UserPage/sagas'),
-          import('containers/UserPage'),
+          import('containers/MapContainer/reducer'),
+          import('containers/MapContainer/sagas'),
+          import('containers/MapContainer'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectSagas(sagas.default);
+          injectReducer('map', reducer.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    },
+    {
+      path: '/dash/detail/:id/:address',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/ItemDetail/saga'),
+          import('containers/ItemDetail'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([sagas, component]) => {
+          injectSagas(sagas.default);
+
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    },
+    {
+      path: '/invest',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/InvestorContainer'),
+          import('containers/InvestorContainer/saga'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([component, saga]) => {
+          injectSagas(saga.default);
+          renderRoute(component);
+        });
+        importModules.catch(errorLoading);
+      },
+    },
+    {
+      path: '/hordes',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/HordeContainer')
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([component]) => {
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    },
+    {
+      path: '/user/:id',
+      name: '/user',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/ProfileContainer')
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([component]) => {
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    },
+    {
+      path: '/register',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/RegistrationPage/saga'),
+          import('containers/RegistrationPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([sagas, component]) => {
+          injectSagas(sagas.default);
+
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    },
+    {
+      path: '/dash',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/DashboardPage/saga'),
+          import('containers/DashboardPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([sagas, component]) => {
+          injectSagas(sagas.default);
+
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    },
+     {
+      path: '/login',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/LoginPage/saga'),
+          import('containers/LoginPage'),
         ]);
 
         const renderRoute = loadModule(cb);
