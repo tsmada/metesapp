@@ -3,7 +3,7 @@
  */
 
 import { browserHistory } from 'react-router';
-import configureStore from '../configureStore';
+import configureStore from '../store';
 
 describe('configureStore', () => {
   let store;
@@ -12,15 +12,9 @@ describe('configureStore', () => {
     store = configureStore({}, browserHistory);
   });
 
-  describe('injectedReducers', () => {
-    it('should contain an object for reducers', () => {
-      expect(typeof store.injectedReducers).toBe('object');
-    });
-  });
-
-  describe('injectedSagas', () => {
-    it('should contain an object for sagas', () => {
-      expect(typeof store.injectedSagas).toBe('object');
+  describe('asyncReducers', () => {
+    it('should contain an object for async reducers', () => {
+      expect(typeof store.asyncReducers).toEqual('object');
     });
   });
 

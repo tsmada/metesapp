@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'react-router/lib/Link';
 import styled from 'styled-components';
 
 export default styled(Link)`
