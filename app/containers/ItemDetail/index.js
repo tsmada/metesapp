@@ -68,7 +68,7 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
       <div>
         <Helmet>
           <meta charSet="utf-8" />
-            <title>{this.props.item[0].propertyaddress}, {this.props.item[0].propertycity} Foreclosure,</title>
+            <title>{this.props.item[0].propertyaddress} Foreclosure,</title>
             <meta name="description" content={content} />
         </Helmet>
         <div>

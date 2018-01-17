@@ -31,9 +31,10 @@ export function App(props) {
         titleTemplate="%s - metes&bounds"
         defaultTitle="metes&bounds"
       >
-        <meta name="description" content="A foreclosure, preforeclosure, and tax lien/deed analysis application." />
+        <meta name="description" content="A foreclosure, preforeclosure, and tax lien/deed crowdpool application." />
       </Helmet>
       {React.Children.toArray(props.children)}
+      <Footer/>
     </AppWrapper>
   );
 }

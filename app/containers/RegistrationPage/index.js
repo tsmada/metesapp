@@ -40,7 +40,7 @@ export class RegistrationPage extends React.Component { // eslint-disable-line r
   }
 
   handleSnackbarOpen = () => {
-    console.log('Snackbar opening onRegister')
+    //console.log('Snackbar opening onRegister')
     this.setState({ snackbarOpen: true });
   };
 

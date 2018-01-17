@@ -298,7 +298,6 @@ class EnhancedTable extends React.Component {
   }
 
   handleRequestTableFilter = (event, property) => {
-    console.log('Table Filter Requested for Column: ', property)
   }
 
   handleRequestSort = (event, property) => {

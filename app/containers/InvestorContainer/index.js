@@ -92,7 +92,7 @@ export class InvestorContainer extends React.Component { // eslint-disable-line 
 
   componentDidMount(){
     if (this.props.username) {
-      console.log(this.props.username)
+      //console.log(this.props.username)
       this.props.onLoad(this.props.username)
     }
   }

@@ -17,7 +17,7 @@ export function* getMarkers() {
     // Call our request helper (see 'utils/request')
     const markers = yield call(request, requestURL);
     yield put(handleGetForeclosureMarkersSuccess(markers));
-    console.log('success')
+    //console.log('success')
   } catch (err) {
     yield put(handleGetForeclosureMarkersFailure(err));
   }

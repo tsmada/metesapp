@@ -47,7 +47,7 @@ export class LoginPage extends React.Component { // eslint-disable-line react/pr
   }
 
   handleSnackbarOpen = () => {
-    console.log('Snackbar opening onLogin')
+    //console.log('Snackbar opening onLogin')
     this.setState({ snackbarOpen: true });
   };
 
