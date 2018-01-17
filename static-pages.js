@@ -11,7 +11,7 @@ export default [
   '/',
   '/dash/',
    '/map/',
-   '/login/'
+   '/login/',
    '/register/',
 '/dash/detail/2476955/10121-OLDSMOBILE-DR-JACKSONVILLE-Florida-32225/',
 '/dash/detail/2476953/4070-WOODLEY-CREEK-RD-JACKSONVILLE-Florida-32218/',

@@ -28,10 +28,10 @@ export function App(props) {
   return (
     <AppWrapper>
       <Helmet
-        titleTemplate="%s - React.js Boilerplate"
-        defaultTitle="React.js Boilerplate"
+        titleTemplate="%s - metes&bounds"
+        defaultTitle="metes&bounds"
       >
-        <meta name="description" content="A React.js Boilerplate application" />
+        <meta name="description" content="A foreclosure, preforeclosure, and tax lien/deed analysis application." />
       </Helmet>
       {React.Children.toArray(props.children)}
     </AppWrapper>
