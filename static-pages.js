@@ -9,10 +9,11 @@
 // ];
 export default [
   '/',
-  // '/contact',
-  // '/login',
-  // '/register',
-  // '/about',
+   '/map',
+   '/login',
+   '/register',
+   '/dash',
+   '/dash/detail/:id/:address',
   // '/privacy',
   // '/404', // https://help.github.com/articles/creating-a-custom-404-page-for-your-github-pages-site/
 ];
