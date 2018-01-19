@@ -66,7 +66,7 @@ class HordeCreateDialog extends React.Component {
   render() {
     const { fullScreen, open, handleClose, handleClickOpen, classes, listing,
     cancelButton, agreeButton } = this.props;
-    console.log(this.props.listing)
+    //console.log(this.props.listing)
     if (listing) {
       var underwater = (parseInt(this.props.listing.assessedvalue) < parseInt((this.props.listing.maxbid - this.state.buyin)))
       ? <div>Property Underwater!</div>

@@ -143,6 +143,22 @@ const makeSelectLocation = () => createSelector(
   (routeState) => routeState.get('location').toJS()
 );
 
+const makeSelectLocationState = () => {
+  let prevRoutingState;
+  let prevRoutingStateJS;
+
+  return (state) => {
+    const routingState = state.get('route'); // or state.route
+
+    if (!routingState.equals(prevRoutingState)) {
+      prevRoutingState = routingState;
+      prevRoutingStateJS = routingState.toJS();
+    }
+
+    return prevRoutingStateJS;
+  };
+};
+
 export {
   selectGlobal,
   makeSelectItemID,
@@ -150,6 +166,7 @@ export {
   makeSelectItemDetail,
   makeSelectChangeSortOrder,
   makeSelectCurrentUser,
+  makeSelectLocationState,
   makeSelectSearchString,
   makeSelectFilteredItems,
   makeSelectHiddenItems,

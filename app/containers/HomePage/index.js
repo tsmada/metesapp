@@ -28,7 +28,7 @@ import AppBarMUI from 'components/AppBar';
 import Hero from './metes.png';
 import Button from 'material-ui/Button';
 import styled from 'styled-components';
-import saga from './saga';
+import saga from './sagas';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 
@@ -94,7 +94,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     return (
         <div style={heroImgDivStyle}>
           <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.history} logout={this.props.handleLogout}/>
+        history={this.props.router} logout={this.props.handleLogout}/>
           <Img src={Hero} alt={'test'}/>
           <div style={centered}>
             <div style={searchBacking}>
@@ -151,7 +151,4 @@ const mapStateToProps = createStructuredSelector({
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'homePage', saga });
 
-export default compose(
-  withConnect,
-  withSaga,
-)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

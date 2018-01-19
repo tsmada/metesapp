@@ -49,7 +49,9 @@ const muiTheme = {
 export class ItemDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   componentDidMount() {
-    this.props.onLoad(this.props.match.params.id);
+    if (this.props.params.id) {
+      this.props.onLoad(this.props.params.id);
+    }
   }
 
   render() {
@@ -58,11 +60,20 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
         <div>Loading....</div>
         )
     }
+    const content = this.props.item[0].county + ' County foreclosure - ' + this.props.item[0].propertyaddress +
+    ' foreclosure - Case Number ' + this.props.item[0].casenumber + ' foreclosure - Sale Date ' + 
+    this.props.item[0].saledate + ' foreclosure - Address ' + this.props.item[0].propertyaddress + ', ' +
+    this.props.item[0].propertycity + ', ' + this.props.item[0].state + ', ' + this.props.item[0].propertyzip + ' foreclosure';
     return (
       <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+            <title>{this.props.item[0].propertyaddress} Foreclosure,</title>
+            <meta name="description" content={content} />
+        </Helmet>
         <div>
           <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.history} logout={this.props.handleLogout}/>
+        history={this.props.router} logout={this.props.handleLogout}/>
         </div>
         
           <div>
@@ -248,8 +259,4 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'itemDetail', reducer });
 const withSaga = injectSaga({ key: 'itemDetail', saga });
 
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
-)(ItemDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemDetail);

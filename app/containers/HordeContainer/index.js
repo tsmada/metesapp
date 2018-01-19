@@ -98,7 +98,7 @@ export class HordeContainer extends React.Component { // eslint-disable-line rea
     return (
       <div>
       <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.history} logout={this.props.handleLogout}/>
+        history={this.props.router} logout={this.props.handleLogout}/>
         <div>
           <div className={classes.header}>
             <Paper elevation={4}>
@@ -154,9 +154,6 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'HordeContainer', saga });
+const withComponent = withStyles(styles)(HordeContainer);
 
-export default compose(
-  withSaga,
-  withConnect,
-  withStyles(styles),
-)(HordeContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(withComponent);

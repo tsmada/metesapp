@@ -22,7 +22,7 @@ export class ProfileContainer extends React.Component { // eslint-disable-line r
     return (
       <div>
       <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.history} logout={this.props.handleLogout}
+        history={this.props.router} logout={this.props.handleLogout}
         />
         <center>
         <H2>Welcome {this.props.username}</H2>
@@ -86,7 +86,4 @@ const mapStateToProps = createStructuredSelector({
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'profileContainer', saga });
 
-export default compose(
-  withSaga,
-  withConnect,
-)(ProfileContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);
