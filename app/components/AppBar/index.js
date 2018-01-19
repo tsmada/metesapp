@@ -155,7 +155,7 @@ class AppBarMUI extends React.Component {
               </Drawer>
             </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>
-              metes.io
+              metes.io beta
             </Typography>
             {auth && (
               <div>
