@@ -19,6 +19,7 @@ import {
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
   SELECT_USER,
+  SELECT_USERNAME,
   HIDE_SELECTED_ITEMS,
   SHOW_HIDDEN_ITEMS,
   HERO_SEARCH_SUBMIT,
@@ -222,11 +223,12 @@ export function handleUserLogin(username, password){
   }
 }
 
-export function handleUserLoginSuccess(username, token){
+export function handleUserLoginSuccess(username, token, name){
   return {
     type: USER_LOG_IN_SUCCESS,
     username,
     token,
+    name,
   }
 }
 

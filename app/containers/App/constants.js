@@ -12,6 +12,7 @@
 export const SELECT_ALL_ITEMS = 'boilerplate/App/SELECT_ALL_ITEMS';
 export const SELECT_ITEM = 'boilerplate/App/SELECT_ITEM';
 export const SELECT_USER = 'boilerplate/App/SELECT_USER';
+export const SELECT_USERNAME = 'boilerplate/App/SELECT_USERNAME';
 export const UNSELECT_ALL_ITEMS = 'boilerplate/App/UNSELECT_ALL_ITEMS';
 export const HIDE_SELECTED_ITEMS = 'boilerplate/App/HIDE_SELECTED_ITEMS';
 export const SHOW_HIDDEN_ITEMS = 'boilerplate/App/SHOW_HIDDEN_ITEMS';

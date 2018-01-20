@@ -157,6 +157,7 @@ function appReducer(state = initialState, action) {
         .setIn(['userData', 'isLoggedIn'], true)
         .setIn(['userData', 'token'], action.token)
         .setIn(['userData', 'message'], 'Signin Successful')
+        .setIn(['userData', 'name'], action.name)
     case USER_LOG_IN_FAILURE:
     return state
         .setIn(['userData','username'], action.username)

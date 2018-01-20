@@ -15,7 +15,8 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { makeSelectListings, makeSelectLoading, makeSelectError, makeSelectRowsPerPage,
 makeSelectPageNumber, makeSelectChangeSortOrder, makeSelectChangeSortDirection,
-makeSelectSelected, makeSelectIsLoggedIn, makeSelectCurrentUser } from 'containers/App/selectors';
+makeSelectSelected, makeSelectIsLoggedIn, makeSelectCurrentUser,
+makeSelectName } from 'containers/App/selectors';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import { loadListings, setSelectedItem, changeRowsPerPage, changePage,
@@ -46,7 +47,7 @@ export class DashboardPage extends React.Component { // eslint-disable-line reac
           <meta name="description" content="Description of DashboardPage" />
         </Helmet>
         <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout}
+        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}
         />
         <Paper style={style}>
           <DataTable history={this.props.router}/>
@@ -72,6 +73,7 @@ export function mapDispatchToProps(dispatch) {
 const mapStateToProps = createStructuredSelector({
   auth: makeSelectIsLoggedIn(),
   username: makeSelectCurrentUser(),
+  name: makeSelectName(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
