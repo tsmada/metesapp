@@ -15,7 +15,7 @@ var styles = (theme) => ({
     notificationPanel: {
         zIndex: 81,
         transform: 'translateY(4px)',
-        top: '45px',
+        top: '-5px',
         tabindex: -1,
         left: '728px',
     },
@@ -120,9 +120,9 @@ var styles = (theme) => ({
 
 class NotificationsPanel extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { classes, open, onClick } = this.props;
+    const { classes, open, onClick, anchorEl, onClose } = this.props;
     return (
-      <Menu className={classes.notificationPanel} open={open}>
+      <Menu className={classes.notificationPanel} open={open} onClose={onClose} onClick={onClick}>
         <div className={classes.container}>
           <div className={classes.popup}>
             <div className={classes.panelcenter}>

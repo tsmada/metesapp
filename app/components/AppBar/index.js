@@ -121,6 +121,12 @@ class AppBarMUI extends React.Component {
      });
   };
 
+  handleNotificationsClose = () => {
+    this.setState({ anchorEl: null,
+      notificationsopen: false,
+     });
+  };
+
   handleClose = () => {
     this.setState({ anchorEl: null,
       accountMenuOpen: false,
@@ -157,7 +163,6 @@ class AppBarMUI extends React.Component {
   render() {
     const { classes, auth, handleLogout, username, logout, name } = this.props;
     const { anchorEl, draweropen, notificationsopen, notificationCount } = this.state;
-    const open = Boolean(anchorEl);
     const notificationMenu = (notificationCount > 0)
     ? <Badge className={classes.badge} badgeContent={this.state.notificationCount} color="secondary">
         <Notifications />
@@ -223,11 +228,12 @@ class AppBarMUI extends React.Component {
                   onClick={this.handleToggleNotifications}
                   color="contrast"
                   tooltip="Notifications"
-                  anchorEl={anchorEl}
                 >
                   {notificationMenu}
                 </IconButton>
-                <NotificationsPanel open={notificationsopen} onClick={this.handleToggleNotifications}/>
+                <NotificationsPanel open={notificationsopen} onClick={this.handleToggleNotifications}
+                anchorEl={anchorEl} onClose={this.handleNotificationClose}
+                />
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : null}
                   aria-haspopup="true"
