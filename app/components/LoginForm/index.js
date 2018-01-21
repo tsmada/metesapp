@@ -6,20 +6,37 @@
 
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import H2 from 'components/H1';
+import H3 from 'components/H3';
 import Button from 'components/Button';
+import { withStyles } from 'material-ui/styles';
 
 // import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
-const style = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  width: '100%',
-};
+const styles = (theme) => ({
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+  },
+  signInPane: {
+    height: 'auto',
+    minHeight: '500px',
+    minWidth: '450px',
+    overflowY: 'auto',
+    padding: '48px 40px 36px',
+    display: 'block',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    marginTop: '45px',
+    marginBottom: '45px',
+    position: 'relative',
+    boxShadow: '0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2)',
+  },
+})
 
 
 class LoginForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -48,34 +65,39 @@ class LoginForm extends React.Component { // eslint-disable-line react/prefer-st
   render() {
     const { classes, snackbarOpen } = this.props;
     return (
-      <div style={style}>
-        <H2>Please Log Into Your Account </H2>
-        <div>
-          <TextField
-            id="username"
-            label="Username"
-            margin="normal"
-            onChange={this.handleChangeUsername}
-          /><br />
-          <TextField
-            id="password"
-            label="Password"
-            type="password"
-            onChange={this.handleChangePassword}
-          />
-          <Button
-            href="#"
-            onClick={(e) => {this.onClick(e);this.props.snackbarOpen();}}
-            autoFocus
-          >Login</Button>
-          <Button
-            href="#"
-            onClick={(e) => {this.onClick(e);this.props.snackbarOpen();}}
-          >Forgot Password</Button>
-          <Button
-            href="#"
-            onClick={this.onClick}
-          >Register</Button>
+      <div className={classes.base}>
+        <div className={classes.signInPane}>
+          <H3>Sign In</H3>
+          <div>
+            <TextField
+              id="username"
+              label="Username"
+              margin="normal"
+              onChange={this.handleChangeUsername}
+            /><br />
+            <TextField
+              id="password"
+              label="Password"
+              type="password"
+              onChange={this.handleChangePassword}
+            />
+            <Button
+              href="#"
+              onClick={(e) => {this.onClick(e);this.props.snackbarOpen();}}
+              autoFocus
+              dense color="primary"
+            >Sign In</Button>
+            <Button
+              href="#"
+              onClick={(e) => {this.onClick(e);this.props.snackbarOpen();}}
+              dense color="secondary"
+            >Forgot Username?</Button>
+            <Button
+              href="#"
+              onClick={this.onClick}
+              dense color="primary"
+            >Register</Button>
+          </div>
         </div>
       </div>
     );
@@ -86,4 +108,4 @@ LoginForm.propTypes = {
 
 };
 
-export default LoginForm;
+export default withStyles(styles)(LoginForm);
