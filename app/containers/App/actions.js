@@ -22,6 +22,9 @@ import {
   SELECT_USERNAME,
   HIDE_SELECTED_ITEMS,
   SHOW_HIDDEN_ITEMS,
+  USER_ACCOUNT_DELETE,
+  USER_ACCOUNT_DELETE_SUCCESS,
+  USER_ACCOUNT_DELETE_FAILURE,
   HERO_SEARCH_SUBMIT,
   HERO_SEARCH_SUBMIT_SUCCESS,
   HERO_SEARCH_SUBMIT_FAILURE,
@@ -220,6 +223,30 @@ export function handleUserLogin(username, password){
     type: USER_LOG_IN,
     username,
     password,
+  }
+}
+
+export function handleUserAccountDelete(username, password){
+  return {
+    type: USER_ACCOUNT_DELETE,
+    username,
+    password,
+  }
+}
+
+export function handleUserAccountDeleteSuccess(username, name){
+  return {
+    type: USER_ACCOUNT_DELETE_SUCCESS,
+    username,
+    name,
+  }
+}
+
+export function handleUserAccountDeleteFailure(username, message){
+  return {
+    type: USER_ACCOUNT_DELETE_FAILURE,
+    username,
+    message,
   }
 }
 
