@@ -98,14 +98,15 @@ class AppBarMUI extends React.Component {
   constructor(props) {
     super(props);
     this.state = { draweropen: false, anchorEl: null, notificationsopen: false,
-    notificationCount: 1 };
+    notificationCount: 1, accountMenuOpen: false };
   }
 
   handleToggle = () => {
     this.setState({ draweropen: !this.state.draweropen });
   };
 
-  handleToggleNotifications = () => {
+  handleToggleNotifications = (event) => {
+    this.setState({ anchorEl: event.currentTarget });
     this.setState({ notificationsopen: !this.state.notificationsopen,
     notificationCount: 0 });
   };
@@ -115,11 +116,15 @@ class AppBarMUI extends React.Component {
   };
 
   handleMenu = (event) => {
-    this.setState({ anchorEl: event.currentTarget });
+    this.setState({ anchorEl: event.currentTarget,
+      accountMenuOpen: true,
+     });
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({ anchorEl: null,
+      accountMenuOpen: false,
+     });
   };
 
   handleLogout = () => {
@@ -218,6 +223,7 @@ class AppBarMUI extends React.Component {
                   onClick={this.handleToggleNotifications}
                   color="contrast"
                   tooltip="Notifications"
+                  anchorEl={anchorEl}
                 >
                   {notificationMenu}
                 </IconButton>
@@ -241,7 +247,7 @@ class AppBarMUI extends React.Component {
                     vertical: 'top',
                     horizontal: 'right',
                   }}
-                  open={open}
+                  open={this.state.accountMenuOpen}
                   onClose={this.handleClose}
                 >
                 <div className={classes.menuContainer} aria-label="User account panel">
