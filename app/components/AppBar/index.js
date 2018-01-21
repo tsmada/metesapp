@@ -28,6 +28,7 @@ import Badge from 'material-ui/Badge';
 import Switch from 'material-ui/Switch';
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import Menu, { MenuItem } from 'material-ui/Menu';
+import NotificationsPanel from 'components/NotificationsPanel';
 
 const styles = theme => ({
   root: {
@@ -220,21 +221,7 @@ class AppBarMUI extends React.Component {
                 >
                   {notificationMenu}
                 </IconButton>
-                <Menu
-                  id="menu-appbar-notifications"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={notificationsopen}
-                >
-                  <MenuItem onClick={this.handleToggleNotifications}><PriorityHigh/>Watched Listing Auction Starting in 5 minutes.</MenuItem>
-                </Menu>
+                <NotificationsPanel open={notificationsopen} onClick={this.handleToggleNotifications}/>
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : null}
                   aria-haspopup="true"

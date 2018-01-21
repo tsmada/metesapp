@@ -12,7 +12,8 @@ import Paper from 'material-ui/Paper';
 import { createStructuredSelector } from 'reselect';
 import { Helmet } from 'react-helmet';
 import { compose } from 'redux';
-import { makeSelectItemDetail, makeSelectIsLoggedIn, makeSelectCurrentUser } from 'containers/App/selectors';
+import { makeSelectItemDetail, makeSelectIsLoggedIn, makeSelectCurrentUser,
+makeSelectName } from 'containers/App/selectors';
 import injectReducer from 'utils/injectReducer';
 import H1 from 'components/H1';
 import Countdown from 'components/Countdown';
@@ -73,7 +74,7 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
         </Helmet>
         <div>
           <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout}/>
+        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}/>
         </div>
         
           <div>
@@ -251,6 +252,7 @@ export function mapDispatchToProps(dispatch) {
 const mapStateToProps = createStructuredSelector({
   item: makeSelectItemDetail(),
   auth: makeSelectIsLoggedIn(),
+  name: makeSelectName(),
   username: makeSelectCurrentUser(),
 });
 

@@ -14,7 +14,7 @@ import H2 from 'components/H2';
 import H3 from 'components/H3';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectCurrentUser, makeSelectPools,
-makeSelectIsLoggedIn, makeSelectUserPools } from 'containers/App/selectors';
+makeSelectIsLoggedIn, makeSelectUserPools, makeSelectName } from 'containers/App/selectors';
 import { handleGetUserPools } from '../App/actions';
 import { withStyles } from 'material-ui/styles';
 import injectSaga from 'utils/injectSaga';
@@ -103,7 +103,7 @@ export class InvestorContainer extends React.Component { // eslint-disable-line 
     return (
       <div>
       <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout}/>
+        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}/>
         <div>
           <div className={classes.header}>
             <Paper elevation={4}>
@@ -149,6 +149,7 @@ const mapStateToProps = createStructuredSelector({
   username: makeSelectCurrentUser(),
   userPools: makeSelectUserPools(),
   pools: makeSelectPools(),
+  name: makeSelectName(),
   auth: makeSelectIsLoggedIn(),
 });
 

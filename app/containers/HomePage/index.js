@@ -17,7 +17,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import { makeSelectLoading, makeSelectError, makeSelectCurrentUser,
 makeSelectIsLoggedIn, makeSelectSearchString,
-makeSelectForeclosureMarkers } from 'containers/App/selectors';
+makeSelectForeclosureMarkers, makeSelectName } from 'containers/App/selectors';
 import { handleUserLogout, handleChangeSearchString,
 handleHeroSearchSubmit, handleClearCurrentForeclosureMarkers } from '../App/actions';
 import H2 from 'components/H2';
@@ -94,7 +94,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     return (
         <div style={heroImgDivStyle}>
           <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout}/>
+        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}/>
           <Img src={Hero} alt={'test'}/>
           <div style={centered}>
             <div style={searchBacking}>
@@ -145,6 +145,7 @@ const mapStateToProps = createStructuredSelector({
   auth: makeSelectIsLoggedIn(),
   username: makeSelectCurrentUser(),
   searchstring: makeSelectSearchString(),
+  name: makeSelectName(),
   markers: makeSelectForeclosureMarkers(),
 });
 

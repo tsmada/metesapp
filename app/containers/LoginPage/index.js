@@ -17,7 +17,8 @@ import SimpleSnackbar from 'components/Snackbar';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectCurrentUser, makeSelectIsLoggedIn, makeSelectMessage } from 'containers/App/selectors';
+import { makeSelectCurrentUser, makeSelectIsLoggedIn, makeSelectMessage,
+makeSelectName } from 'containers/App/selectors';
 import saga from './saga';
 import messages from './messages';
 
@@ -67,7 +68,7 @@ export class LoginPage extends React.Component { // eslint-disable-line react/pr
           <meta name="description" content="Description of LoginPage" />
         </Helmet>
         <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout}/>
+        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}/>
         <Paper style={style} zDepth={3}>
         <LoginForm onSubmit={this.props.onLogin} history={this.props.router} snackbarOpen={this.handleSnackbarOpen}/>
         <SimpleSnackbar snackbarOpen={this.state.snackbarOpen} handleSnackbarClose={this.handleSnackbarClose}
@@ -96,6 +97,7 @@ export function mapDispatchToProps(dispatch) {
 const mapStateToProps = createStructuredSelector({
   username: makeSelectCurrentUser(),
   auth: makeSelectIsLoggedIn(),
+  name: makeSelectName(),
   message: makeSelectMessage(),
 });
 

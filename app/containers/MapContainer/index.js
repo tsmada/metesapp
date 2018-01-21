@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import ReactDOM from 'react-dom'
 import { compose } from 'redux';
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
-import { makeSelectIsLoggedIn, makeSelectForeclosureMarkers, makeSelectCurrentUser } from 'containers/App/selectors';
+import { makeSelectIsLoggedIn, makeSelectForeclosureMarkers, makeSelectCurrentUser,
+makeSelectName } from 'containers/App/selectors';
 import { createStructuredSelector } from 'reselect';
 import AppBarMUI from 'components/AppBar';
 import { handleGetForeclosureMarkers, handleUserLogout } from 'containers/App/actions';
@@ -104,7 +105,7 @@ export class MapContainer extends React.Component { // eslint-disable-line react
     return (
       <div>
       <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout}/>
+        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}/>
           <Container onMapClicked={this.onMapClicked} onClick={this.onMarkerClick} {...this.props}/>
           <InfoWindow
           marker={this.state.activeMarker}
@@ -127,6 +128,7 @@ const mapStateToProps = createStructuredSelector({
   auth: makeSelectIsLoggedIn(),
   markers: makeSelectForeclosureMarkers(),
   username: makeSelectCurrentUser(),
+  name: makeSelectName(),
 });
 
 function mapDispatchToProps(dispatch) {

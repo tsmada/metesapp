@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import AppBarMUI from 'components/AppBar';
 import { handleUserLogout } from '../App/actions';
-import { makeSelectIsLoggedIn, makeSelectCurrentUser } from 'containers/App/selectors';
+import { makeSelectIsLoggedIn, makeSelectCurrentUser,
+makeSelectName } from 'containers/App/selectors';
 import { createStructuredSelector } from 'reselect';
 import H2 from 'components/H2';
 import H3 from 'components/H3';
@@ -22,7 +23,7 @@ export class ProfileContainer extends React.Component { // eslint-disable-line r
     return (
       <div>
       <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout}
+        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}
         />
         <center>
         <H2>Welcome {this.props.username}</H2>
@@ -81,6 +82,7 @@ function mapDispatchToProps(dispatch) {
 const mapStateToProps = createStructuredSelector({
   auth: makeSelectIsLoggedIn(),
   username: makeSelectCurrentUser(),
+  name: makeSelectName(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
