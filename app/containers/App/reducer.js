@@ -133,7 +133,7 @@ function appReducer(state = initialState, action) {
     case USER_ACCOUNT_DELETE_SUCCESS:
       return state
           .setIn(['userData','isLoggedIn'], false)
-          .setIn(['userData', 'message'], 'Account Deletion Successful.')
+          .setIn(['userData', 'message'], action.message)
           .setIn(['userData','username'], null)
           .setIn(['userData','token'], false)
           .setIn(['userData','name'], false)

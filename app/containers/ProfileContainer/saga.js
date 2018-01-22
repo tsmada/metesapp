@@ -28,7 +28,7 @@ export function* submitDelete(action) {
     password: action.password,
   })});
     if (result.success === true){ // should use response codes instead
-    yield put(handleUserAccountDeleteSuccess(action.username, action.password));
+    yield put(handleUserAccountDeleteSuccess(action.username, result.message));
     yield put(push('/login'));
   } else {
     yield put(handleUserAccountDeleteFailure(action.username, result.message));

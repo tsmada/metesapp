@@ -234,11 +234,11 @@ export function handleUserAccountDelete(username, password){
   }
 }
 
-export function handleUserAccountDeleteSuccess(username, name){
+export function handleUserAccountDeleteSuccess(username, message){
   return {
     type: USER_ACCOUNT_DELETE_SUCCESS,
     username,
-    name,
+    message,
   }
 }
 
