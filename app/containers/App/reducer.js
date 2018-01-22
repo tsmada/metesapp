@@ -20,6 +20,9 @@ import {
   HIDE_SELECTED_ITEMS,
   SHOW_HIDDEN_ITEMS,
   HERO_SEARCH_SUBMIT,
+  USER_ACCOUNT_DELETE,
+  USER_ACCOUNT_DELETE_SUCCESS,
+  USER_ACCOUNT_DELETE_FAILURE,
   GET_USER_POOLS_SUCCESS,
   GET_USER_POOLS_FAILURE,
   HERO_SEARCH_SUBMIT_SUCCESS,
@@ -121,13 +124,26 @@ function appReducer(state = initialState, action) {
     case GET_FORECLOSURE_MARKERS_FAILURE:
     return state
         .setIn(['mapData','foreclosureMarkers'], false)
+    case USER_ACCOUNT_DELETE:
+      return state
+        .setIn(['userData','message'], 'Deleting Account...')
+    case USER_ACCOUNT_DELETE_FAILURE:
+      return state
+          .setIn(['userData', 'message'], action.message)
+    case USER_ACCOUNT_DELETE_SUCCESS:
+      return state
+          .setIn(['userData','isLoggedIn'], false)
+          .setIn(['userData', 'message'], 'Account Deletion Successful.')
+          .setIn(['userData','username'], null)
+          .setIn(['userData','token'], false)
+          .setIn(['userData','name'], false)
     case USER_LOG_OUT:
-    return state
-        .setIn(['userData','isLoggedIn'], false)
-        .setIn(['userData', 'message'], 'Logout Successful.')
-        .setIn(['userData','username'], null)
-        .setIn(['userData','token'], false)
-        .setIn(['userData','name'], false)
+      return state
+          .setIn(['userData','isLoggedIn'], false)
+          .setIn(['userData', 'message'], 'Logout Successful.')
+          .setIn(['userData','username'], null)
+          .setIn(['userData','token'], false)
+          .setIn(['userData','name'], false)
     case DOWNLOAD_ITEM_SUCCESS:
     return state
         .setIn(['userData','reportData'], action.report)

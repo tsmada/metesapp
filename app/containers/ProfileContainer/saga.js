@@ -4,8 +4,8 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { USER_ACCOUNT_DELETE } from 'containers/App/constants';
-import { handleUserAccountDelete, userAccountDeleteSuccess,
-userAccountDeleteFailure,
+import { handleUserAccountDelete, handleUserAccountDeleteSuccess,
+handleUserAccountDeleteFailure,
  } from 'containers/App/actions';
 import { push } from 'react-router-redux';
 import request from 'utils/request';
@@ -15,6 +15,7 @@ import request from 'utils/request';
  */
 export function* submitDelete(action) {
   const requestURL = `https://serouslabs.com:8000/api/user/delete`;
+  console.log(requestURL);
 
     const result = yield call(request, requestURL,
       {

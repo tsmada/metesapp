@@ -11,7 +11,7 @@ import { compose } from 'redux';
 import AppBarMUI from 'components/AppBar';
 import { handleUserLogout, handleUserAccountDelete } from '../App/actions';
 import { makeSelectIsLoggedIn, makeSelectCurrentUser,
-makeSelectName } from 'containers/App/selectors';
+makeSelectName, makeSelectMessage } from 'containers/App/selectors';
 import { createStructuredSelector } from 'reselect';
 import H2 from 'components/H2';
 import H3 from 'components/H3';
@@ -20,6 +20,7 @@ import saga from './saga';
 import Button from 'components/Button';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
+import SimpleSnackbar from 'components/Snackbar';
 import { CustomDialog } from 'components/Dialog';
 import Dialog, {
   DialogActions,
@@ -37,6 +38,8 @@ export class ProfileContainer extends React.Component { // eslint-disable-line r
     this.state = {
       confirmDeleteMenuOpen: false,
       password: false,
+      snackbarOpen: false,
+      snackbarContent: false,
     }
   }
 
@@ -51,9 +54,22 @@ export class ProfileContainer extends React.Component { // eslint-disable-line r
     })
   }
 
-  handleDeleteAccountConfirm = (e) => { 
-    e.preventDefault()
+  handleSnackbarOpen = () => {
+    //console.log('Snackbar opening onLogin')
+    this.setState({ snackbarOpen: true });
+  };
+
+  handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({ snackbarOpen: false });
+  };
+
+  handleDeleteAccountConfirm = (e) => {
     this.props.onAccountDelete(this.props.username, this.state.password)
+    this.handleSnackbarOpen()
   };
 
   handleChange = (e) => {
@@ -61,7 +77,6 @@ export class ProfileContainer extends React.Component { // eslint-disable-line r
       password: e.target.value,
     })
   }
-
 
   handleChangeUsername = event => {
     this.setState({username: event.target.value})
@@ -142,6 +157,8 @@ export class ProfileContainer extends React.Component { // eslint-disable-line r
             </Button>
           </DialogActions>
         </Dialog>
+        <SimpleSnackbar snackbarOpen={this.state.snackbarOpen} handleSnackbarClose={this.handleSnackbarClose}
+        handleSnackbarOpen={this.handleSnackbarOpen} content={this.props.message}/>
       </div>
     );
   }
@@ -167,6 +184,7 @@ const mapStateToProps = createStructuredSelector({
   auth: makeSelectIsLoggedIn(),
   username: makeSelectCurrentUser(),
   name: makeSelectName(),
+  message: makeSelectMessage(),
 });
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
