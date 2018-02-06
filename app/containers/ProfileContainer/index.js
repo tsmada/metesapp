@@ -191,4 +191,11 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'profileContainer', saga });
 const withComponent = withStyles(styles)(ProfileContainer);
 
+<<<<<<< HEAD
 export default connect(mapStateToProps, mapDispatchToProps)(withComponent);
+=======
+export default compose(
+  withSaga,
+  withConnect,
+)(ProfileContainer);
+>>>>>>> parent of 43adcde... Merged ssr into master MET-33

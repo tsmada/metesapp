@@ -7,7 +7,21 @@
 
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
-import browserHistory from 'react-router/lib/browserHistory';
+
+// Import all the third party stuff
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'react-router-redux';
+import FontFaceObserver from 'fontfaceobserver';
+import createHistory from 'history/createBrowserHistory';
+import 'sanitize.css/sanitize.css';
+
+// Import root app
+import App from 'containers/App';
+
+// Import Language Provider
+import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-webpack-loader-syntax */
@@ -27,48 +41,69 @@ import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
 /* eslint-enable import/no-webpack-loader-syntax */
 
-// Import CSS reset
-import 'sanitize.css/sanitize.css';
+import configureStore from './configureStore';
 
-// Global styles should be injected before any other scoped style, so make sure
-// this file is imported before any styled component.
-import 'global-styles';
-
-// Import all the third party stuff
-import './setup/openSansObserver';
-import syncHistoryWithStore from './setup/syncHistoryWithStore';
-import ensureIntlSupport from './setup/ensureIntlSupport';
-import configureStore from './store';
-import renderInBrowser from './renderInBrowser';
-import createRoutes from './routes';
 // Import i18n messages
-import { translationMessages as messages } from './i18n';
+import { translationMessages } from './i18n';
 
-// The initial state of the app can be set on the server
-const initialState = window.APP_STATE || {};
+// Import CSS reset and Global Styles
+import './global-styles';
+
+// Observe loading of Open Sans (to remove open sans, remove the <link> tag in
+// the index.html file and this observer)
+const openSansObserver = new FontFaceObserver('Open Sans', {});
+
+// When Open Sans is loaded, add a font-family using Open Sans to the body
+openSansObserver.load().then(() => {
+  document.body.classList.add('fontLoaded');
+}, () => {
+  document.body.classList.remove('fontLoaded');
+});
 
 // Create redux store with history
-// this uses the singleton browserHistory provided by react-router
-// Optionally, this could be changed to leverage a created history
-// e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
-const store = configureStore(initialState, browserHistory);
+const initialState = {};
+const history = createHistory();
+const store = configureStore(initialState, history);
+const MOUNT_NODE = document.getElementById('app');
 
-const routes = createRoutes(store);
+const render = (messages) => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <LanguageProvider messages={messages}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </LanguageProvider>
+    </Provider>,
+    MOUNT_NODE
+  );
+};
 
-const history = syncHistoryWithStore(browserHistory, store);
-
-function render() {
-  renderInBrowser({ messages, store, routes, history });
-}
-
-ensureIntlSupport()
-  .then(render);
-
-// Hot reloadable translation json files
 if (module.hot) {
+  // Hot reloadable React components and translation json files
   // modules.hot.accept does not accept dynamic dependencies,
   // have to be constants at compile-time
-  module.hot.accept('./i18n', render);
+  module.hot.accept(['./i18n', 'containers/App'], () => {
+    ReactDOM.unmountComponentAtNode(MOUNT_NODE);
+    render(translationMessages);
+  });
+}
+
+// Chunked polyfill for browsers without Intl support
+if (!window.Intl) {
+  (new Promise((resolve) => {
+    resolve(import('intl'));
+  }))
+    .then(() => Promise.all([
+      import('intl/locale-data/jsonp/en.js'),
+      import('intl/locale-data/jsonp/de.js'),
+    ]))
+    .then(() => render(translationMessages))
+    .catch((err) => {
+      throw err;
+    });
+} else {
+  render(translationMessages);
 }
 
 // Install ServiceWorker and AppCache in the end since

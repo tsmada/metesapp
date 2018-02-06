@@ -36,11 +36,7 @@ export function* submitRegister(action) {
 /**
  * Root saga manages watcher lifecycle
  */
-export function* registerAccount() {
+export default function* registerAccount() {
 // watches for USER_LOG_IN actions and submits the details
   yield takeLatest(REGISTER_ACCOUNT, submitRegister);
 }
-
-export default [
-  registerAccount,
-];

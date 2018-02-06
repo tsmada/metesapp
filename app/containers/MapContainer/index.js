@@ -15,7 +15,6 @@ makeSelectName } from 'containers/App/selectors';
 import { createStructuredSelector } from 'reselect';
 import AppBarMUI from 'components/AppBar';
 import { handleGetForeclosureMarkers, handleUserLogout } from 'containers/App/actions';
-import root from 'window-or-global';
 
 import injectSaga from 'utils/injectSaga';
 import saga from './saga';
@@ -27,7 +26,6 @@ const style = {
 }
 
 const Container = (props) => {
-  let addressStub = '';
   return (
     <div>
       <Map google={props.google} initialCenter={{lat: 30.3, lng: -81.7}} zoom={11}
@@ -35,13 +33,11 @@ const Container = (props) => {
       >
         {
           props.markers.map((report, index) => (
-            addressStub = report.propertyaddress.replace(/[\s]/g, '-'),
             <Marker
               key={report.fcl_id}
               id={report.fcl_id}
               title={report.propertyaddress}
               name={report.casenumber}
-              link={`/dash/detail/${report.fcl_id}/${addressStub}-${report.propertycity}-${report.state}-${report.propertyzip}`}
               onClick={props.onClick}
               position={{lat: parseFloat(report.lat), lng: parseFloat(report.lon)}} />
           ))
@@ -73,7 +69,8 @@ export class MapContainer extends React.Component { // eslint-disable-line react
     }
 
   onMarkerClick = (props, marker, e) => {
-     this.props.router.push(props.link);
+    console.log('onMarkerClick() fired', props, marker);
+     this.props.history.push(`/dash/detail/${props.id}`);
   }
 
   onInfoWindowClose = () => {
@@ -93,11 +90,14 @@ export class MapContainer extends React.Component { // eslint-disable-line react
   }
 
   onReady = () => {
+    console.log('google-maps-react onReady fired');
   }
 
   render() {
 
     const { loaded, markers, google, map, position  } = this.props;
+
+    console.log(markers.size);
 
     if (!loaded && markers.size === 0) {
       return <div>Loading...</div>
@@ -144,10 +144,8 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'mapContainer', saga });
-const withComponent = GoogleApiWrapper({
+
+export default compose(withConnect, withSaga,
+  GoogleApiWrapper({
   apiKey: ('AIzaSyDcWbUdTmoYnBTmx4r-LTXfjXbvGaDmQdE')
-})(MapContainer)
-
-export default 
-connect(mapStateToProps, mapDispatchToProps)(withComponent);
-
+}))(MapContainer);

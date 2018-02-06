@@ -298,6 +298,7 @@ class EnhancedTable extends React.Component {
   }
 
   handleRequestTableFilter = (event, property) => {
+    console.log('Table Filter Requested for Column: ', property)
   }
 
   handleRequestSort = (event, property) => {
@@ -727,6 +728,9 @@ function mapDispatchToProps(dispatch, ownProps) {
 
 const withConnect = connect(mapStateToProps,mapDispatchToProps);
 const withSaga = injectSaga({ key: 'dashboardPage', saga });
-const withComponent = withStyles(styles)(EnhancedTable);
 
-export default connect(mapStateToProps,mapDispatchToProps)(withComponent);
+export default compose(
+  withStyles(styles),
+  withSaga,
+  withConnect,
+)(EnhancedTable);

@@ -28,7 +28,7 @@ import AppBarMUI from 'components/AppBar';
 import Hero from './metes.png';
 import Button from 'material-ui/Button';
 import styled from 'styled-components';
-import saga from './sagas';
+import saga from './saga';
 import { FormControl, FormHelperText } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
 
@@ -152,4 +152,7 @@ const mapStateToProps = createStructuredSelector({
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'homePage', saga });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default compose(
+  withConnect,
+  withSaga,
+)(HomePage);

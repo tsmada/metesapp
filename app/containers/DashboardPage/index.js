@@ -50,7 +50,7 @@ export class DashboardPage extends React.Component { // eslint-disable-line reac
         history={this.props.router} logout={this.props.handleLogout} name={this.props.name}
         />
         <Paper style={style}>
-          <DataTable history={this.props.router}/>
+          <DataTable history={this.props.history}/>
         </Paper>
         <div>
         <P/>
@@ -78,4 +78,6 @@ const mapStateToProps = createStructuredSelector({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardPage);
+export default compose(
+  withConnect,
+)(DashboardPage);

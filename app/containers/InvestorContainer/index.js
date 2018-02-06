@@ -92,14 +92,13 @@ export class InvestorContainer extends React.Component { // eslint-disable-line 
 
   componentDidMount(){
     if (this.props.username) {
-      //console.log(this.props.username)
+      console.log(this.props.username)
       this.props.onLoad(this.props.username)
     }
   }
 
   render() {
     const { classes } = this.props;
-    const tableRender = (this.props.userpools) ? <HordeTable pools={this.props.userpools}/> : null;
     return (
       <div>
       <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
@@ -130,7 +129,7 @@ export class InvestorContainer extends React.Component { // eslint-disable-line 
               </div>
               <P/>
               <div className={classes.table}>
-                {tableRender}
+                <HordeTable pools={this.props.pools}/>
               </div>
               <P/>
             </Paper>
@@ -163,5 +162,9 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'investorContainer', saga });
-const withComponent = withStyles(styles)(InvestorContainer);
-export default connect(mapStateToProps, mapDispatchToProps)(withComponent);
+
+export default compose(
+  withSaga,
+  withConnect,
+  withStyles(styles),
+)(InvestorContainer);

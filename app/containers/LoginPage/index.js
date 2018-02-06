@@ -48,7 +48,7 @@ export class LoginPage extends React.Component { // eslint-disable-line react/pr
   }
 
   handleSnackbarOpen = () => {
-    //console.log('Snackbar opening onLogin')
+    console.log('Snackbar opening onLogin')
     this.setState({ snackbarOpen: true });
   };
 
@@ -70,7 +70,7 @@ export class LoginPage extends React.Component { // eslint-disable-line react/pr
         <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
         history={this.props.router} logout={this.props.handleLogout} name={this.props.name}/>
         <Paper style={style} zDepth={3}>
-        <LoginForm onSubmit={this.props.onLogin} history={this.props.router} snackbarOpen={this.handleSnackbarOpen}/>
+        <LoginForm onSubmit={this.props.onLogin} history={this.props.history} snackbarOpen={this.handleSnackbarOpen}/>
         <SimpleSnackbar snackbarOpen={this.state.snackbarOpen} handleSnackbarClose={this.handleSnackbarClose}
         handleSnackbarOpen={this.handleSnackbarOpen} content={this.props.message}/>
         </Paper>
@@ -105,4 +105,7 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withSaga = injectSaga({ key: 'loginPage', saga });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default compose(
+  withSaga,
+  withConnect,
+)(LoginPage);

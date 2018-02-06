@@ -40,7 +40,7 @@ export class RegistrationPage extends React.Component { // eslint-disable-line r
   }
 
   handleSnackbarOpen = () => {
-    //console.log('Snackbar opening onRegister')
+    console.log('Snackbar opening onRegister')
     this.setState({ snackbarOpen: true });
   };
 
@@ -61,7 +61,6 @@ export class RegistrationPage extends React.Component { // eslint-disable-line r
         </Helmet>
         <AppBarMUI title="Register" auth={this.props.auth} username={this.props.username}
         history={this.props.router} logout={this.props.handleLogout} name={this.props.name}
-        />
         <Paper style={style} zDepth={3}>
           <RegistrationForm onSubmit={this.props.handleSubmitRegistration} snackbarOpen={this.handleSnackbarOpen}/>
         </Paper>
@@ -95,4 +94,7 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
 const withSaga = injectSaga({ key: 'registrationPage', saga });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegistrationPage);
+export default compose(
+  withSaga,
+  withConnect,
+)(RegistrationPage);

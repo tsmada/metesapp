@@ -35,12 +35,7 @@ export function* submitLogin(action) {
 /**
  * Root saga manages watcher lifecycle
  */
-export function* userLogin() {
+export default function* userLogin() {
 // watches for USER_LOG_IN actions and submits the details
   yield takeLatest(USER_LOG_IN, submitLogin);
 }
-
-
-export default [
-  userLogin,
-];

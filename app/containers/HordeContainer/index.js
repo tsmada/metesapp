@@ -155,6 +155,9 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'HordeContainer', saga });
-const withComponent = withStyles(styles)(HordeContainer);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withComponent);
+export default compose(
+  withSaga,
+  withConnect,
+  withStyles(styles),
+)(HordeContainer);
