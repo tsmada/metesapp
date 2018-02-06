@@ -98,7 +98,7 @@ export class HordeContainer extends React.Component { // eslint-disable-line rea
     return (
       <div>
       <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}/>
+        history={this.props.history} logout={this.props.handleLogout} name={this.props.name}/>
         <div>
           <div className={classes.header}>
             <Paper elevation={4}>

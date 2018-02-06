@@ -105,7 +105,7 @@ export class MapContainer extends React.Component { // eslint-disable-line react
     return (
       <div>
       <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}/>
+        history={this.props.history} logout={this.props.handleLogout} name={this.props.name}/>
           <Container onMapClicked={this.onMapClicked} onClick={this.onMarkerClick} {...this.props}/>
           <InfoWindow
           marker={this.state.activeMarker}

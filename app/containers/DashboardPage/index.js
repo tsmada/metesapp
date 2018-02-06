@@ -47,7 +47,7 @@ export class DashboardPage extends React.Component { // eslint-disable-line reac
           <meta name="description" content="Description of DashboardPage" />
         </Helmet>
         <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}
+        history={this.props.history} logout={this.props.handleLogout} name={this.props.name}
         />
         <Paper style={style}>
           <DataTable history={this.props.history}/>

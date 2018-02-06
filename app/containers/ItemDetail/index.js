@@ -63,7 +63,7 @@ export class ItemDetail extends React.Component { // eslint-disable-line react/p
       <div>
         <div>
           <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}/>
+        history={this.props.history} logout={this.props.handleLogout} name={this.props.name}/>
         </div>
         
           <div>
