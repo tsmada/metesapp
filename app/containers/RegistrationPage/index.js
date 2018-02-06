@@ -60,7 +60,7 @@ export class RegistrationPage extends React.Component { // eslint-disable-line r
           <meta name="description" content="Description of RegistrationPage" />
         </Helmet>
         <AppBarMUI title="Register" auth={this.props.auth} username={this.props.username}
-        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}
+        history={this.props.router} logout={this.props.handleLogout} name={this.props.name}/>
         <Paper style={style} zDepth={3}>
           <RegistrationForm onSubmit={this.props.handleSubmitRegistration} snackbarOpen={this.handleSnackbarOpen}/>
         </Paper>
