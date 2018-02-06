@@ -93,8 +93,7 @@ class LoginForm extends React.Component { // eslint-disable-line react/prefer-st
               dense color="secondary"
             >Forgot Username?</Button>
             <Button
-              href="#"
-              onClick={this.onClick}
+              onClick={(e) => {this.props.history.push('/register')}}
               dense color="primary"
             >Register</Button>
           </div>
