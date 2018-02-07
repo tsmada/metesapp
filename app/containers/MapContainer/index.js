@@ -15,6 +15,7 @@ makeSelectName } from 'containers/App/selectors';
 import { createStructuredSelector } from 'reselect';
 import AppBarMUI from 'components/AppBar';
 import { handleGetForeclosureMarkers, handleUserLogout } from 'containers/App/actions';
+import root from 'window-or-global';
 
 import injectSaga from 'utils/injectSaga';
 import saga from './saga';
