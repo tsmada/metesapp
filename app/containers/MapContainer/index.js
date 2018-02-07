@@ -73,7 +73,7 @@ export class MapContainer extends React.Component { // eslint-disable-line react
     }
 
   onMarkerClick = (props, marker, e) => {
-     this.props.router.push(props.link);
+     this.props.history.push(props.link);
   }
 
   onInfoWindowClose = () => {
