@@ -144,9 +144,8 @@ function mapDispatchToProps(dispatch) {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'mapContainer', saga });
-const withComponent = GoogleApiWrapper({
-  apiKey: ('AIzaSyDcWbUdTmoYnBTmx4r-LTXfjXbvGaDmQdE')
-})(MapContainer)
 
-export default 
-connect(mapStateToProps, mapDispatchToProps)(withComponent);
+export default compose(withConnect, withSaga,
+  GoogleApiWrapper({
+  apiKey: ('AIzaSyDcWbUdTmoYnBTmx4r-LTXfjXbvGaDmQdE')
+}))(MapContainer);
