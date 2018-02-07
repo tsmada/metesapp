@@ -191,7 +191,4 @@ const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withSaga = injectSaga({ key: 'profileContainer', saga });
 const withComponent = withStyles(styles)(ProfileContainer);
 
-export default compose(
-  withSaga,
-  withConnect,
-)(ProfileContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(withComponent);
