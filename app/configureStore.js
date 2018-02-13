@@ -19,6 +19,16 @@ export default function configureStore(initialState = {}, history) {
   const analyticsMiddleware = createMiddleware(
   GoogleAnalytics,
 );
+
+  const pageView = action => ({
+  hitType: 'pageview',
+  page: action.payload,
+})
+
+  const eventsMap = {
+   LOCATION_CHANGE: pageView,
+};
+
   const middlewares = [
     sagaMiddleware,
     analyticsMiddleware,
