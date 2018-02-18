@@ -69,11 +69,9 @@ export class LoginPage extends React.Component { // eslint-disable-line react/pr
         </Helmet>
         <AppBarMUI title="Dash" auth={this.props.auth} username={this.props.username}
         history={this.props.history} logout={this.props.handleLogout} name={this.props.name}/>
-        <Paper style={style} zDepth={3}>
         <LoginForm onSubmit={this.props.onLogin} history={this.props.history} snackbarOpen={this.handleSnackbarOpen}/>
         <SimpleSnackbar snackbarOpen={this.state.snackbarOpen} handleSnackbarClose={this.handleSnackbarClose}
         handleSnackbarOpen={this.handleSnackbarOpen} content={this.props.message}/>
-        </Paper>
       </div>
     );
   }

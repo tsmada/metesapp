@@ -27,6 +27,10 @@ import messages from './messages';
 
 const style = {
   display: 'flex',
+  width: '40%',
+  marginLeft: '30%',
+  marginTop: '2.5%',
+  marginBottom: '2.5%',
 };
 
 export class RegistrationPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
